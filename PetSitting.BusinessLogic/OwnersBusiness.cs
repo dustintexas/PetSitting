@@ -1,0 +1,165 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using PetSitting.Common;
+using PetSitting.DataAccess;
+using PetSitting.DataAccess.Common;
+using PetSitting.Model;
+
+namespace PetSitting.BusinessLogic
+{
+    public class OwnersBusiness : IDisposable
+    {
+        #region Class Declarations
+
+        private LoggingHandler _loggingHandler;
+        private bool _bDisposed;
+
+        #endregion
+
+        #region Class Methods
+        public bool InsertOwner(OwnersEntity entity)
+        {
+            try
+            {
+                bool bOpDoneSuccessfully;
+                using (var repository = new OwnersRepository())
+                {
+                    bOpDoneSuccessfully = repository.Insert(entity);
+                }
+
+                return bOpDoneSuccessfully;
+            }
+            catch (Exception ex)
+            {
+                //Log exception error 
+                _loggingHandler.LogEntry(ExceptionHandler.GetExceptionMessageFormatted(ex), true);
+
+                throw new Exception("BusinessLogic:OwnersBusiness::InsertOwner::Error occured.", ex);
+            }
+        }
+        public bool UpdateOwner(OwnersEntity entity)
+        {
+            try
+            {
+                bool bOpDoneSuccessfully;
+                using (var repository = new OwnersRepository())
+                {
+                    bOpDoneSuccessfully = repository.Update(entity);
+                }
+
+                return bOpDoneSuccessfully;
+            }
+            catch (Exception ex)
+            {
+                //Log exception error
+                _loggingHandler.LogEntry(ExceptionHandler.GetExceptionMessageFormatted(ex), true);
+
+                throw new Exception("BusinessLogic:OwnersBusiness::UpdateOwner::Error occured.", ex);
+            }
+        }
+        public bool DeleteOwnerById(int empId)
+        {
+            try
+            {
+                using (var repository = new OwnersRepository())
+                {
+                    return repository.DeleteById(empId);
+                }
+            }
+            catch (Exception ex)
+            {
+                //Log exception error
+                _loggingHandler.LogEntry(ExceptionHandler.GetExceptionMessageFormatted(ex), true);
+
+                throw new Exception("BusinessLogic:OwnersBusiness::DeleteOwnerById::Error occured.", ex);
+            }
+        }
+        public OwnersEntity SelectOwnerById(int empId)
+        {
+            try
+            {
+                OwnersEntity returnedEntity;
+                using (var repository = new OwnersRepository())
+                {
+                    returnedEntity = repository.SelectById(empId);
+                    if (returnedEntity != null)
+                        // Business Calculation function called from here
+                        returnedEntity.PetYears = GetPetYears(returnedEntity.PetAge);
+                }
+
+                return returnedEntity;
+            }
+            catch (Exception ex)
+            {
+                //Log exception error
+                _loggingHandler.LogEntry(ExceptionHandler.GetExceptionMessageFormatted(ex), true);
+
+                throw new Exception("BusinessLogic:OwnersBusiness::SelectOwnerById::Error occured.", ex);
+            }
+        }
+
+        public List<OwnersEntity> SelectAllOwners()
+        {
+            var returnedEntities = new List<OwnersEntity>();
+
+            try
+            {
+                using (var repository = new OwnersRepository())
+                {
+                    // HERE A CALCULATION CAN BE ADDED AS A COLUMN IN SelectAll function
+                    foreach (var entity in repository.SelectAll())
+                    {
+                        entity.PetYears = GetPetYears(entity.PetAge);
+                        returnedEntities.Add(entity);
+                    }
+                }
+
+                return returnedEntities;
+            }
+            catch (Exception ex)
+            {
+                //Log exception error
+                _loggingHandler.LogEntry(ExceptionHandler.GetExceptionMessageFormatted(ex), true);
+
+                throw new Exception("BusinessLogic:OwnersBusiness::SelectAllOwners::Error occured.", ex);
+            }
+        }
+
+        // HERE BELOW A CALCULATION CAN BE ADDED AT THE BusinessLogic Level
+        private int GetPetYears(int age)
+        {
+            var petYears = age;
+            petYears = age * 7;
+            return petYears;
+        }
+        
+        public OwnersBusiness()
+        {
+            _loggingHandler = new LoggingHandler();
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool bDisposing)
+        {
+            // Check to see if Dispose has already been called.
+            if (!_bDisposed)
+            {
+                if (bDisposing)
+                {
+                    // Dispose managed resources.
+                    _loggingHandler = null;
+                }
+            }
+            _bDisposed = true;
+        }
+        #endregion
+    }
+}

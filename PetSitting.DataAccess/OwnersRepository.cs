@@ -11,7 +11,7 @@ using PetSitting.Model;
 
 namespace PetSitting.DataAccess
 {
-    public class SittersRepository : IRepository<SittersEntity>, IDisposable
+    public class OwnersRepository : IRepository<OwnersEntity>, IDisposable
     {
         #region Private Declarations 
 
@@ -28,30 +28,26 @@ namespace PetSitting.DataAccess
 
         #region Class Methods 
 
-        public bool Insert(SittersEntity entity)
+        public bool Insert(OwnersEntity entity)
         {
             try
             {
                 var sb = new StringBuilder();
-                sb.Append("SET DATEFORMAT MDY; ");
-                sb.Append("INSERT [dbo].[Sitters] ");
+                sb.Append("SET DATEFORMAT DMY; ");
+                sb.Append("INSERT [dbo].[Owners] ");
                 sb.Append("( ");
-                sb.Append("[Name], ");
-                sb.Append("[Fee], ");
-                sb.Append("[Bio], ");
-                sb.Append("[Age], ");
-                sb.Append("[HiringDate], ");
-                sb.Append("[GrossSalary], ");
+                sb.Append("[OwnerName], ");
+                sb.Append("[PetName], ");
+                sb.Append("[PetAge], ");
+                sb.Append("[ContactPhone], ");
                 sb.Append("[ModifiedDate] ");
                 sb.Append(") ");
                 sb.Append("VALUES ");
                 sb.Append("( ");
-                sb.Append(" @chnName, ");
-                sb.Append(" @decFee, ");
-                sb.Append(" @chnBio, ");
-                sb.Append(" @intAge, ");
-                sb.Append(" @dtmHiringDate, ");
-                sb.Append(" @decGrossSalary, ");
+                sb.Append(" @chnOwnerName, ");
+                sb.Append(" @chnPetName, ");
+                sb.Append(" @intPetAge, ");
+                sb.Append(" @chnContactPhone, ");
                 sb.Append(" ISNULL(@dtmModifiedDate, (getdate())) ");
                 sb.Append(") ");
                 sb.Append("SELECT @intErrorCode=@@ERROR; ");
@@ -69,18 +65,16 @@ namespace PetSitting.DataAccess
                     using (var dbCommand = _dbProviderFactory.CreateCommand())
                     {
                         if (dbCommand == null)
-                            throw new ArgumentNullException("dbCommand" + " The db Insert command for entity [Sitters] can't be null. ");
+                            throw new ArgumentNullException("dbCommand" + " The db Insert command for entity [Owners] can't be null. ");
 
                         dbCommand.Connection = dbConnection;
                         dbCommand.CommandText = commandText;
 
                         //Input Parameters
-                        _dataHandler.AddParameterToCommand(dbCommand, "@chnName", CsType.String, ParameterDirection.Input, entity.Name);
-                        _dataHandler.AddParameterToCommand(dbCommand, "@decFee", CsType.Decimal, ParameterDirection.Input, entity.Fee);
-                        _dataHandler.AddParameterToCommand(dbCommand, "@chnBio", CsType.String, ParameterDirection.Input, entity.Bio);
-                        _dataHandler.AddParameterToCommand(dbCommand, "@intAge", CsType.Int, ParameterDirection.Input, entity.Age);
-                        _dataHandler.AddParameterToCommand(dbCommand, "@dtmHiringDate", CsType.DateTime, ParameterDirection.Input, entity.HiringDate);
-                        _dataHandler.AddParameterToCommand(dbCommand, "@decGrossSalary", CsType.Decimal, ParameterDirection.Input, entity.GrossSalary);
+                        _dataHandler.AddParameterToCommand(dbCommand, "@chnOwnerName", CsType.String, ParameterDirection.Input, entity.OwnerName);
+                        _dataHandler.AddParameterToCommand(dbCommand, "@chnPetName", CsType.String, ParameterDirection.Input, entity.PetName);
+                        _dataHandler.AddParameterToCommand(dbCommand, "@intPetAge", CsType.Int, ParameterDirection.Input, entity.PetAge);
+                        _dataHandler.AddParameterToCommand(dbCommand, "@chnContactPhone", CsType.String, ParameterDirection.Input, entity.ContactPhone);
                         _dataHandler.AddParameterToCommand(dbCommand, "@dtmModifiedDate", CsType.DateTime, ParameterDirection.Input, null);
 
                         //Output Parameters
@@ -97,7 +91,7 @@ namespace PetSitting.DataAccess
                         if (_errorCode != 0)
                         {
                             // Throw error.
-                            throw new Exception("The Insert method for entity [Sitters] reported the Database ErrorCode: " + _errorCode);
+                            throw new Exception("The Insert method for entity [Owners] reported the Database ErrorCode: " + _errorCode);
                         }
                     }
                 }
@@ -110,11 +104,11 @@ namespace PetSitting.DataAccess
                 _loggingHandler.LogEntry(ExceptionHandler.GetExceptionMessageFormatted(ex), true);
 
                 //Bubble error to caller and encapsulate Exception object
-                throw new Exception("SittersRepository::Insert::Error occured.", ex);
+                throw new Exception("OwnersRepository::Insert::Error occured.", ex);
             }
         }
 
-        public bool Update(SittersEntity entity)
+        public bool Update(OwnersEntity entity)
         {
             _errorCode = 0;
             _rowsAffected = 0;
@@ -123,17 +117,15 @@ namespace PetSitting.DataAccess
             {
                 var sb = new StringBuilder();
                 sb.Append("SET DATEFORMAT MDY; ");
-                sb.Append("UPDATE [dbo].[Sitters] ");
+                sb.Append("UPDATE [dbo].[Owners] ");
                 sb.Append("SET ");
-                sb.Append("[Name] = @chnName, ");
-                sb.Append("[Fee] = @decFee, ");
-                sb.Append("[Bio] = @chnBio, ");
-                sb.Append("[Age] = @intAge, ");
-                sb.Append("[HiringDate] = @dtmHiringDate, ");
-                sb.Append("[GrossSalary] = @decGrossSalary, ");
+                sb.Append("[OwnerName] = @chnOwnerName, ");
+                sb.Append("[PetName] = @chnPetName, ");
+                sb.Append("[PetAge] = @intPetAge, ");
+                sb.Append("[ContactPhone] = @chnContactPhone, ");
                 sb.Append("[ModifiedDate] = ISNULL(@dtmModifiedDate, (getdate())) ");
                 sb.Append("WHERE ");
-                sb.Append("[SitterID] = @intId ");
+                sb.Append("[OwnerID] = @intId ");
                 sb.Append("SELECT @intErrorCode=@@ERROR; ");
 
                 var commandText = sb.ToString();
@@ -155,13 +147,11 @@ namespace PetSitting.DataAccess
                         dbCommand.CommandText = commandText;
 
                         //Input Parameters
-                        _dataHandler.AddParameterToCommand(dbCommand, "@intId", CsType.Int, ParameterDirection.Input, entity.SitterID);
-                        _dataHandler.AddParameterToCommand(dbCommand, "@chnName", CsType.String, ParameterDirection.Input, entity.Name);
-                        _dataHandler.AddParameterToCommand(dbCommand, "@decFee", CsType.Decimal, ParameterDirection.Input, entity.Fee);
-                        _dataHandler.AddParameterToCommand(dbCommand, "@chnBio", CsType.String, ParameterDirection.Input, entity.Bio);
-                        _dataHandler.AddParameterToCommand(dbCommand, "@intAge", CsType.Int, ParameterDirection.Input, entity.Age);
-                        _dataHandler.AddParameterToCommand(dbCommand, "@dtmHiringDate", CsType.DateTime, ParameterDirection.Input, entity.HiringDate);
-                        _dataHandler.AddParameterToCommand(dbCommand, "@decGrossSalary", CsType.Decimal, ParameterDirection.Input, entity.GrossSalary);
+                        _dataHandler.AddParameterToCommand(dbCommand, "@intId", CsType.Int, ParameterDirection.Input, entity.OwnerID);
+                        _dataHandler.AddParameterToCommand(dbCommand, "@chnOwnerName", CsType.String, ParameterDirection.Input, entity.OwnerName);
+                        _dataHandler.AddParameterToCommand(dbCommand, "@chnPetName", CsType.String, ParameterDirection.Input, entity.PetName);
+                        _dataHandler.AddParameterToCommand(dbCommand, "@chnContactPhone", CsType.String, ParameterDirection.Input, entity.ContactPhone);
+                        _dataHandler.AddParameterToCommand(dbCommand, "@intPetAge", CsType.Int, ParameterDirection.Input, entity.PetAge);
                         _dataHandler.AddParameterToCommand(dbCommand, "@dtmModifiedDate", CsType.DateTime, ParameterDirection.Input, null);
 
                         //Output Parameters
@@ -178,7 +168,7 @@ namespace PetSitting.DataAccess
                         if (_errorCode != 0)
                         {
                             // Throw error.
-                            throw new Exception("The Update method for entity [Sitters] reported the Database ErrorCode: " + _errorCode);
+                            throw new Exception("The Update method for entity [Owners] reported the Database ErrorCode: " + _errorCode);
                         }
                     }
                 }
@@ -191,7 +181,7 @@ namespace PetSitting.DataAccess
                 _loggingHandler.LogEntry(ExceptionHandler.GetExceptionMessageFormatted(ex), true);
 
                 //Bubble error to caller and encapsulate Exception object
-                throw new Exception("SittersRepository::Update::Error occured.", ex);
+                throw new Exception("OwnersRepository::Update::Error occured.", ex);
             }
         }
 
@@ -203,9 +193,9 @@ namespace PetSitting.DataAccess
             try
             {
                 var sb = new StringBuilder();
-                sb.Append("DELETE FROM [dbo].[Sitters] ");
+                sb.Append("DELETE FROM [dbo].[Owners] ");
                 sb.Append("WHERE ");
-                sb.Append("[SitterID] = @intId ");
+                sb.Append("[OwnerID] = @intId ");
                 sb.Append("SELECT @intErrorCode=@@ERROR; ");
 
                 var commandText = sb.ToString();
@@ -221,7 +211,7 @@ namespace PetSitting.DataAccess
                     using (var dbCommand = _dbProviderFactory.CreateCommand())
                     {
                         if (dbCommand == null)
-                            throw new ArgumentNullException("dbCommand" + " The db Delete command for entity [Sitters] can't be null. ");
+                            throw new ArgumentNullException("dbCommand" + " The db Delete command for entity [Owners] can't be null. ");
 
                         dbCommand.Connection = dbConnection;
                         dbCommand.CommandText = commandText;
@@ -243,7 +233,7 @@ namespace PetSitting.DataAccess
                         if (_errorCode != 0)
                         {
                             // Throw error.
-                            throw new Exception("The Delete method for entity [Sitters] reported the Database ErrorCode: " + _errorCode);
+                            throw new Exception("The Delete method for entity [Owners] reported the Database ErrorCode: " + _errorCode);
                         }
                     }
                 }
@@ -256,34 +246,31 @@ namespace PetSitting.DataAccess
                 _loggingHandler.LogEntry(ExceptionHandler.GetExceptionMessageFormatted(ex), true);
 
                 //Bubble error to caller and encapsulate Exception object
-                throw new Exception("SittersRepository::Delete::Error occured.", ex);
+                throw new Exception("OwnersRepository::Delete::Error occured.", ex);
             }
         }
 
-
-        public SittersEntity SelectById(int id)
+        public OwnersEntity SelectById(int id)
         {
             _errorCode = 0;
             _rowsAffected = 0;
 
-            SittersEntity returnedEntity = null;
+            OwnersEntity returnedEntity = null;
 
             try
             {
                 var sb = new StringBuilder();
-                sb.Append("SET DATEFORMAT DMY; ");
+                sb.Append("SET DATEFORMAT MDY; ");
                 sb.Append("SELECT ");
-                sb.Append("[SitterID], ");
-                sb.Append("[Name], ");
-                sb.Append("[Fee], ");
-                sb.Append("[Bio], ");
-                sb.Append("[Age], ");
-                sb.Append("[HiringDate], ");
-                sb.Append("[GrossSalary], ");
+                sb.Append("[OwnerID], ");
+                sb.Append("[OwnerName], ");
+                sb.Append("[PetName], ");
+                sb.Append("[ContactPhone], ");
+                sb.Append("[PetAge], ");
                 sb.Append("[ModifiedDate] ");
-                sb.Append("FROM [dbo].[Sitters] ");
+                sb.Append("FROM [dbo].[Owners] ");
                 sb.Append("WHERE ");
-                sb.Append("[SitterID] = @intId ");
+                sb.Append("[OwnerID] = @intId ");
                 sb.Append("SELECT @intErrorCode=@@ERROR; ");
 
                 var commandText = sb.ToString();
@@ -299,7 +286,7 @@ namespace PetSitting.DataAccess
                     using (var dbCommand = _dbProviderFactory.CreateCommand())
                     {
                         if (dbCommand == null)
-                            throw new ArgumentNullException("dbCommand" + " The db SelectById command for entity [Sitters] can't be null. ");
+                            throw new ArgumentNullException("dbCommand" + " The db SelectById command for entity [Owners] can't be null. ");
 
                         dbCommand.Connection = dbConnection;
                         dbCommand.CommandText = commandText;
@@ -321,15 +308,13 @@ namespace PetSitting.DataAccess
                             {
                                 while (reader.Read())
                                 {
-                                    var entity = new SittersEntity();
-                                    entity.SitterID = reader.GetInt32(0);
-                                    entity.Name = reader.GetString(1);
-                                    entity.Fee = reader.GetDecimal(2);
-                                    entity.Bio = reader.GetString(3);
-                                    entity.Age = reader.GetInt32(4);
-                                    entity.HiringDate = reader.GetValue(5) == DBNull.Value ? (DateTime?)null : reader.GetDateTime(5);
-                                    entity.GrossSalary = reader.GetDecimal(6);
-                                    entity.ModifiedDate = reader.GetDateTime(7);
+                                    var entity = new OwnersEntity();
+                                    entity.OwnerID = reader.GetInt32(0);
+                                    entity.OwnerName = reader.GetString(1);
+                                    entity.PetName = reader.GetString(2);
+                                    entity.ContactPhone = reader.GetString(3);
+                                    entity.PetAge = reader.GetInt32(4);
+                                    entity.ModifiedDate = reader.GetDateTime(5);
                                     returnedEntity = entity;
                                     break;
                                 }
@@ -341,7 +326,7 @@ namespace PetSitting.DataAccess
                         if (_errorCode != 0)
                         {
                             // Throw error.
-                            throw new Exception("The SelectById method for entity [Sitters] reported the Database ErrorCode: " + _errorCode);
+                            throw new Exception("The SelectById method for entity [Owners] reported the Database ErrorCode: " + _errorCode);
                         }
                     }
                 }
@@ -354,32 +339,30 @@ namespace PetSitting.DataAccess
                 _loggingHandler.LogEntry(ExceptionHandler.GetExceptionMessageFormatted(ex), true);
 
                 //Bubble error to caller and encapsulate Exception object
-                throw new Exception("SittersRepository::SelectById::Error occured.", ex);
+                throw new Exception("OwnersRepository::SelectById::Error occured.", ex);
             }
         }
 
-        public List<SittersEntity> SelectAll()
+        public List<OwnersEntity> SelectAll()
         {
             _errorCode = 0;
             _rowsAffected = 0;
 
-            var returnedEntities = new List<SittersEntity>();
+            var returnedEntities = new List<OwnersEntity>();
 
             try
             {
                 var sb = new StringBuilder();
-                sb.Append("SET DATEFORMAT DMY; ");
+                sb.Append("SET DATEFORMAT MDY; ");
                 sb.Append("SELECT ");
-                sb.Append("[SitterID], ");
-                sb.Append("[Name], ");
-                sb.Append("[Fee], ");
-                sb.Append("[Bio], ");
-                sb.Append("[Age], ");
-                sb.Append("[HiringDate], ");
-                sb.Append("[GrossSalary], ");
+                sb.Append("[OwnerID], ");
+                sb.Append("[OwnerName], ");
+                sb.Append("[PetName], ");
+                sb.Append("[ContactPhone], ");
+                sb.Append("[PetAge], ");
                 sb.Append("[ModifiedDate] ");
-                sb.Append("FROM [dbo].[Sitters] ");
-                sb.Append("ORDER BY [Name] ");
+                sb.Append("FROM [dbo].[Owners] ");
+                sb.Append("ORDER BY [OwnerName] ");
                 sb.Append("SELECT @intErrorCode=@@ERROR; ");
 
                 var commandText = sb.ToString();
@@ -395,7 +378,7 @@ namespace PetSitting.DataAccess
                     using (var dbCommand = _dbProviderFactory.CreateCommand())
                     {
                         if (dbCommand == null)
-                            throw new ArgumentNullException("dbCommand" + " The db command for entity [Sitters] can't be null. ");
+                            throw new ArgumentNullException("dbCommand" + " The db command for entity [Owners] can't be null. ");
 
                         dbCommand.Connection = dbConnection;
                         dbCommand.CommandText = commandText;
@@ -416,15 +399,13 @@ namespace PetSitting.DataAccess
                             {
                                 while (reader.Read())
                                 {
-                                    var entity = new SittersEntity();
-                                    entity.SitterID = reader.GetInt32(0);
-                                    entity.Name = reader.GetString(1);
-                                    entity.Fee = reader.GetDecimal(2);
-                                    entity.Bio = reader.GetString(3);
-                                    entity.Age = reader.GetInt32(4);
-                                    entity.HiringDate = reader.GetValue(5) == DBNull.Value ? (DateTime?)null : reader.GetDateTime(5);
-                                    entity.GrossSalary = reader.GetDecimal(6);
-                                    entity.ModifiedDate = reader.GetDateTime(7);
+                                    var entity = new OwnersEntity();
+                                    entity.OwnerID = reader.GetInt32(0);
+                                    entity.OwnerName = reader.GetString(1);
+                                    entity.PetName = reader.GetString(2);
+                                    entity.ContactPhone = reader.GetString(3);
+                                    entity.PetAge = reader.GetInt32(4);
+                                    entity.ModifiedDate = reader.GetDateTime(5);
                                     returnedEntities.Add(entity);
                                 }
                             }
@@ -436,7 +417,7 @@ namespace PetSitting.DataAccess
                         if (_errorCode != 0)
                         {
                             // Throw error.
-                            throw new Exception("The SelectAll method for entity [Sitters] reported the Database ErrorCode: " + _errorCode);
+                            throw new Exception("The SelectAll method for entity [Owners] reported the Database ErrorCode: " + _errorCode);
                         }
                     }
                 }
@@ -449,11 +430,11 @@ namespace PetSitting.DataAccess
                 _loggingHandler.LogEntry(ExceptionHandler.GetExceptionMessageFormatted(ex), true);
 
                 //Bubble error to caller and encapsulate Exception object
-                throw new Exception("SittersRepository::SelectAll::Error occured.", ex);
+                throw new Exception("OwnersRepository::SelectAll::Error occured.", ex);
             }
         }
 
-        public SittersRepository()
+        public OwnersRepository()
         {
             //Repository Initializations 
             _configurationHandler = new ConfigurationHandler();

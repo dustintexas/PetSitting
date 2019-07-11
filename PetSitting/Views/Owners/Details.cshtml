@@ -1,0 +1,75 @@
+﻿@model PetSitting.Model.OwnersEntity
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<div class="panel"><div class="panel-heading"><h3>Details</h3></div>
+<div class="panel-body">
+<div>
+    
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.OwnerID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OwnerID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OwnerName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OwnerName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PetName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PetName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PetAge)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PetAge)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ContactPhone)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ContactPhone)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PetYears)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PetYears)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ModifiedDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ModifiedDate)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.OwnerID }) |
+    @Html.ActionLink("Back to List", "ListAll")
+</p>
+</div>
+</div>

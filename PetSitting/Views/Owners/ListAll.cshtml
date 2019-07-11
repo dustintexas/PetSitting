@@ -1,0 +1,65 @@
+﻿@model IEnumerable<PetSitting.Model.OwnersEntity>
+
+@{
+    ViewBag.Title = "ListAll";
+}
+
+<div class="panel"><div class="panel-heading"><h3>Owners</h3></div>
+<div class="panel-body">
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.OwnerName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PetName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PetAge)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PetYears)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ContactPhone)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ModifiedDate)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.OwnerName)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.PetName)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.PetAge)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.PetYears)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.ContactPhone)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.ModifiedDate)
+    </td>
+    <td>
+        @Html.ActionLink("Edit", "Edit", new { id = item.OwnerID }) |
+        @Html.ActionLink("Details", "Details", new { id = item.OwnerID }) |
+        @Html.ActionLink("Delete", "Delete", new { id = item.OwnerID })
+    </td>
+</tr>
+}
+
+</table>
+</div>
+</div>

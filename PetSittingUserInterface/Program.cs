@@ -17,6 +17,7 @@ namespace PetSittingUserInterface
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new SittersForm());
+            Application.Run(new OwnersForm());
         }
     }
 }
