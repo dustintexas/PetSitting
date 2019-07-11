@@ -1,0 +1,92 @@
+﻿@model PetSitting.Model.SittersEntity
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<div class="panel"><div class="panel-heading"><h3>Details</h3></div>
+
+<div class="panel-body">
+<div>
+    
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.SitterID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SitterID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Fee)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Fee)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Bio)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Bio)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Age)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Age)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HiringDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HiringDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.GrossSalary)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GrossSalary)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NetSalary)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NetSalary)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ModifiedDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ModifiedDate)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.SitterID }) |
+    @Html.ActionLink("Back to List", "ListAll")
+</p>
+</div>
+</div>

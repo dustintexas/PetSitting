@@ -44,12 +44,16 @@ namespace PetSitting.Model
         [Range(15, 80, ErrorMessage = "Age range between 15 and 80 years.")]
         public int Age { get; set; }
 
+        [Display(Name="Hiring Date")]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime? HiringDate { get; set; }
 
         [Required(ErrorMessage = "You must enter an employee Gross Salary.")]
+        [Display(Name="Gross Salary")]
         public Decimal GrossSalary { get; set; }
+        [Display(Name="Net Salary")]
         public Decimal NetSalary { get; set; }
+        [Display(Name="Modified Date")]
         public DateTime ModifiedDate { get; set; }
 
         #endregion

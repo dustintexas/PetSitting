@@ -42,7 +42,18 @@ namespace PetSitting.Controllers
         // GET: Sitters/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            try
+            {
+                var sitter = SelectSitterById(id);
+                return View(sitter);
+            }
+            catch (Exception ex)
+            {
+                //Log exception error
+                _loggingHandler.LogEntry(ExceptionHandler.GetExceptionMessageFormatted(ex), true);
+                ViewBag.Message = Server.HtmlEncode(ex.Message);
+                return View("Error");
+            }
         }
 
         // GET: Sitters/Create
@@ -137,9 +148,8 @@ namespace PetSitting.Controllers
         {
             try
             {
-                DeleteSitter(id);
-
-                return RedirectToAction("ListAll");
+                var sitter = SelectSitterById(id);
+                return View(sitter);
             }
             catch (Exception ex)
             {
@@ -157,13 +167,16 @@ namespace PetSitting.Controllers
         {
             try
             {
-                // TODO: Add delete logic here
+                DeleteSitter(id);
 
                 return RedirectToAction("ListAll");
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                //Log exception error
+                _loggingHandler.LogEntry(ExceptionHandler.GetExceptionMessageFormatted(ex), true);
+                ViewBag.Message = Server.HtmlEncode(ex.Message);
+                return View("Error");
             }
         }
 
