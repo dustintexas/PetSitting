@@ -16,13 +16,18 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Calvin's Pet Sitting", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    @{ if (Request.IsAuthenticated)
+                        {
+                            <li>@Html.ActionLink("Owners", "ListAll", "Owners")</li>
+                        }
+                    }
                     <li>@Html.ActionLink("Owners", "ListAll", "Owners")</li>
                     <li>@Html.ActionLink("Sitters", "ListAll", "Sitters")</li>
                 </ul>

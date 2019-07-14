@@ -1,8 +1,9 @@
 ﻿body {
     padding-top: 50px;
     padding-bottom: 20px;
-    background-image: url("https://images.pexels.com/photos/45170/kittens-cat-cat-puppy-rush-45170.jpeg");
+    background-image: url("images/Ozzy_lazy_on_Otoman.jpg");
     background-repeat: no-repeat;
+    background-size: cover;
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -16,6 +17,12 @@
 */
 .dl-horizontal dt {
     white-space: normal;
+}
+
+.jumbotron {
+    background-image: url("images/Carla_Sitting_with_Ozzy.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 /* Set width on the form input elements since they're 100% wide by default */

@@ -50,6 +50,9 @@ namespace PetSitting.Model
         public int PetYears { get; set; }
         [Display(Name="Modified Date")]
         public DateTime ModifiedDate { get; set; }
+
+        public ICollection<SessionsEntity> Sessions { get; set; }
+
         #endregion
     }
 }

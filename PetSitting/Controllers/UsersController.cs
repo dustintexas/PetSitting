@@ -10,11 +10,11 @@ using PetSitting.Model;
 
 namespace PetSitting.Controllers
 {
-    public class OwnersController : Controller
+    public class UsersController : Controller
     {
         private LoggingHandler _loggingHandler;
 
-        public OwnersController()
+        public UsersController()
         {
             _loggingHandler = new LoggingHandler();
         }
@@ -33,19 +33,19 @@ namespace PetSitting.Controllers
             base.Dispose(disposing);
         }
 
-        // GET: Owners
+        // GET: Users
         public ActionResult Index()
         {
             return View();
         }
 
-        // GET: Owners/Details/5
+        // GET: Users/Details/5
         public ActionResult Details(int id)
         {
             try
             {
-                var owner = SelectOwnerById(id);
-                return View(owner);
+                var user = SelectUserById(id);
+                return View(user);
             }
             catch (Exception ex)
             {
@@ -55,14 +55,14 @@ namespace PetSitting.Controllers
                 return View("Error");
             }
         }
-        
-        // GET: Owners/Create
+
+        // GET: Users/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Owners/Create
+        // POST: Sitters/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(FormCollection collection)
@@ -74,10 +74,13 @@ namespace PetSitting.Controllers
 
             try
             {
-                InsertOwner(collection["OwnerName"],
-                                collection["PetName"],
-                                int.Parse(collection["PetAge"]),
-                                collection["ContactPhone"]);
+                InsertUser(collection["Username"],
+                                collection["FirstName"],
+                                collection["LastName"],
+                                collection["Email"],
+                                collection["Password"],
+                                int.Parse(collection["Age"]),
+                                bool.Parse(collection["IsActive"]));
 
                 return RedirectToAction("ListAll");
             }
@@ -89,14 +92,14 @@ namespace PetSitting.Controllers
                 return View("Error");
             }
         }
-        
-        // GET: Owners/Edit/5
+
+        // GET: Users/Edit/5
         public ActionResult Edit(int id)
         {
             try
             {
-                var owner = SelectOwnerById(id);
-                return View(owner);
+                var sitter = SelectUserById(id);
+                return View(sitter);
             }
             catch (Exception ex)
             {
@@ -107,7 +110,7 @@ namespace PetSitting.Controllers
             }
         }
 
-        // POST: Owners/Edit/5
+        // POST: Users/Edit/5
         [HttpPost]
         public ActionResult Edit(int id, FormCollection collection)
         {
@@ -118,11 +121,14 @@ namespace PetSitting.Controllers
 
             try
             {
-                UpdateOwner(int.Parse(collection["OwnerID"]),
-                                collection["OwnerName"],
-                                collection["PetName"],
-                                int.Parse(collection["PetAge"]),
-                                collection["ContactPhone"]);
+                UpdateUser(int.Parse(collection["UserID"]),
+                                collection["Username"],
+                                collection["FirstName"],
+                                collection["LastName"],
+                                collection["Email"],
+                                collection["Password"],
+                                int.Parse(collection["Age"]),
+                                bool.Parse(collection["IsActive"]));
 
                 return RedirectToAction("ListAll");
             }
@@ -135,13 +141,13 @@ namespace PetSitting.Controllers
             }
         }
 
-        // GET: Owners/Delete/5
+        // GET: Users/Delete/5
         public ActionResult Delete(int id)
         {
             try
             {
-                var owner = SelectOwnerById(id);
-                return View(owner);
+                var sitter = SelectUserById(id);
+                return View(sitter);
             }
             catch (Exception ex)
             {
@@ -152,13 +158,13 @@ namespace PetSitting.Controllers
             }
         }
 
-        // POST: Owners/Delete/5
+        // POST: Sitters/Delete/5
         [HttpPost]
         public ActionResult Delete(int id, FormCollection collection)
         {
             try
             {
-                DeleteOwner(id);
+                DeleteUser(id);
 
                 return RedirectToAction("ListAll");
             }
@@ -175,10 +181,10 @@ namespace PetSitting.Controllers
         {
             try
             {
-                var owners = from e in ListAllOwners()
-                              orderby e.OwnerID
+                var users = from e in ListAllUsers()
+                              orderby e.UserID
                               select e;
-                return View(owners);
+                return View(users);
             }
             catch (Exception ex)
             {
@@ -190,100 +196,101 @@ namespace PetSitting.Controllers
         }
 
         #region Private Methods
-        // the following code connects with the SelectAll function in the DataAccess logic through the BusinessLogic
-        private List<OwnersEntity> ListAllOwners()
-        {
-            try
-            {
-                using (var owners = new OwnersBusiness())
-                {
-                    return owners.SelectAllOwners();
-                }
-            }
-            catch (Exception ex)
-            {
-                //Log exception error
-                _loggingHandler.LogEntry(ExceptionHandler.GetExceptionMessageFormatted(ex), true);
-            }
-            return null;
-        }
-        // the following code connects with the selectbyID function the the DataAccess logic through the BusinessLogic
-        private OwnersEntity SelectOwnerById(int id)
-        {
-            try
-            {
-                using (var owners = new OwnersBusiness())
-                {
-                    return owners.SelectOwnerById(id);
-                }
-            }
-            catch (Exception ex)
-            {
-                //Log exception error
-                _loggingHandler.LogEntry(ExceptionHandler.GetExceptionMessageFormatted(ex), true);
-            }
-            return null;
-        }
-        // the following code connects with the insert function in the DataAccess logic through the BusinessLogic
-        private void InsertOwner(string ownername, string petname, int petage, string contactphone)
-        {
-            try
-            {
-                using (var owners = new OwnersBusiness())
-                {
-                    var entity = new OwnersEntity();
-                    entity.OwnerName = ownername;
-                    entity.PetName = petname;
-                    entity.PetAge = petage;
-                    entity.ContactPhone = contactphone;
-                    var opSuccessful = owners.InsertOwner(entity);
-                }
-            }
-            catch (Exception ex)
-            {
-                //Log exception error
-                _loggingHandler.LogEntry(ExceptionHandler.GetExceptionMessageFormatted(ex), true);
-            }
-        }
-        // the following code connects with the update function in the DataAccess logic through the BusinessLogic
-        private void UpdateOwner(int id, string ownername, string petname, int petage, string contactphone)
-        {
-            try
-            {
-                using (var owners = new OwnersBusiness())
-                {
-                    var entity = new OwnersEntity();
-                    entity.OwnerID = id;
-                    entity.OwnerName = ownername;
-                    entity.PetName = petname;
-                    entity.PetAge = petage;
-                    entity.ContactPhone = contactphone;
-                    var opSuccessful = owners.UpdateOwner(entity);
-                }
-            }
-            catch (Exception ex)
-            {
-                //Log exception error
-                _loggingHandler.LogEntry(ExceptionHandler.GetExceptionMessageFormatted(ex), true);
-            }
-        }
-        // the following code connects with the delete function in the DataAccess logic through the BusinessLogic
-        private void DeleteOwner(int id)
-        {
-            try
-            {
-                using (var owners = new OwnersBusiness())
-                {
-                    var opSuccessful = owners.DeleteOwnerById(id);
-                }
-            }
-            catch (Exception ex)
-            {
-                //Log exception error
-                _loggingHandler.LogEntry(ExceptionHandler.GetExceptionMessageFormatted(ex), true);
-            }
-        }
 
+        private List<UsersEntity> ListAllUsers()
+        {
+            try
+            {
+                using (var users = new UsersBusiness())
+                {
+                    return users.SelectAllUsers();
+                }
+            }
+            catch (Exception ex)
+            {
+                //Log exception error
+                _loggingHandler.LogEntry(ExceptionHandler.GetExceptionMessageFormatted(ex), true);
+            }
+            return null;
+        }
+        private UsersEntity SelectUserById(int id)
+        {
+            try
+            {
+                using (var users = new UsersBusiness())
+                {
+                    return users.SelectUserById(id);
+                }
+            }
+            catch (Exception ex)
+            {
+                //Log exception error
+                _loggingHandler.LogEntry(ExceptionHandler.GetExceptionMessageFormatted(ex), true);
+            }
+            return null;
+        }
+        private void InsertUser(string username, string firstname, string lastname, string email, string password, int age, bool isactive)
+        {
+            try
+            {
+                using (var users = new UsersBusiness())
+                {
+                    var entity = new UsersEntity();
+                    entity.Username = username;
+                    entity.FirstName = firstname;
+                    entity.LastName = lastname;
+                    entity.Email = email;
+                    entity.Password = password;
+                    entity.Age = age;
+                    entity.IsActive = isactive;
+                    var opSuccessful = users.InsertUser(entity);
+                }
+            }
+            catch (Exception ex)
+            {
+                //Log exception error
+                _loggingHandler.LogEntry(ExceptionHandler.GetExceptionMessageFormatted(ex), true);
+            }
+        }
+        private void UpdateUser(int id, string username, string firstname, string lastname, string email, string password, int age, bool isactive)
+        {
+            try
+            {
+                using (var users = new UsersBusiness())
+                {
+                    var entity = new UsersEntity();
+                    entity.UserID = id;
+                    entity.Username = username;
+                    entity.FirstName = firstname;
+                    entity.LastName = lastname;
+                    entity.Email = email;
+                    entity.Password = password;
+                    entity.Age = age;
+                    entity.IsActive = isactive;
+                    var opSuccessful = users.UpdateUser(entity);
+                }
+            }
+            catch (Exception ex)
+            {
+                //Log exception error
+                _loggingHandler.LogEntry(ExceptionHandler.GetExceptionMessageFormatted(ex), true);
+            }
+        }
+        private void DeleteUser(int id)
+        {
+            try
+            {
+                using (var users = new UsersBusiness())
+                {
+                    var opSuccessful = users.DeleteUserById(id);
+                }
+            }
+            catch (Exception ex)
+            {
+                //Log exception error
+                _loggingHandler.LogEntry(ExceptionHandler.GetExceptionMessageFormatted(ex), true);
+            }
+        }
 
         #endregion
     }

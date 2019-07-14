@@ -40,7 +40,7 @@ namespace PetSitting.Model
         [StringLength(500, MinimumLength = 3)]
         public string Bio { get; set; }
 
-        [Required(ErrorMessage = "You must enter an employee Age.")]
+        [Required(ErrorMessage = "You must enter a sitter Age.")]
         [Range(15, 80, ErrorMessage = "Age range between 15 and 80 years.")]
         public int Age { get; set; }
 
@@ -48,13 +48,15 @@ namespace PetSitting.Model
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime? HiringDate { get; set; }
 
-        [Required(ErrorMessage = "You must enter an employee Gross Salary.")]
+        [Required(ErrorMessage = "You must enter a sitter Gross Salary.")]
         [Display(Name="Gross Salary")]
         public Decimal GrossSalary { get; set; }
         [Display(Name="Net Salary")]
         public Decimal NetSalary { get; set; }
         [Display(Name="Modified Date")]
         public DateTime ModifiedDate { get; set; }
+
+        public ICollection<SessionsEntity> Sessions { get; set; }
 
         #endregion
 
