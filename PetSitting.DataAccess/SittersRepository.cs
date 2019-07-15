@@ -27,7 +27,7 @@ namespace PetSitting.DataAccess
         #endregion
 
         #region Class Methods 
-
+        // Insert function will insert given parameters into record in SQL Server
         public bool Insert(SittersEntity entity)
         {
             try
@@ -113,7 +113,7 @@ namespace PetSitting.DataAccess
                 throw new Exception("SittersRepository::Insert::Error occured.", ex);
             }
         }
-
+        // Update function will update given parameters to selected record in SQL Server
         public bool Update(SittersEntity entity)
         {
             _errorCode = 0;
@@ -194,7 +194,7 @@ namespace PetSitting.DataAccess
                 throw new Exception("SittersRepository::Update::Error occured.", ex);
             }
         }
-
+        // Delete function will delete given record by ID in SQL Server
         public bool DeleteById(int id)
         {
             _errorCode = 0;
@@ -260,7 +260,7 @@ namespace PetSitting.DataAccess
             }
         }
 
-
+        // SelectById function will pull given record by ID from SQL Server
         public SittersEntity SelectById(int id)
         {
             _errorCode = 0;
@@ -357,7 +357,7 @@ namespace PetSitting.DataAccess
                 throw new Exception("SittersRepository::SelectById::Error occured.", ex);
             }
         }
-
+        // SelectAll function will pull all Sitter records from SQL Server
         public List<SittersEntity> SelectAll()
         {
             _errorCode = 0;
@@ -452,7 +452,8 @@ namespace PetSitting.DataAccess
                 throw new Exception("SittersRepository::SelectAll::Error occured.", ex);
             }
         }
-
+        // SittersRepository function instantiates environment for handling connection to database, 
+        // logging of errors and other system necessities
         public SittersRepository()
         {
             //Repository Initializations 

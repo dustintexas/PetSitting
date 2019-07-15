@@ -88,6 +88,7 @@ namespace PetSitting.BusinessLogic
                     returnedEntity = repository.SelectById(empId);
                     if (returnedEntity != null)
                         returnedEntity.NetSalary = GetNetSalary(returnedEntity.GrossSalary, returnedEntity.Age);
+
                 }
 
                 return returnedEntity;

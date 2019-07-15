@@ -18,6 +18,8 @@ namespace PetSitting.Model
         public int OwnerID { get; set; }
         [DisplayFormat(NullDisplayText = "No status")]
         public Status? Status { get; set; }
+        public DateTime? Date { get; set; }
+        public decimal Fee { get; set; }
         public OwnersEntity Owner { get; set; }
         public SittersEntity Sitter { get; set; }
     }

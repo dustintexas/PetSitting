@@ -48,6 +48,7 @@
     <Compile Include="SessionsEntity.cs" />
     <Compile Include="SittersEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SittingViewModels\OwnerIndexData.cs" />
     <Compile Include="UsersEntity.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
