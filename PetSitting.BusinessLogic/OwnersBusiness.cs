@@ -20,6 +20,7 @@ namespace PetSitting.BusinessLogic
         #endregion
 
         #region Class Methods
+        // Business Logic pass through code to Insert Owner
         public bool InsertOwner(OwnersEntity entity)
         {
             try
@@ -40,6 +41,7 @@ namespace PetSitting.BusinessLogic
                 throw new Exception("BusinessLogic:OwnersBusiness::InsertOwner::Error occured.", ex);
             }
         }
+        // Business Logic pass through code to Update Owner
         public bool UpdateOwner(OwnersEntity entity)
         {
             try
@@ -60,6 +62,7 @@ namespace PetSitting.BusinessLogic
                 throw new Exception("BusinessLogic:OwnersBusiness::UpdateOwner::Error occured.", ex);
             }
         }
+        // Business Logic pass through code to Delete an Owner by ID
         public bool DeleteOwnerById(int empId)
         {
             try
@@ -77,6 +80,7 @@ namespace PetSitting.BusinessLogic
                 throw new Exception("BusinessLogic:OwnersBusiness::DeleteOwnerById::Error occured.", ex);
             }
         }
+        // Business Logic pass through code to Select an Owner by ID
         public OwnersEntity SelectOwnerById(int empId)
         {
             try
@@ -100,7 +104,7 @@ namespace PetSitting.BusinessLogic
                 throw new Exception("BusinessLogic:OwnersBusiness::SelectOwnerById::Error occured.", ex);
             }
         }
-
+        // Business Logic pass through code to Select all Owners
         public List<OwnersEntity> SelectAllOwners()
         {
             var returnedEntities = new List<OwnersEntity>();
@@ -135,7 +139,7 @@ namespace PetSitting.BusinessLogic
             petYears = age * 7;
             return petYears;
         }
-        
+        // Business Logic environment instantiation
         public OwnersBusiness()
         {
             _loggingHandler = new LoggingHandler();

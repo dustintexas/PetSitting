@@ -55,6 +55,42 @@ namespace PetSitting.Controllers
                 return View("Error");
             }
         }
+        // GET: Users/Register
+        public ActionResult Register()
+        {
+            return View();
+        }
+
+        // POST: Users/Register
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Register(FormCollection collection)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+
+            try
+            {
+                InsertUser(collection["Username"],
+                                collection["FirstName"],
+                                collection["LastName"],
+                                collection["Email"],
+                                collection["Password"],
+                                int.Parse(collection["Age"]),
+                                bool.Parse("True"));
+
+                return RedirectToAction("../Home/Index");
+            }
+            catch (Exception ex)
+            {
+                //Log exception error
+                _loggingHandler.LogEntry(ExceptionHandler.GetExceptionMessageFormatted(ex), true);
+                ViewBag.Message = Server.HtmlEncode(ex.Message);
+                return View("Error");
+            }
+        }
 
         // GET: Users/Create
         public ActionResult Create()
@@ -62,7 +98,7 @@ namespace PetSitting.Controllers
             return View();
         }
 
-        // POST: Sitters/Create
+        // POST: Users/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(FormCollection collection)

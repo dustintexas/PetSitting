@@ -12,19 +12,22 @@
     <p>
         @Html.ActionLink("Learn more...", "About", "Home", null, new { @class = "btn btn-success btn-lg" })
     </p>
+    <p>
+        @Html.ActionLink("Register..","Register","Users", null, new { @class = "btn-link btn-sm" })
+    </p>
 </div>
 
 <div class="row">
     <div class="col-md-4"><div class="panel">
         <div class="panel-heading bg-success">Getting started</div>
         <div class="panel-body"><p>
-            If you haven't registered yet, please hurry and <a href="#">click here!</a>
-            We offer great rates and great service specifically catered to your pet.
-            If you have already registered and you want to go ahead and request a session, click the button below
-            to get started!
-            <br/><br/>
-            <a class="btn btn-success btn-sm" href="#">Book Now &raquo;</a>
-        </p>
+    If you haven't registered yet, please hurry and @Html.ActionLink("click here..", "Register", "Users", null, new { @class = "btn-link btn-sm" })
+    We offer great rates and great service specifically catered to your pet.
+    If you have already registered and you want to go ahead and request a session, click the button below
+    to get started!
+    <br /><br />
+    <a class="btn btn-success btn-sm" href="#">Book Now &raquo;</a>
+</p>
         </div>
         </div>
     </div>

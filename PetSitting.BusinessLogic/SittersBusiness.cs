@@ -20,6 +20,7 @@ namespace PetSitting.BusinessLogic
         #endregion
 
         #region Class Methods
+        // Business Logic pass through code to Insert Sitter
         public bool InsertSitter(SittersEntity entity)
         {
             try
@@ -40,7 +41,7 @@ namespace PetSitting.BusinessLogic
                 throw new Exception("BusinessLogic:SittersBusiness::InsertSitter::Error occured.", ex);
             }
         }
-
+        // Business Logic pass through code to Update Sitter
         public bool UpdateSitter(SittersEntity entity)
         {
             try
@@ -61,6 +62,7 @@ namespace PetSitting.BusinessLogic
                 throw new Exception("BusinessLogic:SittersBusiness::UpdateSitter::Error occured.", ex);
             }
         }
+        // Business Logic pass through code to Delete a Sitter by ID
         public bool DeleteSitterById(int empId)
         {
             try
@@ -78,6 +80,7 @@ namespace PetSitting.BusinessLogic
                 throw new Exception("BusinessLogic:SittersBusiness::DeleteSitterById::Error occured.", ex);
             }
         }
+        // Business Logic pass through code to Select a Sitter by ID
         public SittersEntity SelectSitterById(int empId)
         {
             try
@@ -101,6 +104,7 @@ namespace PetSitting.BusinessLogic
                 throw new Exception("BusinessLogic:SittersBusiness::SelectSitterById::Error occured.", ex);
             }
         }
+        // Business Logic pass through code to Select All Sitters
         public List<SittersEntity> SelectAllSitters()
         {
             var returnedEntities = new List<SittersEntity>();
@@ -126,7 +130,7 @@ namespace PetSitting.BusinessLogic
                 throw new Exception("BusinessLogic:SittersBusiness::SelectAllSitters::Error occured.", ex);
             }
         }
-
+        // HERE BELOW A CALCULATION CAN BE ADDED AT THE BusinessLogic Level
         private decimal GetNetSalary(decimal grossSalary, int age)
         {
             var netSalary = grossSalary;
@@ -154,6 +158,7 @@ namespace PetSitting.BusinessLogic
 
             return Math.Round(netSalary, 2);
         }
+        // Business Logic environment instantiation
         public SittersBusiness()
         {
             _loggingHandler = new LoggingHandler();

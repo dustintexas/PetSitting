@@ -20,6 +20,7 @@ namespace PetSitting.BusinessLogic
         #endregion
 
         #region Class Methods
+        // Business Logic pass through code to Insert User
         public bool InsertUser(UsersEntity entity)
         {
             try
@@ -40,6 +41,7 @@ namespace PetSitting.BusinessLogic
                 throw new Exception("BusinessLogic:UsersBusiness::InsertUser::Error occured.", ex);
             }
         }
+        // Business Logic pass through code to Update User
         public bool UpdateUser(UsersEntity entity)
         {
             try
@@ -60,6 +62,7 @@ namespace PetSitting.BusinessLogic
                 throw new Exception("BusinessLogic:UsersBusiness::UpdateUser::Error occured.", ex);
             }
         }
+        // Business Logic pass through code to Delete User 
         public bool DeleteUserById(int empId)
         {
             try
@@ -77,6 +80,7 @@ namespace PetSitting.BusinessLogic
                 throw new Exception("BusinessLogic:UsersBusiness::DeleteUserById::Error occured.", ex);
             }
         }
+        // Business Logic pass through code to Select a User
         public UsersEntity SelectUserById(int empId)
         {
             try
@@ -100,6 +104,7 @@ namespace PetSitting.BusinessLogic
                 throw new Exception("BusinessLogic:UsersBusiness::SelectOwnerById::Error occured.", ex);
             }
         }
+        // Business Logic pass through code to Select All Users
         public List<UsersEntity> SelectAllUsers()
         {
             var returnedEntities = new List<UsersEntity>();
@@ -140,6 +145,7 @@ namespace PetSitting.BusinessLogic
             }
             return calculation;
         }
+        // Business Logic environment instantiation
         public UsersBusiness()
         {
             _loggingHandler = new LoggingHandler();
