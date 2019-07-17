@@ -132,6 +132,10 @@ namespace PetSitting.BusinessLogic
             }
         }
         // HERE BELOW A CALCULATION CAN BE ADDED AT THE BusinessLogic Level
+        public UsersEntity FindUserByUsername(string username)
+        {
+
+        }
         private decimal GetDiscount(int age)
         {
             var calculation = 0.0M;

@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="LoginModel.cs" />
     <Compile Include="OwnersEntity.cs" />
     <Compile Include="RolesEntity.cs" />
     <Compile Include="SessionsEntity.cs" />
