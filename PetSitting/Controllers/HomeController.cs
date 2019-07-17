@@ -35,8 +35,8 @@ namespace PetSitting.Controllers
             LoginModel m = new LoginModel(); 
             m.message   = TempData["Message"]?.ToString()??"";
             m.ReturnURL = TempData["ReturnURL"]?.ToString()??@"~/Home";
-            m.Username  = "genericuser";
-            m.Password  = "genericpassword";
+            m.Username  = "";
+            m.Password  = "";
  
             return View(m);
         }
@@ -46,7 +46,7 @@ namespace PetSitting.Controllers
         {
             using (BusinessLogic.UsersBusiness ctx = new BusinessLogic.UsersBusiness())
             {
-                BusinessLogic.UserBLL user = ctx.FindUserByUsername(info.Username);
+                UsersEntity user = ctx.FindUserByUsername(info.Username);
                 if (user == null) 
                 { 
                     info.message = $"The Username '{info.Username}' does not exist in the database";
@@ -60,7 +60,8 @@ namespace PetSitting.Controllers
                 if (validateduser)
                 {
                     Session["AUTHUsername"] = user.Username;
-                    Session["AUTHRoles"] = user.Roles;
+                    Session["AUTHRole"] = user.Role;
+                    Session["AUTHUserID"] = user.UserID;
                     return Redirect(info.ReturnURL);
                 }
                 info.message = "The password was incorrect";  

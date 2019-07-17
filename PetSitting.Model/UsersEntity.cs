@@ -24,7 +24,7 @@ namespace PetSitting.Model
         #endregion
 
         #region Class Property Declarations
-
+       
         [Required(ErrorMessage = "You must enter a User ID.")]
         public int UserID { get; set; }
         [Required(ErrorMessage = "You must enter a Username.")]
@@ -57,7 +57,7 @@ namespace PetSitting.Model
         public int Age { get; set; }
         [Display(Name = "Discount")]
         public decimal Discount { get; set; }
-        public virtual ICollection<RolesEntity> Roles { get; set; }
+        public string Role { get; set; }
 
         #endregion
     }

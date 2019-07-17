@@ -134,7 +134,26 @@ namespace PetSitting.BusinessLogic
         // HERE BELOW A CALCULATION CAN BE ADDED AT THE BusinessLogic Level
         public UsersEntity FindUserByUsername(string username)
         {
+            try
+            {
+                UsersEntity returnedEntity;
+                using (var repository = new UsersRepository())
+                {
+                    returnedEntity = repository.FindByUsername(username);
+                    if (returnedEntity != null)
+                        // Business Calculation function called from here
+                        returnedEntity.Discount = GetDiscount(returnedEntity.Age);
+                }
 
+                return returnedEntity;
+            }
+            catch (Exception ex)
+            {
+                //Log exception error
+                _loggingHandler.LogEntry(ExceptionHandler.GetExceptionMessageFormatted(ex), true);
+
+                throw new Exception("BusinessLogic:UsersBusiness::FindUserByUsername::Error occured.", ex);
+            }
         }
         private decimal GetDiscount(int age)
         {

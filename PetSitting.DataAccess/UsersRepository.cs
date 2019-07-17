@@ -42,7 +42,8 @@ namespace PetSitting.DataAccess
                 sb.Append("[Email], ");
                 sb.Append("[Password], ");
                 sb.Append("[Age], ");
-                sb.Append("[IsActive] ");
+                sb.Append("[IsActive], ");
+                sb.Append("[Role] ");
                 sb.Append(") ");
                 sb.Append("VALUES ");
                 sb.Append("( ");
@@ -52,7 +53,8 @@ namespace PetSitting.DataAccess
                 sb.Append(" @chnEmail, ");
                 sb.Append(" @chnPassword, ");
                 sb.Append(" @intAge, ");
-                sb.Append(" @binIsActive ");
+                sb.Append(" @binIsActive, ");
+                sb.Append(" @chnRole ");
                 sb.Append(") ");
                 sb.Append("SELECT @intErrorCode=@@ERROR; ");
 
@@ -82,6 +84,7 @@ namespace PetSitting.DataAccess
                         _dataHandler.AddParameterToCommand(dbCommand, "@chnPassword", CsType.String, ParameterDirection.Input, entity.Password);
                         _dataHandler.AddParameterToCommand(dbCommand, "@intAge", CsType.Int, ParameterDirection.Input, entity.Age);
                         _dataHandler.AddParameterToCommand(dbCommand, "@binIsActive", CsType.Boolean, ParameterDirection.Input, entity.IsActive);
+                        _dataHandler.AddParameterToCommand(dbCommand, "@chnRole", CsType.String, ParameterDirection.Input, entity.Role);
 
                         //Output Parameters
                         _dataHandler.AddParameterToCommand(dbCommand, "@intErrorCode", CsType.Int, ParameterDirection.Output, null);
@@ -131,7 +134,8 @@ namespace PetSitting.DataAccess
                 sb.Append("[Email] = @chnEmail, ");
                 sb.Append("[Password] = @chnPassword, ");
                 sb.Append("[Age] = @intAge, ");
-                sb.Append("[IsActive] = @binIsActive ");
+                sb.Append("[IsActive] = @binIsActive, ");
+                sb.Append("[Role] = @chnRole ");
                 sb.Append("WHERE ");
                 sb.Append("[UserID] = @intId ");
                 sb.Append("SELECT @intErrorCode=@@ERROR; ");
@@ -163,6 +167,7 @@ namespace PetSitting.DataAccess
                         _dataHandler.AddParameterToCommand(dbCommand, "@chnPassword", CsType.String, ParameterDirection.Input, entity.Password);
                         _dataHandler.AddParameterToCommand(dbCommand, "@intAge", CsType.Int, ParameterDirection.Input, entity.Age);
                         _dataHandler.AddParameterToCommand(dbCommand, "@binIsActive", CsType.Boolean, ParameterDirection.Input, entity.IsActive);
+                        _dataHandler.AddParameterToCommand(dbCommand, "@chnRole", CsType.String, ParameterDirection.Input, entity.Role);
 
                         //Output Parameters
                         _dataHandler.AddParameterToCommand(dbCommand, "@intErrorCode", CsType.Int, ParameterDirection.Output, null);
@@ -259,6 +264,104 @@ namespace PetSitting.DataAccess
                 throw new Exception("UsersRepository::Delete::Error occured.", ex);
             }
         }
+
+        // the following code will request data from the users database table based on given username
+        public UsersEntity FindByUsername(string username)
+        {
+            _errorCode = 0;
+            _rowsAffected = 0;
+
+            UsersEntity returnedEntity = null;
+
+            try
+            {
+                var sb = new StringBuilder();
+                sb.Append("SET DATEFORMAT MDY; ");
+                sb.Append("SELECT ");
+                sb.Append("[UserID], ");
+                sb.Append("[Username], ");
+                sb.Append("[FirstName], ");
+                sb.Append("[LastName], ");
+                sb.Append("[Email], ");
+                sb.Append("[Password], ");
+                sb.Append("[Age], ");
+                sb.Append("[IsActive], ");
+                sb.Append("[Role] ");
+                sb.Append("FROM [dbo].[Users] ");
+                sb.Append("WHERE ");
+                sb.Append("[Username] = @chnUsername ");
+                sb.Append("SELECT @intErrorCode=@@ERROR; ");
+                var commandText = sb.ToString();
+                sb.Clear();
+                using (var dbConnection = _dbProviderFactory.CreateConnection())
+                {
+                    if (dbConnection == null)
+                        throw new ArgumentNullException("dbConnection", "The db connection can't be null.");
+
+                    dbConnection.ConnectionString = _connectionString;
+
+                    using (var dbCommand = _dbProviderFactory.CreateCommand())
+                    {
+                        if (dbCommand == null)
+                            throw new ArgumentNullException("dbCommand" + " The db FindByUsername command for entity [Users] can't be null. ");
+
+                        dbCommand.Connection = dbConnection;
+                        dbCommand.CommandText = commandText;
+
+                        //Input Parameters
+                        _dataHandler.AddParameterToCommand(dbCommand, "@chnUsername", CsType.String, ParameterDirection.Input, username);
+
+                        //Output Parameters
+                        _dataHandler.AddParameterToCommand(dbCommand, "@intErrorCode", CsType.Int, ParameterDirection.Output, null);
+                        //Open Connection
+                        if (dbConnection.State != ConnectionState.Open)
+                            dbConnection.Open();
+
+                        //Execute query.
+                        using (var reader = dbCommand.ExecuteReader())
+                        {
+                            if (reader.HasRows)
+                            {
+                                while (reader.Read())
+                                {
+                                    var entity = new UsersEntity();
+                                    entity.UserID = reader.GetInt32(0);
+                                    entity.Username = reader.GetString(1);
+                                    entity.FirstName = reader.GetString(2);
+                                    entity.LastName = reader.GetString(3);
+                                    entity.Email = reader.GetString(4);
+                                    entity.Password = reader.GetString(5);
+                                    entity.Age = reader.GetInt32(6);
+                                    entity.IsActive = reader.GetBoolean(7);
+                                    entity.Role = reader.GetString(8);
+                                    returnedEntity = entity;
+                                    break;
+                                }
+                            }
+                        }
+
+                        _errorCode = int.Parse(dbCommand.Parameters["@intErrorCode"].Value.ToString());
+
+                        if (_errorCode != 0)
+                        {
+                            // Throw error.
+                            throw new Exception("The FindByUsername method for entity [Users] reported the Database ErrorCode: " + _errorCode);
+                        }
+                    }
+                }
+
+                return returnedEntity;
+            }
+            catch (Exception ex)
+            {
+                //Log exception error
+                _loggingHandler.LogEntry(ExceptionHandler.GetExceptionMessageFormatted(ex), true);
+
+                //Bubble error to caller and encapsulate Exception object
+                throw new Exception("UsersRepository::FindByUsername::Error occured.", ex);
+            }
+        }
+
         // the following code will request data from the database based on a given record ID
         public UsersEntity SelectById(int id)
         {
@@ -279,7 +382,8 @@ namespace PetSitting.DataAccess
                 sb.Append("[Email], ");
                 sb.Append("[Password], ");
                 sb.Append("[Age], ");
-                sb.Append("[IsActive] ");
+                sb.Append("[IsActive], ");
+                sb.Append("[Role] ");
                 sb.Append("FROM [dbo].[Users] ");
                 sb.Append("WHERE ");
                 sb.Append("[UserID] = @intId ");
@@ -329,6 +433,7 @@ namespace PetSitting.DataAccess
                                     entity.Password = reader.GetString(5);
                                     entity.Age = reader.GetInt32(6);
                                     entity.IsActive = reader.GetBoolean(7);
+                                    entity.Role = reader.GetString(8);
                                     returnedEntity = entity;
                                     break;
                                 }
@@ -377,7 +482,8 @@ namespace PetSitting.DataAccess
                 sb.Append("[Email], ");
                 sb.Append("[Password], ");
                 sb.Append("[Age], ");
-                sb.Append("[IsActive] ");
+                sb.Append("[IsActive], ");
+                sb.Append("[Role] ");
                 sb.Append("FROM [dbo].[Users] ");
                 sb.Append("ORDER BY [Username] ");
                 sb.Append("SELECT @intErrorCode=@@ERROR; ");
@@ -425,6 +531,7 @@ namespace PetSitting.DataAccess
                                     entity.Password = reader.GetString(5);
                                     entity.Age = reader.GetInt32(6);
                                     entity.IsActive = reader.GetBoolean(7);
+                                    entity.Role = reader.GetString(8);
                                     returnedEntities.Add(entity);
                                 }
                             }

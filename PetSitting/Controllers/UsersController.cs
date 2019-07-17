@@ -79,7 +79,8 @@ namespace PetSitting.Controllers
                                 collection["Email"],
                                 collection["Password"],
                                 int.Parse(collection["Age"]),
-                                bool.Parse("True"));
+                                bool.Parse("True"),
+                                "Owner");
 
                 return RedirectToAction("../Home/Index");
             }
@@ -116,7 +117,8 @@ namespace PetSitting.Controllers
                                 collection["Email"],
                                 collection["Password"],
                                 int.Parse(collection["Age"]),
-                                bool.Parse(collection["IsActive"]));
+                                bool.Parse(collection["IsActive"]),
+                                collection["Role"]);
 
                 return RedirectToAction("ListAll");
             }
@@ -164,7 +166,8 @@ namespace PetSitting.Controllers
                                 collection["Email"],
                                 collection["Password"],
                                 int.Parse(collection["Age"]),
-                                bool.Parse(collection["IsActive"]));
+                                bool.Parse(collection["IsActive"]),
+                                collection["Role"]);
 
                 return RedirectToAction("ListAll");
             }
@@ -265,7 +268,7 @@ namespace PetSitting.Controllers
             }
             return null;
         }
-        private void InsertUser(string username, string firstname, string lastname, string email, string password, int age, bool isactive)
+        private void InsertUser(string username, string firstname, string lastname, string email, string password, int age, bool isactive, string role)
         {
             try
             {
@@ -279,6 +282,7 @@ namespace PetSitting.Controllers
                     entity.Password = password;
                     entity.Age = age;
                     entity.IsActive = isactive;
+                    entity.Role = role;
                     var opSuccessful = users.InsertUser(entity);
                 }
             }
@@ -288,7 +292,7 @@ namespace PetSitting.Controllers
                 _loggingHandler.LogEntry(ExceptionHandler.GetExceptionMessageFormatted(ex), true);
             }
         }
-        private void UpdateUser(int id, string username, string firstname, string lastname, string email, string password, int age, bool isactive)
+        private void UpdateUser(int id, string username, string firstname, string lastname, string email, string password, int age, bool isactive, string role)
         {
             try
             {
@@ -303,6 +307,7 @@ namespace PetSitting.Controllers
                     entity.Password = password;
                     entity.Age = age;
                     entity.IsActive = isactive;
+                    entity.Role = role;
                     var opSuccessful = users.UpdateUser(entity);
                 }
             }
