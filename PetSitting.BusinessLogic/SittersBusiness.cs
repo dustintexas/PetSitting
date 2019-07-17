@@ -104,6 +104,30 @@ namespace PetSitting.BusinessLogic
                 throw new Exception("BusinessLogic:SittersBusiness::SelectSitterById::Error occured.", ex);
             }
         }
+
+        public SittersEntity FindSitterByUserId(int userid)
+        {
+            try
+            {
+                SittersEntity returnedEntity;
+                using (var repository = new SittersRepository())
+                {
+                    returnedEntity = repository.SelectByUserId(userid);
+                    if (returnedEntity != null)
+                        returnedEntity.NetSalary = GetNetSalary(returnedEntity.GrossSalary, returnedEntity.Age);
+
+                }
+
+                return returnedEntity;
+            }
+            catch (Exception ex)
+            {
+                //Log exception error
+                _loggingHandler.LogEntry(ExceptionHandler.GetExceptionMessageFormatted(ex), true);
+
+                throw new Exception("BusinessLogic:SittersBusiness::FindSitterByUserId::Error occured.", ex);
+            }
+        }
         // Business Logic pass through code to Select All Sitters
         public List<SittersEntity> SelectAllSitters()
         {

@@ -86,7 +86,14 @@
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.SitterID }) |
-    @Html.ActionLink("Back to List", "ListAll")
+    @{  var sessionrole = Session["AUTHRole"] as string;
+        if (sessionrole == "Admin")
+        {
+          @Html.ActionLink("Back to List", "ListAll")
+        }
+        
+    }
+
 </p>
 </div>
 </div>

@@ -70,7 +70,11 @@
         </div>
         <p>
             @Html.ActionLink("Edit", "Edit", new { id = Model.OwnerID }) |
-            @Html.ActionLink("Back to List", "ListAll")
+            @{ if ((string)Session["AUTHRole"] == "Admin")
+                {
+                    @Html.ActionLink("Back to List", "ListAll")
+                }
+            }
         </p>
     </div>
 </div>

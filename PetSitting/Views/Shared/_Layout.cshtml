@@ -27,11 +27,11 @@
                         var sessionuserid = Session["AUTHUserID"] as int?;
                         if (sessionrole == "Owner")
                         {
-                            <li>@Html.ActionLink("Details", "Details", "Owners", new { @id = sessionuserid }, null)</li>
+                            <li>@Html.ActionLink("Details", "Details", "Owners", new { @id = (int)Session["AUTHOwnerID"] }, null)</li>
                         }
                         else if (sessionrole == "Sitter")
                         {
-                            <li>@Html.ActionLink("Details", "Details", "Sitters", new { @id = sessionuserid }, null)</li>
+                            <li>@Html.ActionLink("Details", "Details", "Sitters", new { @id = (int)Session["AUTHSitterID"] }, null)</li>
                         }
                         else if (sessionrole == "Admin")
                         {

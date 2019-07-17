@@ -124,7 +124,16 @@ namespace PetSitting.Controllers
                                 int.Parse(collection["PetAge"]),
                                 collection["ContactPhone"]);
 
-                return RedirectToAction("ListAll");
+                if ((string)Session["AUTHRole"] == "Admin")
+                {
+                    return RedirectToAction("ListAll");
+                }
+                else if ((string)Session["AUTHRole"] == "Sitter")
+                {
+                    return RedirectToAction("../Sitters/Details/" + collection["OwnerID"]);
+                }
+                return View();
+
             }
             catch (Exception ex)
             {

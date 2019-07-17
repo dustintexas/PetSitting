@@ -61,7 +61,13 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "ListAll")
+    @{ var sessionrole = Session["AUTHRole"] as string;
+        if (sessionrole == "Admin")
+        {
+            @Html.ActionLink("Back to List", "ListAll")
+        }
+
+    }
 </div>
 </div>
 </div>

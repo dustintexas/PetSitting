@@ -132,7 +132,15 @@ namespace PetSitting.Controllers
                                 : DateTime.ParseExact(collection["HiringDate"], "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None),
                                 decimal.Parse(collection["GrossSalary"]));
 
-                return RedirectToAction("ListAll");
+                if ((string)Session["AUTHRole"] == "Admin")
+                {
+                    return RedirectToAction("ListAll");
+                }
+                else if ((string)Session["AUTHRole"] == "Sitter")
+                {
+                    return RedirectToAction("../Sitters/Details/" + collection["SitterID"]);
+                }
+                return View();
             }
             catch (Exception ex)
             {

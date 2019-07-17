@@ -357,6 +357,102 @@ namespace PetSitting.DataAccess
                 throw new Exception("SittersRepository::SelectById::Error occured.", ex);
             }
         }
+        public SittersEntity SelectByUserId(int userid)
+        {
+            _errorCode = 0;
+            _rowsAffected = 0;
+
+            SittersEntity returnedEntity = null;
+
+            try
+            {
+                var sb = new StringBuilder();
+                sb.Append("SET DATEFORMAT DMY; ");
+                sb.Append("SELECT ");
+                sb.Append("[SitterID], ");
+                sb.Append("[Name], ");
+                sb.Append("[Fee], ");
+                sb.Append("[Bio], ");
+                sb.Append("[Age], ");
+                sb.Append("[HiringDate], ");
+                sb.Append("[GrossSalary], ");
+                sb.Append("[ModifiedDate] ");
+                sb.Append("FROM [dbo].[Sitters] ");
+                sb.Append("WHERE ");
+                sb.Append("[UserID] = @intUserId ");
+                sb.Append("SELECT @intErrorCode=@@ERROR; ");
+
+                var commandText = sb.ToString();
+                sb.Clear();
+
+                using (var dbConnection = _dbProviderFactory.CreateConnection())
+                {
+                    if (dbConnection == null)
+                        throw new ArgumentNullException("dbConnection", "The db connection can't be null.");
+
+                    dbConnection.ConnectionString = _connectionString;
+
+                    using (var dbCommand = _dbProviderFactory.CreateCommand())
+                    {
+                        if (dbCommand == null)
+                            throw new ArgumentNullException("dbCommand" + " The db SelectById command for entity [Sitters] can't be null. ");
+
+                        dbCommand.Connection = dbConnection;
+                        dbCommand.CommandText = commandText;
+
+                        //Input Parameters
+                        _dataHandler.AddParameterToCommand(dbCommand, "@intUserId", CsType.Int, ParameterDirection.Input, userid);
+
+                        //Output Parameters
+                        _dataHandler.AddParameterToCommand(dbCommand, "@intErrorCode", CsType.Int, ParameterDirection.Output, null);
+
+                        //Open Connection
+                        if (dbConnection.State != ConnectionState.Open)
+                            dbConnection.Open();
+
+                        //Execute query.
+                        using (var reader = dbCommand.ExecuteReader())
+                        {
+                            if (reader.HasRows)
+                            {
+                                while (reader.Read())
+                                {
+                                    var entity = new SittersEntity();
+                                    entity.SitterID = reader.GetInt32(0);
+                                    entity.Name = reader.GetString(1);
+                                    entity.Fee = reader.GetDecimal(2);
+                                    entity.Bio = reader.GetString(3);
+                                    entity.Age = reader.GetInt32(4);
+                                    entity.HiringDate = reader.GetValue(5) == DBNull.Value ? (DateTime?)null : reader.GetDateTime(5);
+                                    entity.GrossSalary = reader.GetDecimal(6);
+                                    entity.ModifiedDate = reader.GetDateTime(7);
+                                    returnedEntity = entity;
+                                    break;
+                                }
+                            }
+                        }
+
+                        _errorCode = int.Parse(dbCommand.Parameters["@intErrorCode"].Value.ToString());
+
+                        if (_errorCode != 0)
+                        {
+                            // Throw error.
+                            throw new Exception("The SelectById method for entity [Sitters] reported the Database ErrorCode: " + _errorCode);
+                        }
+                    }
+                }
+
+                return returnedEntity;
+            }
+            catch (Exception ex)
+            {
+                //Log exception error
+                _loggingHandler.LogEntry(ExceptionHandler.GetExceptionMessageFormatted(ex), true);
+
+                //Bubble error to caller and encapsulate Exception object
+                throw new Exception("SittersRepository::SelectByUserId::Error occured.", ex);
+            }
+        }
         // SelectAll function will pull all Sitter records from SQL Server
         public List<SittersEntity> SelectAll()
         {

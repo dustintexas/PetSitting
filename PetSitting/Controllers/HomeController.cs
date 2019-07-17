@@ -62,7 +62,29 @@ namespace PetSitting.Controllers
                     Session["AUTHUsername"] = user.Username;
                     Session["AUTHRole"] = user.Role;
                     Session["AUTHUserID"] = user.UserID;
-                    return Redirect(info.ReturnURL);
+                    if(user.Role == "Owner")
+                    {
+                        using (BusinessLogic.OwnersBusiness ctx2 = new BusinessLogic.OwnersBusiness())
+                        {
+                            OwnersEntity owner = ctx2.FindOwnerByUserId(user.UserID);
+                            Session["AUTHOwnerID"] = owner.OwnerID;
+                            return Redirect("~/Owners/Details/" + owner.OwnerID);
+                        }
+                    }
+                    else if(user.Role == "Sitter")
+                    {
+                        using (BusinessLogic.SittersBusiness ctx2 = new BusinessLogic.SittersBusiness())
+                        {
+                            SittersEntity sitter = ctx2.FindSitterByUserId(user.UserID);
+                            Session["AUTHSitterID"] = sitter.SitterID;
+                            return Redirect("~/Sitters/Details/" + sitter.SitterID);
+                        }
+                    }
+                    else if(user.Role == "Admin")
+                    {
+                        return Redirect("~/Users/ListAll");
+                    }
+                    
                 }
                 info.message = "The password was incorrect";  
                 return View(info);           
