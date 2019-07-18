@@ -1,0 +1,74 @@
+﻿@model IEnumerable<PetSitting.Model.SessionsEntity>
+
+@{
+    ViewBag.Title = "ListAll";
+}
+    <div class="panel">
+        <div class="panel-heading"><h3>Sessions</h3></div>
+        <div class="panel-body">
+            
+
+            <p>
+                @Html.ActionLink("Create New", "Create")
+            </p>
+            <table class="table">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.SessionID)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.SitterName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.OwnerName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Status)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Date)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Fee)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FeeCap)
+                    </th>
+                    <th></th>
+                </tr>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.SessionID)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.SitterName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.OwnerName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Status)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Date)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Fee)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FeeCap)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", new { id = item.SessionID }) |
+                            @Html.ActionLink("Details", "Details", new { id = item.SessionID }) |
+                            @Html.ActionLink("Delete", "Delete", new { id = item.SessionID })
+                        </td>
+                    </tr>
+                }
+
+            </table>
+            </div>
+</div>

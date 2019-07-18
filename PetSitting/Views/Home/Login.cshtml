@@ -36,9 +36,9 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.ReturnURL, htmlAttributes: new { @class = "control-label col-md-2" })
+            
             <div class="col-md-10">
-                @Html.EditorFor(model => model.ReturnURL, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                @Html.HiddenFor(model => model.ReturnURL, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                 @Html.ValidationMessageFor(model => model.ReturnURL, "", new { @class = "text-danger" })
             </div>
         </div>

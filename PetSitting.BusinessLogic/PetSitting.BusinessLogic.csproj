@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="OwnersBusiness.cs" />
+    <Compile Include="SessionsBusiness.cs" />
     <Compile Include="SittersBusiness.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UsersBusiness.cs" />

@@ -45,7 +45,7 @@ namespace PetSitting.Model
         public int Age { get; set; }
 
         [Display(Name="Hiring Date")]
-        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime? HiringDate { get; set; }
 
         [Required(ErrorMessage = "You must enter a sitter Gross Salary.")]

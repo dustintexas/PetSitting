@@ -46,6 +46,7 @@
     <Compile Include="Common\IRepository.cs" />
     <Compile Include="OwnersRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SessionsRepository.cs" />
     <Compile Include="SittersRepository.cs" />
     <Compile Include="UsersRepository.cs" />
   </ItemGroup>

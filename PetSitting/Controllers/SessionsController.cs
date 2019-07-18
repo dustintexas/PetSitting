@@ -10,11 +10,11 @@ using PetSitting.Model;
 
 namespace PetSitting.Controllers
 {
-    public class SittersController : Controller
+    public class SessionsController : Controller
     {
         private LoggingHandler _loggingHandler;
 
-        public SittersController()
+        public SessionsController()
         {
             _loggingHandler = new LoggingHandler();
         }
@@ -33,19 +33,19 @@ namespace PetSitting.Controllers
             base.Dispose(disposing);
         }
 
-        // GET: Sitters
+        // GET: Sessions
         public ActionResult Index()
         {
             return View();
         }
 
-        // GET: Sitters/Details/5
+        // GET: Sessions/Details/5
         public ActionResult Details(int id)
         {
             try
             {
-                var sitter = SelectSitterById(id);
-                return View(sitter);
+                var session = SelectSessionById(id);
+                return View(session);
             }
             catch (Exception ex)
             {
@@ -56,13 +56,13 @@ namespace PetSitting.Controllers
             }
         }
 
-        // GET: Sitters/Create
+        // GET: Sessions/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Sitters/Create
+        // POST: Sessions/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(FormCollection collection)
@@ -74,14 +74,13 @@ namespace PetSitting.Controllers
 
             try
             {
-                InsertSitter(collection["Name"],
-                                int.Parse(collection["Age"]),
-                                decimal.Parse(collection["Fee"]),
-                                collection["Bio"],
-                                collection["HiringDate"].Trim().Length == 0
+                InsertSession(int.Parse(collection["SitterID"]),
+                                int.Parse(collection["OwnerID"]),
+                                collection["Status"],
+                                collection["Date"].Trim().Length == 0
                                 ? (DateTime?)null
-                                : DateTime.ParseExact(collection["HiringDate"], "MM/dd/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None),
-                                decimal.Parse(collection["GrossSalary"]));
+                                : DateTime.ParseExact(collection["Date"], "MM/dd/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None),
+                                decimal.Parse(collection["Fee"]));
 
                 return RedirectToAction("ListAll");
             }
@@ -94,13 +93,13 @@ namespace PetSitting.Controllers
             }
         }
 
-        // GET: Sitters/Edit/5
+        // GET: Sessions/Edit/5
         public ActionResult Edit(int id)
         {
             try
             {
-                var sitter = SelectSitterById(id);
-                return View(sitter);
+                var session = SelectSessionById(id);
+                return View(session);
             }
             catch (Exception ex)
             {
@@ -111,7 +110,7 @@ namespace PetSitting.Controllers
             }
         }
 
-        // POST: Sitters/Edit/5
+        // POST: Sessions/Edit/5
         [HttpPost]
         public ActionResult Edit(int id, FormCollection collection)
         {
@@ -122,25 +121,17 @@ namespace PetSitting.Controllers
 
             try
             {
-                UpdateSitter(int.Parse(collection["SitterID"]),
-                                collection["Name"],
-                                int.Parse(collection["Age"]),
-                                decimal.Parse(collection["Fee"]),
-                                collection["Bio"],
-                                collection["HiringDate"].Trim().Length == 0
+                UpdateSession(int.Parse(collection["SessionID"]),
+                                int.Parse(collection["SitterID"]),
+                                int.Parse(collection["OwnerID"]),
+                                collection["Status"],
+                                collection["Date"].Trim().Length == 0
                                 ? (DateTime?)null
-                                : DateTime.ParseExact(collection["HiringDate"], "MM/dd/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None),
-                                decimal.Parse(collection["GrossSalary"]));
+                                : DateTime.ParseExact(collection["Date"], "MM/dd/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None),
+                                decimal.Parse(collection["Fee"]));
 
-                if ((string)Session["AUTHRole"] == "Admin")
-                {
-                    return RedirectToAction("ListAll");
-                }
-                else if ((string)Session["AUTHRole"] == "Sitter")
-                {
-                    return RedirectToAction("../Sitters/Details/" + collection["SitterID"]);
-                }
-                return View();
+                return RedirectToAction("ListAll");
+                
             }
             catch (Exception ex)
             {
@@ -151,13 +142,13 @@ namespace PetSitting.Controllers
             }
         }
 
-        // GET: Sitters/Delete/5
+        // GET: Sessions/Delete/5
         public ActionResult Delete(int id)
         {
             try
             {
-                var sitter = SelectSitterById(id);
-                return View(sitter);
+                var session = SelectSessionById(id);
+                return View(session);
             }
             catch (Exception ex)
             {
@@ -169,13 +160,13 @@ namespace PetSitting.Controllers
         }
 
 
-        // POST: Sitters/Delete/5
+        // POST: Sessions/Delete/5
         [HttpPost]
         public ActionResult Delete(int id, FormCollection collection)
         {
             try
             {
-                DeleteSitter(id);
+                DeleteSession(id);
 
                 return RedirectToAction("ListAll");
             }
@@ -192,10 +183,10 @@ namespace PetSitting.Controllers
         {
             try
             {
-                var sitters = from e in ListAllSitters()
-                                orderby e.SitterID
+                var sessions = from e in ListAllSessions()
+                                orderby e.SessionID
                                 select e;
-                return View(sitters);
+                return View(sessions);
             }
             catch (Exception ex)
             {
@@ -208,13 +199,13 @@ namespace PetSitting.Controllers
 
         #region Private Methods
 
-        private List<SittersEntity> ListAllSitters()
+        private List<SessionsEntity> ListAllSessions()
         {
             try
             {
-                using (var sitters = new SittersBusiness())
+                using (var sessions = new SessionsBusiness())
                 {
-                    return sitters.SelectAllSitters();
+                    return sessions.SelectAllSessions();
                 }
             }
             catch (Exception ex)
@@ -225,13 +216,13 @@ namespace PetSitting.Controllers
             return null;
         }
 
-        private SittersEntity SelectSitterById(int id)
+        private SessionsEntity SelectSessionById(int id)
         {
             try
             {
-                using (var sitters = new SittersBusiness())
+                using (var sessions = new SessionsBusiness())
                 {
-                    return sitters.SelectSitterById(id);
+                    return sessions.SelectSessionById(id);
                 }
             }
             catch (Exception ex)
@@ -242,20 +233,19 @@ namespace PetSitting.Controllers
             return null;
         }
 
-        private void InsertSitter(string name, int age, decimal fee, string bio, DateTime? hiringDate, decimal grossSalary)
+        private void InsertSession(int sitterid, int ownerid, string status, DateTime? date, decimal fee)
         {
             try
             {
-                using (var sitters = new SittersBusiness())
+                using (var sessions = new SessionsBusiness())
                 {
-                    var entity = new SittersEntity();
-                    entity.Name = name;
-                    entity.Age = age;
+                    var entity = new SessionsEntity();
+                    entity.SitterID = sitterid;
+                    entity.OwnerID = ownerid;
+                    entity.Status = status;
+                    entity.Date = date;
                     entity.Fee = fee;
-                    entity.Bio = bio;
-                    entity.HiringDate = hiringDate;
-                    entity.GrossSalary = grossSalary;
-                    var opSuccessful = sitters.InsertSitter(entity);
+                    var opSuccessful = sessions.InsertSession(entity);
                 }
             }
             catch (Exception ex)
@@ -265,21 +255,20 @@ namespace PetSitting.Controllers
             }
         }
 
-        private void UpdateSitter(int id, string name, int age, decimal fee, string bio, DateTime? hiringDate, decimal grossSalary)
+        private void UpdateSession(int id, int sitterid, int ownerid, string status, DateTime? date, decimal fee)
         {
             try
             {
-                using (var sitters = new SittersBusiness())
+                using (var sessions = new SessionsBusiness())
                 {
-                    var entity = new SittersEntity();
-                    entity.SitterID = id;
-                    entity.Name = name;
-                    entity.Age = age;
+                    var entity = new SessionsEntity();
+                    entity.SessionID = id;
+                    entity.SitterID = sitterid;
+                    entity.OwnerID = ownerid;
+                    entity.Status = status;
                     entity.Fee = fee;
-                    entity.Bio = bio;
-                    entity.HiringDate = hiringDate;
-                    entity.GrossSalary = grossSalary;
-                    var opSuccessful = sitters.UpdateSitter(entity);
+                    entity.Date = date;
+                    var opSuccessful = sessions.UpdateSession(entity);
                 }
             }
             catch (Exception ex)
@@ -289,13 +278,13 @@ namespace PetSitting.Controllers
             }
         }
 
-        private void DeleteSitter(int id)
+        private void DeleteSession(int id)
         {
             try
             {
-                using (var sitters = new SittersBusiness())
+                using (var sessions = new SessionsBusiness())
                 {
-                    var opSuccessful = sitters.DeleteSitterById(id);
+                    var opSuccessful = sessions.DeleteSessionById(id);
                 }
             }
             catch (Exception ex)
