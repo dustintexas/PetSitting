@@ -32,35 +32,6 @@ namespace PetSitting.DataAccess
         {
             try
             {
-                var sb = new StringBuilder();
-                sb.Append("SET DATEFORMAT DMY; ");
-                sb.Append("INSERT [dbo].[Users] ");
-                sb.Append("( ");
-                sb.Append("[Username], ");
-                sb.Append("[FirstName], ");
-                sb.Append("[LastName], ");
-                sb.Append("[Email], ");
-                sb.Append("[Password], ");
-                sb.Append("[Age], ");
-                sb.Append("[IsActive], ");
-                sb.Append("[Role] ");
-                sb.Append(") ");
-                sb.Append("VALUES ");
-                sb.Append("( ");
-                sb.Append(" @chnUsername, ");
-                sb.Append(" @chnFirstName, ");
-                sb.Append(" @chnLastName, ");
-                sb.Append(" @chnEmail, ");
-                sb.Append(" @chnPassword, ");
-                sb.Append(" @intAge, ");
-                sb.Append(" @binIsActive, ");
-                sb.Append(" @chnRole ");
-                sb.Append(") ");
-                sb.Append("SELECT @intErrorCode=@@ERROR; ");
-
-                var commandText = sb.ToString();
-                sb.Clear();
-
                 using (var dbConnection = _dbProviderFactory.CreateConnection())
                 {
                     if (dbConnection == null)
@@ -74,8 +45,14 @@ namespace PetSitting.DataAccess
                             throw new ArgumentNullException("dbCommand" + " The db Insert command for entity [Owners] can't be null. ");
 
                         dbCommand.Connection = dbConnection;
-                        dbCommand.CommandText = commandText;
-
+                        dbCommand.CommandType = CommandType.StoredProcedure;
+                        if (entity.Role == "Sitter")
+                        {
+                            dbCommand.CommandText = "Sitter_Insert";
+                        } else if (entity.Role == "Owner")
+                        {
+                            dbCommand.CommandText = "Owner_Insert";
+                        }
                         //Input Parameters
                         _dataHandler.AddParameterToCommand(dbCommand, "@chnUsername", CsType.String, ParameterDirection.Input, entity.Username);
                         _dataHandler.AddParameterToCommand(dbCommand, "@chnFirstName", CsType.String, ParameterDirection.Input, entity.FirstName);
@@ -85,6 +62,25 @@ namespace PetSitting.DataAccess
                         _dataHandler.AddParameterToCommand(dbCommand, "@intAge", CsType.Int, ParameterDirection.Input, entity.Age);
                         _dataHandler.AddParameterToCommand(dbCommand, "@binIsActive", CsType.Boolean, ParameterDirection.Input, entity.IsActive);
                         _dataHandler.AddParameterToCommand(dbCommand, "@chnRole", CsType.String, ParameterDirection.Input, entity.Role);
+                        
+                        // Insert User record information based on role
+                        if (entity.Role == "Sitter")
+                        {
+                            _dataHandler.AddParameterToCommand(dbCommand, "@chnName", CsType.String, ParameterDirection.Input, entity.Name);
+                            _dataHandler.AddParameterToCommand(dbCommand, "@decFee", CsType.Decimal, ParameterDirection.Input, entity.Fee);
+                            _dataHandler.AddParameterToCommand(dbCommand, "@chnBio", CsType.String, ParameterDirection.Input, entity.Bio);
+                            _dataHandler.AddParameterToCommand(dbCommand, "@dtmHiringDate", CsType.DateTime, ParameterDirection.Input, entity.HiringDate);
+                            _dataHandler.AddParameterToCommand(dbCommand, "@decGrossSalary", CsType.Decimal, ParameterDirection.Input, entity.GrossSalary);
+
+                        } 
+                        else if (entity.Role == "Owner")
+                        {
+                            _dataHandler.AddParameterToCommand(dbCommand, "@chnOwnerName", CsType.String, ParameterDirection.Input, entity.OwnerName);
+                            _dataHandler.AddParameterToCommand(dbCommand, "@chnPetName", CsType.String, ParameterDirection.Input, entity.PetName);
+                            _dataHandler.AddParameterToCommand(dbCommand, "@intPetAge", CsType.Int, ParameterDirection.Input, entity.PetAge);
+                            _dataHandler.AddParameterToCommand(dbCommand, "@chnContactPhone", CsType.String, ParameterDirection.Input, entity.ContactPhone);
+                            
+                        }
 
                         //Output Parameters
                         _dataHandler.AddParameterToCommand(dbCommand, "@intErrorCode", CsType.Int, ParameterDirection.Output, null);
@@ -105,6 +101,9 @@ namespace PetSitting.DataAccess
                     }
                 }
 
+                #region Depricated code By Role
+                /* Depricated code
+                 * 
                 if (entity.Role == "Owner")
                 {
                     var newuserid = 0;
@@ -351,7 +350,8 @@ namespace PetSitting.DataAccess
                         }
                     }
                 }
-
+                */
+                #endregion
                 return true;
             }
             catch (Exception ex)

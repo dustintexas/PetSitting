@@ -27,11 +27,11 @@
                         var sessionuserid = Session["AUTHUserID"] as int?;
                         if (sessionrole == "Owner")
                         {
-                            <li>@Html.ActionLink("Details", "Details", "Owners", new { @id = (int)Session["AUTHOwnerID"] }, null)</li>
+                            <li>@Html.ActionLink("Owner Details", "Details", "Owners", new { @id = (int)Session["AUTHOwnerID"] }, null)</li>
                         }
                         else if (sessionrole == "Sitter")
                         {
-                            <li>@Html.ActionLink("Details", "Details", "Sitters", new { @id = (int)Session["AUTHSitterID"] }, null)</li>
+                            <li>@Html.ActionLink("Sitter Details", "Details", "Sitters", new { @id = (int)Session["AUTHSitterID"] }, null)</li>
                         }
                         else if (sessionrole == "Admin")
                         {
@@ -39,6 +39,10 @@
                             <li>@Html.ActionLink("Sitters", "ListAll", "Sitters")</li>
                             <li>@Html.ActionLink("Users", "ListAll", "Users")</li>
                             <li>@Html.ActionLink("Sessions", "ListAll", "Sessions")</li>
+                        }
+                        if (sessionrole != null)
+                        {
+                            <li class="right">@Html.ActionLink("Log out", "Logout", "Home")</li>
                         }
                     }
 

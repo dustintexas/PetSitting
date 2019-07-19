@@ -44,8 +44,14 @@ namespace PetSitting.Controllers
         {
             try
             {
-                var user = SelectUserById(id);
-                return View(user);
+                if ((string)Session["AUTHRole"] != null)
+                {
+                    var user = SelectUserById(id);
+                    return View(user);
+                } else
+                {
+                    return RedirectToAction("../Home/Index");
+                }
             }
             catch (Exception ex)
             {
@@ -96,11 +102,18 @@ namespace PetSitting.Controllers
                 return View("Error");
             }
         }
-
+        
         // GET: Users/Create
         public ActionResult Create()
         {
-            return View();
+            if ((string)Session["AUTHRole"] != null)
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("../Home/Index");
+            }
         }
 
         // POST: Users/Create
@@ -146,8 +159,16 @@ namespace PetSitting.Controllers
         {
             try
             {
-                var sitter = SelectUserById(id);
-                return View(sitter);
+                if ((string)Session["AUTHRole"] != null)
+                {
+                    var sitter = SelectUserById(id);
+                    return View(sitter);
+                }
+                else
+                {
+                    return RedirectToAction("../Home/Index");
+                }
+                
             }
             catch (Exception ex)
             {
@@ -195,8 +216,14 @@ namespace PetSitting.Controllers
         {
             try
             {
-                var sitter = SelectUserById(id);
-                return View(sitter);
+                if ((string)Session["AUTHRole"] != null)
+                {
+                    var sitter = SelectUserById(id);
+                    return View(sitter);
+                } else
+                {
+                    return RedirectToAction("../Home/Index");
+                }
             }
             catch (Exception ex)
             {
@@ -230,10 +257,17 @@ namespace PetSitting.Controllers
         {
             try
             {
-                var users = from e in ListAllUsers()
-                              orderby e.UserID
-                              select e;
-                return View(users);
+                if ((string)Session["AUTHRole"] != null)
+                {
+                    var users = from e in ListAllUsers()
+                                orderby e.UserID
+                                select e;
+                    return View(users);
+                }
+                else
+                {
+                    return RedirectToAction("../Home/Index");
+                }
             }
             catch (Exception ex)
             {
@@ -245,7 +279,7 @@ namespace PetSitting.Controllers
         }
 
         #region Private Methods
-
+        // Builds a list of all users
         private List<UsersEntity> ListAllUsers()
         {
             try
@@ -278,7 +312,7 @@ namespace PetSitting.Controllers
             }
             return null;
         }
-
+        // Creates record in Users table AND Sitters table
         private void InsertUser(string username, string firstname, string lastname, string email, string password, int age, bool isactive, string role, decimal fee, string bio, DateTime? hiringdate, decimal grosssalary)
         {
             try
@@ -308,6 +342,7 @@ namespace PetSitting.Controllers
                 _loggingHandler.LogEntry(ExceptionHandler.GetExceptionMessageFormatted(ex), true);
             }
         }
+        // Creates record in Users table AND Owners table
         private void InsertUserOwner(string username, string firstname, string lastname, string email, string password, int age, bool isactive, string role, string ownername, string petname, int petage, string contactphone)
         {
             try

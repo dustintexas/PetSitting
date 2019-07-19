@@ -6,9 +6,7 @@
 <div class="panel">
     <div class="panel-heading"><h3>Users</h3></div>
     <div class="panel-body">
-        <p>
-            @Html.ActionLink("Create New", "Create")
-        </p>
+        
         <table class="table">
             <tr>
                 <th>
@@ -73,13 +71,17 @@
                 @Html.DisplayFor(modelItem => item.Discount)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.UserID }) |
-                @Html.ActionLink("Details", "Details", new { id = item.UserID }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.UserID })
-            </td>
+                @{
+                    if (item.Role != "Admin")
+                    {
+                            @Html.ActionLink("Edit", "Edit", new { id = item.UserID }) <text> | </text>
+                            @Html.ActionLink("Details", "Details", new { id = item.UserID }) <text> | </text>
+                            @Html.ActionLink("Delete", "Delete", new { id = item.UserID })
+                    }
+                 }
+             </td>
         </tr>
-            }
-
+        }
         </table>
     </div>
 </div>

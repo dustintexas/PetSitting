@@ -49,6 +49,7 @@ namespace PetSitting.Model
         [Display(Name = "Pet Years")]
         public int PetYears { get; set; }
         [Display(Name="Modified Date")]
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime ModifiedDate { get; set; }
 
         public ICollection<SessionsEntity> Sessions { get; set; }

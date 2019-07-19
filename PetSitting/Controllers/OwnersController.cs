@@ -128,9 +128,9 @@ namespace PetSitting.Controllers
                 {
                     return RedirectToAction("ListAll");
                 }
-                else if ((string)Session["AUTHRole"] == "Sitter")
+                else if ((string)Session["AUTHRole"] == "Owner")
                 {
-                    return RedirectToAction("../Sitters/Details/" + collection["OwnerID"]);
+                    return RedirectToAction("../Owners/Details/" + collection["OwnerID"]);
                 }
                 return View();
 

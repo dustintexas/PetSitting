@@ -5,27 +5,17 @@
 }
 
 <div class="panel">
-    <div class="panel-heading"><h3>Details</h3></div>
+    <div class="panel-heading"><h3>Owner Details</h3></div>
     <div class="panel-body">
         <div>
 
             <dl class="dl-horizontal">
-                <dt>
-                    @Html.DisplayNameFor(model => model.OwnerID)
-                </dt>
 
-                <dd>
-                    @Html.DisplayFor(model => model.OwnerID)
-                </dd>
 
-                <dt>
-                    @Html.DisplayNameFor(model => model.OwnerName)
-                </dt>
-
-                <dd>
+                <dd class="lead">
                     @Html.DisplayFor(model => model.OwnerName)
                 </dd>
-
+                
                 <dt>
                     @Html.DisplayNameFor(model => model.PetName)
                 </dt>
@@ -43,14 +33,6 @@
                 </dd>
 
                 <dt>
-                    @Html.DisplayNameFor(model => model.ContactPhone)
-                </dt>
-
-                <dd>
-                    @Html.DisplayFor(model => model.ContactPhone)
-                </dd>
-
-                <dt>
                     @Html.DisplayNameFor(model => model.PetYears)
                 </dt>
 
@@ -59,22 +41,23 @@
                 </dd>
 
                 <dt>
-                    @Html.DisplayNameFor(model => model.ModifiedDate)
+                    @Html.DisplayNameFor(model => model.ContactPhone)
                 </dt>
 
                 <dd>
-                    @Html.DisplayFor(model => model.ModifiedDate)
+                    @Html.DisplayFor(model => model.ContactPhone)
                 </dd>
-
             </dl>
         </div>
         <p>
-            @Html.ActionLink("Edit", "Edit", new { id = Model.OwnerID }) |
+            @Html.ActionLink("Edit", "Edit", new { id = Model.OwnerID })
             @{ if ((string)Session["AUTHRole"] == "Admin")
                 {
-                    @Html.ActionLink("Back to List", "ListAll")
+                    <b>|</b>
+                    @Html.ActionLink("Back to List", "ListAll");
                 }
             }
         </p>
+        <p>Record last modified: @Html.DisplayFor(model => model.ModifiedDate)</p>
     </div>
 </div>
