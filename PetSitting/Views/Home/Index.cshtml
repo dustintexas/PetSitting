@@ -10,11 +10,16 @@
         in two places at once.
     </p>
     <p>
-        @Html.ActionLink("Sign In...", "Login", "Home", null, new { @class = "btn btn-success btn-lg" })
+        @Html.ActionLink("Sign In", "Login", "Home", null, new { @class = "btn btn-success btn-lg" })
     </p>
     <p>
-        <B>@ViewBag.Role</B><br/>
-        @Html.ActionLink("Register..","Register","Users", null, new { @class = "btn-link btn-sm" })
+        <B>@ViewBag.Role</B><br />
+        @{ if ((string)Session["AUTHRole"] == null)
+            {
+                @Html.ActionLink("Register..", "Register", "Users", null, new { @class = "btn-link btn-sm" })
+            }
+         }
+
     </p>
 </div>
 

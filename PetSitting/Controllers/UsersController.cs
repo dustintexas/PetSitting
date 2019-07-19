@@ -73,14 +73,18 @@ namespace PetSitting.Controllers
 
             try
             {
-                InsertUser(collection["Username"],
+                InsertUserOwner(collection["Username"],
                                 collection["FirstName"],
                                 collection["LastName"],
                                 collection["Email"],
                                 collection["Password"],
                                 int.Parse(collection["Age"]),
                                 bool.Parse("True"),
-                                "Owner");
+                                "Owner",
+                                collection["OwnerName"],
+                                collection["PetName"],
+                                int.Parse(collection["PetAge"]),
+                                collection["ContactPhone"]);
 
                 return RedirectToAction("../Home/Index");
             }
@@ -118,7 +122,13 @@ namespace PetSitting.Controllers
                                 collection["Password"],
                                 int.Parse(collection["Age"]),
                                 bool.Parse(collection["IsActive"]),
-                                collection["Role"]);
+                                collection["Role"], 
+                                decimal.Parse(collection["Fee"]),
+                                collection["Bio"],
+                                collection["HiringDate"].Trim().Length == 0
+                                ? (DateTime?)null
+                                : DateTime.ParseExact(collection["HiringDate"], "MM/dd/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None),
+                                decimal.Parse(collection["GrossSalary"]));
 
                 return RedirectToAction("ListAll");
             }
@@ -268,7 +278,8 @@ namespace PetSitting.Controllers
             }
             return null;
         }
-        private void InsertUser(string username, string firstname, string lastname, string email, string password, int age, bool isactive, string role)
+
+        private void InsertUser(string username, string firstname, string lastname, string email, string password, int age, bool isactive, string role, decimal fee, string bio, DateTime? hiringdate, decimal grosssalary)
         {
             try
             {
@@ -283,6 +294,39 @@ namespace PetSitting.Controllers
                     entity.Age = age;
                     entity.IsActive = isactive;
                     entity.Role = role;
+                    entity.Name = firstname + " " + lastname;
+                    entity.Fee = fee;
+                    entity.Bio = bio;
+                    entity.HiringDate = hiringdate;
+                    entity.GrossSalary = grosssalary;
+                    var opSuccessful = users.InsertUser(entity);
+                }
+            }
+            catch (Exception ex)
+            {
+                //Log exception error
+                _loggingHandler.LogEntry(ExceptionHandler.GetExceptionMessageFormatted(ex), true);
+            }
+        }
+        private void InsertUserOwner(string username, string firstname, string lastname, string email, string password, int age, bool isactive, string role, string ownername, string petname, int petage, string contactphone)
+        {
+            try
+            {
+                using (var users = new UsersBusiness())
+                {
+                    var entity = new UsersEntity();
+                    entity.Username = username;
+                    entity.FirstName = firstname;
+                    entity.LastName = lastname;
+                    entity.Email = email;
+                    entity.Password = password;
+                    entity.Age = age;
+                    entity.IsActive = isactive;
+                    entity.Role = role;
+                    entity.OwnerName = ownername;
+                    entity.PetName = petname;
+                    entity.PetAge = petage;
+                    entity.ContactPhone = contactphone;
                     var opSuccessful = users.InsertUser(entity);
                 }
             }

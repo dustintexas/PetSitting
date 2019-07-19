@@ -184,6 +184,7 @@
     <Content Include="Views\Sessions\ListAll.cshtml" />
     <Content Include="Views\Sessions\Create.cshtml" />
     <Content Include="Views\Sessions\Edit.cshtml" />
+    <Content Include="Views\Sessions\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

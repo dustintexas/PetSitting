@@ -1,0 +1,71 @@
+﻿@model PetSitting.Model.SessionsEntity
+
+@{
+    ViewBag.Title = "Details";
+}
+
+
+<div class="panel">
+    <div class="panel-heading"><h3>Session Details</h3></div>
+    <div class="panel-body">
+        <div>
+            <dl class="dl-horizontal">
+
+
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.SitterName)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.SitterName)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.OwnerName)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.OwnerName)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Status)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Status)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Date)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Date)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Fee)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Fee)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.FeeCap)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.FeeCap)
+                </dd>
+
+            </dl>
+        </div>
+        <p>
+            @Html.ActionLink("Edit", "Edit", new { id = Model.SessionID }) |
+            @Html.ActionLink("Back to List", "ListAll")
+        </p>
+</div>
+</div>

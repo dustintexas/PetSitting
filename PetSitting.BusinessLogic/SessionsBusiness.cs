@@ -134,9 +134,9 @@ namespace PetSitting.BusinessLogic
         // HERE BELOW A CALCULATION CAN BE ADDED AT THE BusinessLogic Level
         private decimal GetFeeCap(decimal fee)
         {
-            var feecap = fee;
+            decimal feecap = 0;
 
-            feecap = 500;
+            feecap = fee * 50;
 
             return feecap;
         }

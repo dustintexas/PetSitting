@@ -58,6 +58,17 @@ namespace PetSitting.Model
         [Display(Name = "Discount")]
         public decimal Discount { get; set; }
         public string Role { get; set; }
+        [Display(Name="Full name")]
+        public string OwnerName { get; set; }
+        public string PetName { get; set; }
+        public int PetAge { get; set; }
+        public string ContactPhone { get; set; }
+        [Display(Name="Full name")]
+        public string Name { get; set; }
+        public decimal Fee { get; set; }
+        public string Bio { get; set; }
+        public DateTime? HiringDate { get; set; }
+        public decimal GrossSalary { get; set; }
 
         #endregion
     }

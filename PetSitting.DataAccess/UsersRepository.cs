@@ -105,6 +105,253 @@ namespace PetSitting.DataAccess
                     }
                 }
 
+                if (entity.Role == "Owner")
+                {
+                    var newuserid = 0;
+                    sb.Clear();
+                    sb.Append("SET DATEFORMAT DMY; ");
+                    sb.Append("SELECT UserID ");
+                    sb.Append("FROM [Users] ");
+                    sb.Append("WHERE Username = @chnUsername ");
+                    sb.Append("SELECT @intErrorCode=@@ERROR; ");
+
+                    commandText = sb.ToString();
+                    sb.Clear();
+
+                    using (var dbConnection = _dbProviderFactory.CreateConnection())
+                    {
+                        if (dbConnection == null)
+                            throw new ArgumentNullException("dbConnection", "The db connection can't be null.");
+
+                        dbConnection.ConnectionString = _connectionString;
+
+                        using (var dbCommand = _dbProviderFactory.CreateCommand())
+                        {
+                            if (dbCommand == null)
+                                throw new ArgumentNullException("dbCommand" + " The db Get command for entity [Owners] can't be null. ");
+
+                            dbCommand.Connection = dbConnection;
+                            dbCommand.CommandText = commandText;
+                            //Input Parameters
+                            _dataHandler.AddParameterToCommand(dbCommand, "@chnUsername", CsType.String, ParameterDirection.Input, entity.Username);
+
+                            //Output Parameters
+                            _dataHandler.AddParameterToCommand(dbCommand, "@intErrorCode", CsType.Int, ParameterDirection.Output, null);
+                            //Open Connection
+                            if (dbConnection.State != ConnectionState.Open)
+                                dbConnection.Open();
+
+                            //Execute query.
+                            using (var reader = dbCommand.ExecuteReader())
+                            {
+                                if (reader.HasRows)
+                                {
+                                    while (reader.Read())
+                                    {
+                                        newuserid = reader.GetInt32(0);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    if (newuserid != 0)
+                    {
+                        sb.Clear();
+                        sb.Append("SET DATEFORMAT DMY; ");
+                        sb.Append("INSERT [Owners] ");
+                        sb.Append("( ");
+                        sb.Append("[OwnerName], ");
+                        sb.Append("[PetName], ");
+                        sb.Append("[PetAge], ");
+                        sb.Append("[ContactPhone], ");
+                        sb.Append("[ModifiedDate], ");
+                        sb.Append("[UserID] ");
+                        sb.Append(") ");
+                        sb.Append("VALUES (");
+                        sb.Append("@chnOwnerName, ");
+                        sb.Append("@chnPetName, ");
+                        sb.Append("@intPetAge, ");
+                        sb.Append("@chnContactPhone, ");
+                        sb.Append("ISNULL(@dtmModifiedDate, (getdate())), ");
+                        sb.Append("@intUserID ");
+                        sb.Append(") ");
+                        sb.Append("SELECT @intErrorCode=@@ERROR; ");
+
+                        commandText = sb.ToString();
+                        sb.Clear();
+
+                        using (var dbConnection = _dbProviderFactory.CreateConnection())
+                        {
+                            if (dbConnection == null)
+                                throw new ArgumentNullException("dbConnection", "The db connection can't be null.");
+
+                            dbConnection.ConnectionString = _connectionString;
+
+                            using (var dbCommand = _dbProviderFactory.CreateCommand())
+                            {
+                                if (dbCommand == null)
+                                    throw new ArgumentNullException("dbCommand" + " The db Insert command for entity [Owners] can't be null. ");
+
+                                dbCommand.Connection = dbConnection;
+                                dbCommand.CommandText = commandText;
+
+                                //Input Parameters
+                                _dataHandler.AddParameterToCommand(dbCommand, "@chnOwnerName", CsType.String, ParameterDirection.Input, entity.OwnerName);
+                                _dataHandler.AddParameterToCommand(dbCommand, "@chnPetName", CsType.String, ParameterDirection.Input, entity.PetName);
+                                _dataHandler.AddParameterToCommand(dbCommand, "@intPetAge", CsType.Int, ParameterDirection.Input, entity.PetAge);
+                                _dataHandler.AddParameterToCommand(dbCommand, "@chnContactPhone", CsType.String, ParameterDirection.Input, entity.ContactPhone);
+                                _dataHandler.AddParameterToCommand(dbCommand, "@intUserID", CsType.Int, ParameterDirection.Input, newuserid);
+                                _dataHandler.AddParameterToCommand(dbCommand, "@dtmModifiedDate", CsType.DateTime, ParameterDirection.Input, null);
+
+
+                                //Output Parameters
+                                _dataHandler.AddParameterToCommand(dbCommand, "@intErrorCode", CsType.Int, ParameterDirection.Output, null);
+
+                                //Open Connection
+                                if (dbConnection.State != ConnectionState.Open)
+                                    dbConnection.Open();
+
+                                //Execute query.
+                                _rowsAffected = dbCommand.ExecuteNonQuery();
+                                _errorCode = int.Parse(dbCommand.Parameters["@intErrorCode"].Value.ToString());
+
+                                if (_errorCode != 0)
+                                {
+                                    // Throw error.
+                                    throw new Exception("The Insert method for entity [Owners] reported the Database ErrorCode: " + _errorCode);
+                                }
+
+                            }
+                        }
+                    }
+                }
+                if (entity.Role == "Sitter")
+                {
+                    var newuserid = 0;
+                    sb.Clear();
+                    sb.Append("SET DATEFORMAT DMY; ");
+                    sb.Append("SELECT UserID ");
+                    sb.Append("FROM [Users] ");
+                    sb.Append("WHERE Username = @chnUsername ");
+                    sb.Append("SELECT @intErrorCode=@@ERROR; ");
+
+                    commandText = sb.ToString();
+                    sb.Clear();
+
+                    using (var dbConnection = _dbProviderFactory.CreateConnection())
+                    {
+                        if (dbConnection == null)
+                            throw new ArgumentNullException("dbConnection", "The db connection can't be null.");
+
+                        dbConnection.ConnectionString = _connectionString;
+
+                        using (var dbCommand = _dbProviderFactory.CreateCommand())
+                        {
+                            if (dbCommand == null)
+                                throw new ArgumentNullException("dbCommand" + " The db Get command for entity [Owners] can't be null. ");
+
+                            dbCommand.Connection = dbConnection;
+                            dbCommand.CommandText = commandText;
+                            //Input Parameters
+                            _dataHandler.AddParameterToCommand(dbCommand, "@chnUsername", CsType.String, ParameterDirection.Input, entity.Username);
+
+                            //Output Parameters
+                            _dataHandler.AddParameterToCommand(dbCommand, "@intErrorCode", CsType.Int, ParameterDirection.Output, null);
+                            //Open Connection
+                            if (dbConnection.State != ConnectionState.Open)
+                                dbConnection.Open();
+
+                            //Execute query.
+                            using (var reader = dbCommand.ExecuteReader())
+                            {
+                                if (reader.HasRows)
+                                {
+                                    while (reader.Read())
+                                    {
+                                        newuserid = reader.GetInt32(0);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    if (newuserid != 0)
+                    {
+                        sb.Clear();
+                        sb.Append("SET DATEFORMAT DMY; ");
+                        sb.Append("INSERT [Sitters] ");
+                        sb.Append("( ");
+                        sb.Append("[Name], ");
+                        sb.Append("[Fee], ");
+                        sb.Append("[Bio], ");
+                        sb.Append("[Age], ");
+                        sb.Append("[HiringDate], ");
+                        sb.Append("[GrossSalary], ");
+                        sb.Append("[ModifiedDate], ");
+                        sb.Append("[UserID] ");
+                        sb.Append(") ");
+                        sb.Append("VALUES (");
+                        sb.Append("@chnName, ");
+                        sb.Append("@decFee, ");
+                        sb.Append("@chnBio, ");
+                        sb.Append("@intAge, ");
+                        sb.Append("@dtmHiringDate, ");
+                        sb.Append("@decGrossSalary, ");
+                        sb.Append("ISNULL(@dtmModifiedDate, (getdate())), ");
+                        sb.Append("@intUserID ");
+                        sb.Append(") ");
+                        sb.Append("SELECT @intErrorCode=@@ERROR; ");
+
+                        commandText = sb.ToString();
+                        sb.Clear();
+
+                        using (var dbConnection = _dbProviderFactory.CreateConnection())
+                        {
+                            if (dbConnection == null)
+                                throw new ArgumentNullException("dbConnection", "The db connection can't be null.");
+
+                            dbConnection.ConnectionString = _connectionString;
+
+                            using (var dbCommand = _dbProviderFactory.CreateCommand())
+                            {
+                                if (dbCommand == null)
+                                    throw new ArgumentNullException("dbCommand" + " The db Insert command for entity [Owners] can't be null. ");
+
+                                dbCommand.Connection = dbConnection;
+                                dbCommand.CommandText = commandText;
+
+                                //Input Parameters
+                                _dataHandler.AddParameterToCommand(dbCommand, "@chnName", CsType.String, ParameterDirection.Input, entity.Name);
+                                _dataHandler.AddParameterToCommand(dbCommand, "@decFee", CsType.Decimal, ParameterDirection.Input, entity.Fee);
+                                _dataHandler.AddParameterToCommand(dbCommand, "@chnBio", CsType.String, ParameterDirection.Input, entity.Bio);
+                                _dataHandler.AddParameterToCommand(dbCommand, "@intAge", CsType.Int, ParameterDirection.Input, entity.Age);
+                                _dataHandler.AddParameterToCommand(dbCommand, "@intUserID", CsType.Int, ParameterDirection.Input, newuserid);
+                                _dataHandler.AddParameterToCommand(dbCommand, "@dtmHiringDate", CsType.DateTime, ParameterDirection.Input, entity.HiringDate);
+                                _dataHandler.AddParameterToCommand(dbCommand, "@decGrossSalary", CsType.Decimal, ParameterDirection.Input, entity.GrossSalary);
+                                _dataHandler.AddParameterToCommand(dbCommand, "@dtmModifiedDate", CsType.DateTime, ParameterDirection.Input, null);
+
+
+                                //Output Parameters
+                                _dataHandler.AddParameterToCommand(dbCommand, "@intErrorCode", CsType.Int, ParameterDirection.Output, null);
+
+                                //Open Connection
+                                if (dbConnection.State != ConnectionState.Open)
+                                    dbConnection.Open();
+
+                                //Execute query.
+                                _rowsAffected = dbCommand.ExecuteNonQuery();
+                                _errorCode = int.Parse(dbCommand.Parameters["@intErrorCode"].Value.ToString());
+
+                                if (_errorCode != 0)
+                                {
+                                    // Throw error.
+                                    throw new Exception("The Insert method for entity [Owners] reported the Database ErrorCode: " + _errorCode);
+                                }
+
+                            }
+                        }
+                    }
+                }
+
                 return true;
             }
             catch (Exception ex)
