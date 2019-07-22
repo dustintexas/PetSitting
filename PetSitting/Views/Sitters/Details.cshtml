@@ -6,73 +6,85 @@
 
 <div class="panel"><div class="panel-heading"><h3>Sitter Details</h3></div>
 
-<div class="panel-body">
-            <div class="lead">@Html.DisplayFor(model => model.Name)</div>
-    <hr />
-    <div style="width: 30%">
-            <b>@Html.DisplayNameFor(model => model.Bio) :</b><br />
-            @Html.DisplayFor(model => model.Bio)
-        
-    </div>
-<div class="alert-success" style="width: 65%;">
-    
-    <dl class="dl-horizontal">
-       
-        
-        <dt>
-            @Html.DisplayNameFor(model => model.Fee)
-        </dt>
+                   <div class="panel-body">
+                       <div class="lead">@Html.DisplayFor(model => model.Name)</div>
+                       <hr />
+                       <p>
+                           @Html.ActionLink("Edit Info", "Edit", new { id = Model.SitterID })
+                           @{ var sessionrole = Session["AUTHRole"] as string;
+                               if (sessionrole == "Admin")
+                               {
+                                   <text> | </text>@Html.ActionLink("Back to List", "ListAll")
+                               }
 
-        <dd>
-            @Html.DisplayFor(model => model.Fee)
-        </dd>
+                           }
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Age)
-        </dt>
+                       </p>
+                       <div style="width: 30%">
+                           <b>@Html.DisplayNameFor(model => model.Bio) :</b><br />
+                           @Html.DisplayFor(model => model.Bio)
 
-        <dd>
-            @Html.DisplayFor(model => model.Age)
-        </dd>
+                       </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.HiringDate)
-        </dt>
+                       <div class="alert-success" style="width: 65%;">
 
-        <dd>
-            @Html.DisplayFor(model => model.HiringDate)
-        </dd>
+                           <dl class="dl-horizontal">
 
-        <dt>
-            @Html.DisplayNameFor(model => model.GrossSalary)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.GrossSalary)
-        </dd>
+                               <dt>
+                                   @Html.DisplayNameFor(model => model.Fee)
+                               </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.NetSalary)
-        </dt>
+                               <dd>
+                                   @Html.DisplayFor(model => model.Fee)
+                               </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.NetSalary)
-        </dd>
+                               <dt>
+                                   @Html.DisplayNameFor(model => model.Age)
+                               </dt>
 
-    </dl>
-</div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.SitterID }) |
-    @{  var sessionrole = Session["AUTHRole"] as string;
-        if (sessionrole == "Admin")
-        {
-          @Html.ActionLink("Back to List", "ListAll")
-        }
-        
-    }
+                               <dd>
+                                   @Html.DisplayFor(model => model.Age)
+                               </dd>
 
-</p>
-    <p>Record last modified: @Html.DisplayFor(model => model.ModifiedDate)</p>
-     
-</div>
+                               <dt>
+                                   @Html.DisplayNameFor(model => model.HiringDate)
+                               </dt>
+
+                               <dd>
+                                   @Html.DisplayFor(model => model.HiringDate)
+                               </dd>
+                               <dt>
+                                   @Html.DisplayNameFor(model => model.TotalSales)
+                               </dt>
+
+                               <dd>
+                                   @Html.DisplayFor(model => model.TotalSales)
+                               </dd>
+
+                               <dt>
+                                   @Html.DisplayNameFor(model => model.GrossSalary)
+                               </dt>
+
+                               <dd>
+                                   @Html.DisplayFor(model => model.GrossSalary)
+                               </dd>
+
+                               <dt>
+                                   @Html.DisplayNameFor(model => model.NetSalary)
+                               </dt>
+
+                               <dd>
+                                   @Html.DisplayFor(model => model.NetSalary)
+                               </dd>
+                               <dd>
+                                   <br /><br />
+                                   @Html.DisplayFor(model => model.Sessions, "SessionsBySitter")
+                               </dd>
+                           </dl>
+                       </div>
+
+                       <p>Record last modified: @Html.DisplayFor(model => model.ModifiedDate)</p>
+
+                   </div>
 </div>

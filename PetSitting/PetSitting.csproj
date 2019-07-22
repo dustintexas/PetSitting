@@ -186,6 +186,10 @@
     <Content Include="Views\Sessions\Edit.cshtml" />
     <Content Include="Views\Sessions\Details.cshtml" />
     <Content Include="Views\Users\Delete.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\SessionsByOwner.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\SessionsBySitter.cshtml" />
+    <Content Include="Views\Sessions\CreateByOwner.cshtml" />
+    <Content Include="Views\Sitters\SelectSitter.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

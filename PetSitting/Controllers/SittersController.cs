@@ -33,6 +33,28 @@ namespace PetSitting.Controllers
             base.Dispose(disposing);
         }
 
+        // GET: Sitters/Select
+        public ActionResult SelectSitter()
+        {
+            if ((string)Session["AUTHRole"] != null)
+            {
+                var sitters = from e in ListAllSitters()
+                              orderby e.SitterID
+                              select e;
+                return View(sitters);
+            }
+            else
+            {
+                return RedirectToAction("../Home/Index");
+            }
+        }
+
+        public ActionResult Chosen(int id, decimal fee)
+        {
+            Session["ChosenSitterID"] = id;
+            Session["ChosenSitterFee"] = fee;
+            return RedirectToAction("../Sessions/CreateByOwner/" + Session["AUTHOwnerID"]);
+        }
         // GET: Sitters
         public ActionResult Index()
         {
@@ -151,7 +173,13 @@ namespace PetSitting.Controllers
                                 collection["HiringDate"].Trim().Length == 0
                                 ? (DateTime?)null
                                 : DateTime.ParseExact(collection["HiringDate"], "MM/dd/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None),
-                                decimal.Parse(collection["GrossSalary"]));
+                                decimal.Parse(collection["GrossSalary"]), 
+                                collection["Email"],
+                                collection["Username"],
+                                collection["FirstName"],
+                                collection["LastName"],
+                                collection["Password"],
+                                collection["Role"]);
 
                 if ((string)Session["AUTHRole"] == "Admin")
                 {
@@ -299,7 +327,7 @@ namespace PetSitting.Controllers
             }
         }
 
-        private void UpdateSitter(int id, string name, int age, decimal fee, string bio, DateTime? hiringDate, decimal grossSalary)
+        private void UpdateSitter(int id, string name, int age, decimal fee, string bio, DateTime? hiringDate, decimal grossSalary, string email, string username, string firstname, string lastname, string password, string role)
         {
             try
             {
@@ -313,6 +341,12 @@ namespace PetSitting.Controllers
                     entity.Bio = bio;
                     entity.HiringDate = hiringDate;
                     entity.GrossSalary = grossSalary;
+                    entity.Username = username;
+                    entity.FirstName = firstname;
+                    entity.LastName = lastname;
+                    entity.Email = email;
+                    entity.Password = password;
+                    entity.Role = role;
                     var opSuccessful = sitters.UpdateSitter(entity);
                 }
             }

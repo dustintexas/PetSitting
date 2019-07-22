@@ -262,23 +262,6 @@ namespace PetSitting.DataAccess
 
             try
             {
-                var sb = new StringBuilder();
-                sb.Append("SET DATEFORMAT MDY; ");
-                sb.Append("SELECT ");
-                sb.Append("[OwnerID], ");
-                sb.Append("[OwnerName], ");
-                sb.Append("[PetName], ");
-                sb.Append("[ContactPhone], ");
-                sb.Append("[PetAge], ");
-                sb.Append("[ModifiedDate] ");
-                sb.Append("FROM [dbo].[Owners] ");
-                sb.Append("WHERE ");
-                sb.Append("[OwnerID] = @intId ");
-                sb.Append("SELECT @intErrorCode=@@ERROR; ");
-
-                var commandText = sb.ToString();
-                sb.Clear();
-
                 using (var dbConnection = _dbProviderFactory.CreateConnection())
                 {
                     if (dbConnection == null)
@@ -292,10 +275,11 @@ namespace PetSitting.DataAccess
                             throw new ArgumentNullException("dbCommand" + " The db SelectById command for entity [Owners] can't be null. ");
 
                         dbCommand.Connection = dbConnection;
-                        dbCommand.CommandText = commandText;
+                        dbCommand.CommandType = CommandType.StoredProcedure;
+                        dbCommand.CommandText = "SelectOwnerById";
 
                         //Input Parameters
-                        _dataHandler.AddParameterToCommand(dbCommand, "@intId", CsType.Int, ParameterDirection.Input, id);
+                        _dataHandler.AddParameterToCommand(dbCommand, "@intOwnerID", CsType.Int, ParameterDirection.Input, id);
 
                         //Output Parameters
                         _dataHandler.AddParameterToCommand(dbCommand, "@intErrorCode", CsType.Int, ParameterDirection.Output, null);
@@ -318,6 +302,12 @@ namespace PetSitting.DataAccess
                                     entity.ContactPhone = reader.GetString(3);
                                     entity.PetAge = reader.GetInt32(4);
                                     entity.ModifiedDate = reader.GetDateTime(5);
+                                    entity.Username = reader.GetString(6);
+                                    entity.FirstName = reader.GetString(7);
+                                    entity.LastName = reader.GetString(8);
+                                    entity.Email = reader.GetString(9);
+                                    entity.Password = reader.GetString(10);
+                                    entity.Age = reader.GetInt32(11);
                                     returnedEntity = entity;
                                     break;
                                 }
@@ -333,7 +323,8 @@ namespace PetSitting.DataAccess
                         }
                     }
                 }
-
+                SessionsRepository SeshRepo = new SessionsRepository();
+                returnedEntity.Sessions = SeshRepo.SelectALLByOwnerId(returnedEntity.OwnerID);
                 return returnedEntity;
             }
             catch (Exception ex)

@@ -32,7 +32,7 @@ namespace PetSitting.Model
         [Required(ErrorMessage = "You must enter a sitter Name.")]
         [StringLength(50, MinimumLength = 3)]
         public string Name { get; set; }
-
+        
         [Required(ErrorMessage = "You must enter a sitter Fee.")]
         public decimal Fee { get; set; }
 
@@ -55,11 +55,22 @@ namespace PetSitting.Model
         public Decimal NetSalary { get; set; }
         [Display(Name="Modified Date")]
         public DateTime ModifiedDate { get; set; }
-
+        public decimal TotalSales { get; set; }
+        public string Username { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Email { get; set; }
+        public string Password { get; set; }
+        public string Role { get; set; }
         public ICollection<SessionsEntity> Sessions { get; set; }
 
         #endregion
 
 
+    }
+    public class Sitter
+    {
+        public string Name { get; set; }
+        public int SitterID { get; set; }
     }
 }

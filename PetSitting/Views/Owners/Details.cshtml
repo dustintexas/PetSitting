@@ -15,7 +15,21 @@
                 <dd class="lead">
                     @Html.DisplayFor(model => model.OwnerName)
                 </dd>
-                
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Email)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Email)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Age)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Age)
+                </dd>
                 <dt>
                     @Html.DisplayNameFor(model => model.PetName)
                 </dt>
@@ -46,6 +60,18 @@
 
                 <dd>
                     @Html.DisplayFor(model => model.ContactPhone)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Username)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Username)
+                </dd>
+                <dd><br/><br/>
+                    @Html.ActionLink("Request Session","SelectSitter","Sitters")
+                    <br/></br>
+                    @Html.DisplayFor(model => model.Sessions, "SessionsByOwner")
                 </dd>
             </dl>
         </div>

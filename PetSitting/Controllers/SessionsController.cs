@@ -13,6 +13,7 @@ namespace PetSitting.Controllers
     public class SessionsController : Controller
     {
         private LoggingHandler _loggingHandler;
+        
 
         public SessionsController()
         {
@@ -46,6 +47,41 @@ namespace PetSitting.Controllers
             {
                 var session = SelectSessionById(id);
                 return View(session);
+            }
+            catch (Exception ex)
+            {
+                //Log exception error
+                _loggingHandler.LogEntry(ExceptionHandler.GetExceptionMessageFormatted(ex), true);
+                ViewBag.Message = Server.HtmlEncode(ex.Message);
+                return View("Error");
+            }
+        }
+
+        // GET: Sessions/CreateByOwner
+        public ActionResult CreateByOwner()
+        {
+            return View();
+        }
+
+        // POST: Session/CreateByOwner
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateByOwner(FormCollection collection)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+            try
+            {
+                InsertSession(int.Parse(collection["SitterID"]),
+                                int.Parse(collection["OwnerID"]),
+                                collection["Status"],
+                                collection["Date"].Trim().Length == 0
+                                ? (DateTime?)null : DateTime.ParseExact(collection["Date"], "MM/dd/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None),
+                                decimal.Parse(collection["Fee"]));
+
+                return RedirectToAction("../Owners/Details/" + Session["AUTHOwnerID"]);
             }
             catch (Exception ex)
             {
@@ -98,7 +134,17 @@ namespace PetSitting.Controllers
         {
             try
             {
+                
                 var session = SelectSessionById(id);
+                var list = new List<SelectListItem>
+                {
+                        new SelectListItem{ Text="Requested", Value = "Requested" },
+                        new SelectListItem{ Text="Scheduled", Value = "Scheduled" },
+                        new SelectListItem{ Text="Completed", Value = "Completed" },
+                        new SelectListItem{ Text="Cancelled", Value = "Cancelled" }
+                };
+                    ViewData["StatusList"] = list;
+
                 return View(session);
             }
             catch (Exception ex)
@@ -129,9 +175,15 @@ namespace PetSitting.Controllers
                                 ? (DateTime?)null
                                 : DateTime.ParseExact(collection["Date"], "MM/dd/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None),
                                 decimal.Parse(collection["Fee"]));
+                if((string)Session["AUTHRole"] == "Sitter")
+                {
+                    return RedirectToAction("../Sitters/Details/"+Session["AUTHSitterID"].ToString());
+                } 
+                else
+                {
+                    return RedirectToAction("ListAll");
+                }
 
-                return RedirectToAction("ListAll");
-                
             }
             catch (Exception ex)
             {

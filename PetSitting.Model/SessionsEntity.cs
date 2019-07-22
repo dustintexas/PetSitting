@@ -15,11 +15,13 @@ namespace PetSitting.Model
         public string SitterName { get; set; }
         public int OwnerID { get; set; }
         public string OwnerName { get; set; }
+        public string PetName { get; set; }
         public string Status { get; set; }
         
         [Display(Name = "Session Date")]
         [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime? Date { get; set; }
+        [Display(Name="Fee Charged")]
         public decimal Fee { get; set; }
         public decimal FeeCap { get; set; }
         

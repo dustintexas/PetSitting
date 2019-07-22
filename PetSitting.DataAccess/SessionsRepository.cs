@@ -350,6 +350,180 @@ namespace PetSitting.DataAccess
             }
         }
 
+        public List<SessionsEntity> SelectALLBySitterId(int id)
+        {
+            _errorCode = 0;
+            _rowsAffected = 0;
+
+            List<SessionsEntity> returnedEntity = new List<SessionsEntity>();
+
+            try
+            {
+                var sb = new StringBuilder();
+                sb.Append("SET DATEFORMAT DMY; ");
+                sb.Append(" SELECT [Owners].OwnerName, [Owners].PetName, Date, [Sessions].Fee, [Sessions].Status, SessionID");
+                sb.Append(" From dbo.Sessions");
+                sb.Append(" INNER JOIN [Owners] ON [Owners].[OwnerID] = [Sessions].[OwnerID]");
+                sb.Append(" Where [Sessions].SitterID =  @intId ");
+                sb.Append("SELECT @intErrorCode=@@ERROR; ");
+
+                var commandText = sb.ToString();
+                sb.Clear();
+
+                using (var dbConnection = _dbProviderFactory.CreateConnection())
+                {
+                    if (dbConnection == null)
+                        throw new ArgumentNullException("dbConnection", "The db connection can't be null.");
+
+                    dbConnection.ConnectionString = _connectionString;
+
+                    using (var dbCommand = _dbProviderFactory.CreateCommand())
+                    {
+                        if (dbCommand == null)
+                            throw new ArgumentNullException("dbCommand" + " The db SelectById command for entity [Sessions] can't be null. ");
+
+                        dbCommand.Connection = dbConnection;
+                        dbCommand.CommandText = commandText;
+
+                        //Input Parameters
+                        _dataHandler.AddParameterToCommand(dbCommand, "@intId", CsType.Int, ParameterDirection.Input, id);
+
+                        //Output Parameters
+                        _dataHandler.AddParameterToCommand(dbCommand, "@intErrorCode", CsType.Int, ParameterDirection.Output, null);
+
+                        //Open Connection
+                        if (dbConnection.State != ConnectionState.Open)
+                            dbConnection.Open();
+
+                        //Execute query.
+                        using (var reader = dbCommand.ExecuteReader())
+                        {
+                            if (reader.HasRows)
+                            {
+                                while (reader.Read())
+                                {
+                                    var entity = new SessionsEntity();
+
+                                    entity.OwnerName = reader.GetString(0);
+                                    entity.PetName = reader.GetString(1);
+                                    entity.Date = reader.GetValue(2) == DBNull.Value ? (DateTime?)null : reader.GetDateTime(2);
+                                    entity.Fee = reader.GetDecimal(3);
+                                    entity.Status = reader.GetString(4);
+                                    entity.SessionID = reader.GetInt32(5);
+                                    returnedEntity.Add(entity);
+
+                                }
+                            }
+                        }
+
+                        _errorCode = int.Parse(dbCommand.Parameters["@intErrorCode"].Value.ToString());
+
+                        if (_errorCode != 0)
+                        {
+                            // Throw error.
+                            throw new Exception("The SelectById method for entity [Sessions] reported the Database ErrorCode: " + _errorCode);
+                        }
+                    }
+                }
+
+                return returnedEntity;
+            }
+            catch (Exception ex)
+            {
+                //Log exception error
+                _loggingHandler.LogEntry(ExceptionHandler.GetExceptionMessageFormatted(ex), true);
+
+                //Bubble error to caller and encapsulate Exception object
+                throw new Exception("SessionsRepository::SelectById::Error occured.", ex);
+            }
+        }
+
+        public List<SessionsEntity> SelectALLByOwnerId(int id)
+        {
+            _errorCode = 0;
+            _rowsAffected = 0;
+
+            List<SessionsEntity> returnedEntity = new List<SessionsEntity>();
+
+            try
+            {
+                var sb = new StringBuilder();
+                sb.Append("SET DATEFORMAT DMY; ");
+                sb.Append(" SELECT [Sitters].Name, Date, [Sessions].Fee, [Sessions].Status");
+                sb.Append(" From dbo.Sessions");
+                sb.Append(" INNER JOIN [Sitters] ON [Sitters].[SitterID] = [Sessions].[SitterID]");
+                sb.Append(" Where [Sessions].OwnerID =  @intId ");
+                sb.Append("SELECT @intErrorCode=@@ERROR; ");
+
+                var commandText = sb.ToString();
+                sb.Clear();
+
+                using (var dbConnection = _dbProviderFactory.CreateConnection())
+                {
+                    if (dbConnection == null)
+                        throw new ArgumentNullException("dbConnection", "The db connection can't be null.");
+
+                    dbConnection.ConnectionString = _connectionString;
+
+                    using (var dbCommand = _dbProviderFactory.CreateCommand())
+                    {
+                        if (dbCommand == null)
+                            throw new ArgumentNullException("dbCommand" + " The db SelectById command for entity [Sessions] can't be null. ");
+
+                        dbCommand.Connection = dbConnection;
+                        dbCommand.CommandText = commandText;
+
+                        //Input Parameters
+                        _dataHandler.AddParameterToCommand(dbCommand, "@intId", CsType.Int, ParameterDirection.Input, id);
+
+                        //Output Parameters
+                        _dataHandler.AddParameterToCommand(dbCommand, "@intErrorCode", CsType.Int, ParameterDirection.Output, null);
+
+                        //Open Connection
+                        if (dbConnection.State != ConnectionState.Open)
+                            dbConnection.Open();
+
+                        //Execute query.
+                        using (var reader = dbCommand.ExecuteReader())
+                        {
+                            if (reader.HasRows)
+                            {
+                                while (reader.Read())
+                                {
+                                    var entity = new SessionsEntity();
+
+                                    entity.SitterName = reader.GetString(0);
+                                    entity.Date = reader.GetValue(1) == DBNull.Value ? (DateTime?)null : reader.GetDateTime(1);
+                                    entity.Fee = reader.GetDecimal(2);
+                                    entity.Status = reader.GetString(3);
+                                    returnedEntity.Add(entity);
+
+                                }
+                            }
+                        }
+
+                        _errorCode = int.Parse(dbCommand.Parameters["@intErrorCode"].Value.ToString());
+
+                        if (_errorCode != 0)
+                        {
+                            // Throw error.
+                            throw new Exception("The SelectById method for entity [Sessions] reported the Database ErrorCode: " + _errorCode);
+                        }
+                    }
+                }
+
+                return returnedEntity;
+            }
+            catch (Exception ex)
+            {
+                //Log exception error
+                _loggingHandler.LogEntry(ExceptionHandler.GetExceptionMessageFormatted(ex), true);
+
+                //Bubble error to caller and encapsulate Exception object
+                throw new Exception("SessionsRepository::SelectById::Error occured.", ex);
+            }
+        }
+
         // SelectAll function will pull all Sitter records from SQL Server
         public List<SessionsEntity> SelectAll()
         {

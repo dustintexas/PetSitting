@@ -1,0 +1,40 @@
+﻿@{
+    Layout = null;
+}
+
+@model IEnumerable<PetSitting.Model.SessionsEntity>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.SitterName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Fee)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Status)
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.SitterName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Fee)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+        </tr>
+    }
+</table>
