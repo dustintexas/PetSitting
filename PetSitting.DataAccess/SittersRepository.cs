@@ -190,15 +190,6 @@ namespace PetSitting.DataAccess
 
             try
             {
-                var sb = new StringBuilder();
-                sb.Append("DELETE FROM [dbo].[Sitters] ");
-                sb.Append("WHERE ");
-                sb.Append("[SitterID] = @intId ");
-                sb.Append("SELECT @intErrorCode=@@ERROR; ");
-
-                var commandText = sb.ToString();
-                sb.Clear();
-
                 using (var dbConnection = _dbProviderFactory.CreateConnection())
                 {
                     if (dbConnection == null)
@@ -212,10 +203,11 @@ namespace PetSitting.DataAccess
                             throw new ArgumentNullException("dbCommand" + " The db Delete command for entity [Sitters] can't be null. ");
 
                         dbCommand.Connection = dbConnection;
-                        dbCommand.CommandText = commandText;
+                        dbCommand.CommandType = CommandType.StoredProcedure;
+                        dbCommand.CommandText = "DeleteSitterById";
 
                         //Input Parameters
-                        _dataHandler.AddParameterToCommand(dbCommand, "@intId", CsType.Int, ParameterDirection.Input, id);
+                        _dataHandler.AddParameterToCommand(dbCommand, "@intSitterId", CsType.Int, ParameterDirection.Input, id);
 
                         //Output Parameters
                         _dataHandler.AddParameterToCommand(dbCommand, "@intErrorCode", CsType.Int, ParameterDirection.Output, null);
@@ -349,15 +341,26 @@ namespace PetSitting.DataAccess
                 sb.Append("SELECT ");
                 sb.Append("[SitterID], ");
                 sb.Append("[Name], ");
-                sb.Append("[Fee], ");
+                sb.Append("Sitters.[Fee], ");
                 sb.Append("[Bio], ");
-                sb.Append("[Age], ");
+                sb.Append("[Sitters].[Age], ");
                 sb.Append("[HiringDate], ");
                 sb.Append("[GrossSalary], ");
+                sb.Append("[Username], ");
+                sb.Append("[FirstName], ");
+                sb.Append("[LastName], ");
+                sb.Append("[Email], ");
+                sb.Append("[Password], ");
+                sb.Append("[IsActive], ");
+                sb.Append("[Role], ");
+                sb.Append("ISNULL((SELECT SUM(Sessions.Fee) FROM [Sessions] ");
+                sb.Append("INNER JOIN Sitters ON Sitters.SitterID = Sessions.SitterID ");
+                sb.Append("WHERE Sitters.UserID = @intUserId),0) As TotalSales, ");
                 sb.Append("[ModifiedDate] ");
                 sb.Append("FROM [dbo].[Sitters] ");
+                sb.Append("INNER JOIN [Users] ON [Users].[UserID] = [Sitters].[UserID] ");
                 sb.Append("WHERE ");
-                sb.Append("[UserID] = @intUserId ");
+                sb.Append("[Sitters].[UserID] = @intUserId ");
                 sb.Append("SELECT @intErrorCode=@@ERROR; ");
 
                 var commandText = sb.ToString();
@@ -403,7 +406,15 @@ namespace PetSitting.DataAccess
                                     entity.Age = reader.GetInt32(4);
                                     entity.HiringDate = reader.GetValue(5) == DBNull.Value ? (DateTime?)null : reader.GetDateTime(5);
                                     entity.GrossSalary = reader.GetDecimal(6);
-                                    entity.ModifiedDate = reader.GetDateTime(7);
+                                    entity.Username = reader.GetString(7);
+                                    entity.FirstName = reader.GetString(8);
+                                    entity.LastName = reader.GetString(9);
+                                    entity.Email = reader.GetString(10);
+                                    entity.Password = reader.GetString(11);
+                                    entity.IsActive = reader.GetBoolean(12);
+                                    entity.Role = reader.GetString(13);
+                                    entity.TotalSales = reader.GetDecimal(14);
+                                    entity.ModifiedDate = reader.GetDateTime(15);
                                     returnedEntity = entity;
                                     break;
                                 }

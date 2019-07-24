@@ -10,7 +10,10 @@
                        <div class="lead">@Html.DisplayFor(model => model.Name)</div>
                        <hr />
                        <p>
-                           @Html.ActionLink("Edit Info", "Edit", new { id = Model.SitterID })
+                           @if ((string)Session["AUTHRole"] == "Sitter")
+                           {
+                               @Html.ActionLink("Edit Info", "Edit", new { id = Model.SitterID })
+                           }
                            @{ var sessionrole = Session["AUTHRole"] as string;
                                if (sessionrole == "Admin")
                                {
@@ -79,7 +82,11 @@
                                </dd>
                                <dd>
                                    <br /><br />
-                                   @Html.DisplayFor(model => model.Sessions, "SessionsBySitter")
+                                   @if ((string)Session["AUTHRole"] == "Sitter")
+                                   {
+                                       @Html.DisplayFor(model => model.Sessions, "SessionsBySitter")
+                                   }
+
                                </dd>
                            </dl>
                        </div>

@@ -74,8 +74,6 @@
                 @{
                     if (item.Role != "Admin")
                     {
-                            @Html.ActionLink("Edit", "Edit", new { id = item.UserID }) <text> | </text>
-                            @Html.ActionLink("Details", "Details", new { id = item.UserID }) <text> | </text>
                             @Html.ActionLink("Delete", "Delete", new { id = item.UserID })
                     }
                  }

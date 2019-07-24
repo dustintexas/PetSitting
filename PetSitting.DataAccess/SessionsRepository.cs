@@ -365,6 +365,7 @@ namespace PetSitting.DataAccess
                 sb.Append(" From dbo.Sessions");
                 sb.Append(" INNER JOIN [Owners] ON [Owners].[OwnerID] = [Sessions].[OwnerID]");
                 sb.Append(" Where [Sessions].SitterID =  @intId ");
+                sb.Append(" ORDER BY Date DESC ");
                 sb.Append("SELECT @intErrorCode=@@ERROR; ");
 
                 var commandText = sb.ToString();
@@ -449,10 +450,11 @@ namespace PetSitting.DataAccess
             {
                 var sb = new StringBuilder();
                 sb.Append("SET DATEFORMAT DMY; ");
-                sb.Append(" SELECT [Sitters].Name, Date, [Sessions].Fee, [Sessions].Status");
+                sb.Append(" SELECT [Sitters].Name, Date, [Sessions].Fee, [Sessions].Status, Sessions.SessionID");
                 sb.Append(" From dbo.Sessions");
                 sb.Append(" INNER JOIN [Sitters] ON [Sitters].[SitterID] = [Sessions].[SitterID]");
                 sb.Append(" Where [Sessions].OwnerID =  @intId ");
+                sb.Append(" ORDER BY Date DESC ");
                 sb.Append("SELECT @intErrorCode=@@ERROR; ");
 
                 var commandText = sb.ToString();
@@ -496,6 +498,7 @@ namespace PetSitting.DataAccess
                                     entity.Date = reader.GetValue(1) == DBNull.Value ? (DateTime?)null : reader.GetDateTime(1);
                                     entity.Fee = reader.GetDecimal(2);
                                     entity.Status = reader.GetString(3);
+                                    entity.SessionID = reader.GetInt32(4);
                                     returnedEntity.Add(entity);
 
                                 }

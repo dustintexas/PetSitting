@@ -68,9 +68,16 @@
                 <dd>
                     @Html.DisplayFor(model => model.Username)
                 </dd>
-                <dd><br/><br/>
-                    @Html.ActionLink("Request Session","SelectSitter","Sitters")
-                    <br/></br>
+                <dd>
+                    <br /><br />
+                    @{ if ((string)Session["AUTHRole"] != "Admin")
+                        {
+                            @Html.ActionLink("Request Session", "SelectSitter", "Sitters")
+                        }
+
+                    }
+
+                    <br /></br>
                     @Html.DisplayFor(model => model.Sessions, "SessionsByOwner")
                 </dd>
             </dl>

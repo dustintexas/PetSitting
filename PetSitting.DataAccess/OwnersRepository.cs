@@ -32,29 +32,6 @@ namespace PetSitting.DataAccess
         {
             try
             {
-                var sb = new StringBuilder();
-                sb.Append("SET DATEFORMAT DMY; ");
-                sb.Append("INSERT [dbo].[Owners] ");
-                sb.Append("( ");
-                sb.Append("[OwnerName], ");
-                sb.Append("[PetName], ");
-                sb.Append("[PetAge], ");
-                sb.Append("[ContactPhone], ");
-                sb.Append("[ModifiedDate] ");
-                sb.Append(") ");
-                sb.Append("VALUES ");
-                sb.Append("( ");
-                sb.Append(" @chnOwnerName, ");
-                sb.Append(" @chnPetName, ");
-                sb.Append(" @intPetAge, ");
-                sb.Append(" @chnContactPhone, ");
-                sb.Append(" ISNULL(@dtmModifiedDate, (getdate())) ");
-                sb.Append(") ");
-                sb.Append("SELECT @intErrorCode=@@ERROR; ");
-
-                var commandText = sb.ToString();
-                sb.Clear();
-
                 using (var dbConnection = _dbProviderFactory.CreateConnection())
                 {
                     if (dbConnection == null)
@@ -68,15 +45,23 @@ namespace PetSitting.DataAccess
                             throw new ArgumentNullException("dbCommand" + " The db Insert command for entity [Owners] can't be null. ");
 
                         dbCommand.Connection = dbConnection;
-                        dbCommand.CommandText = commandText;
+                        dbCommand.CommandType = CommandType.StoredProcedure;
+                        dbCommand.CommandText = "Owner_Insert";
 
                         //Input Parameters
+                        _dataHandler.AddParameterToCommand(dbCommand, "@chnUsername", CsType.String, ParameterDirection.Input, entity.Username);
+                        _dataHandler.AddParameterToCommand(dbCommand, "@chnFirstName", CsType.String, ParameterDirection.Input, entity.FirstName);
+                        _dataHandler.AddParameterToCommand(dbCommand, "@chnLastName", CsType.String, ParameterDirection.Input, entity.LastName);
+                        _dataHandler.AddParameterToCommand(dbCommand, "@chnEmail", CsType.String, ParameterDirection.Input, entity.Email);
+                        _dataHandler.AddParameterToCommand(dbCommand, "@chnPassword", CsType.String, ParameterDirection.Input, entity.Password);
+                        _dataHandler.AddParameterToCommand(dbCommand, "@binIsActive", CsType.Boolean, ParameterDirection.Input, entity.IsActive);
+                        _dataHandler.AddParameterToCommand(dbCommand, "@intAge", CsType.Int, ParameterDirection.Input, entity.Age);
+                        _dataHandler.AddParameterToCommand(dbCommand, "@chnRole", CsType.String, ParameterDirection.Input, entity.Role);
                         _dataHandler.AddParameterToCommand(dbCommand, "@chnOwnerName", CsType.String, ParameterDirection.Input, entity.OwnerName);
                         _dataHandler.AddParameterToCommand(dbCommand, "@chnPetName", CsType.String, ParameterDirection.Input, entity.PetName);
                         _dataHandler.AddParameterToCommand(dbCommand, "@intPetAge", CsType.Int, ParameterDirection.Input, entity.PetAge);
                         _dataHandler.AddParameterToCommand(dbCommand, "@chnContactPhone", CsType.String, ParameterDirection.Input, entity.ContactPhone);
-                        _dataHandler.AddParameterToCommand(dbCommand, "@dtmModifiedDate", CsType.DateTime, ParameterDirection.Input, null);
-
+                        
                         //Output Parameters
                         _dataHandler.AddParameterToCommand(dbCommand, "@intErrorCode", CsType.Int, ParameterDirection.Output, null);
 
@@ -116,22 +101,6 @@ namespace PetSitting.DataAccess
 
             try
             {
-                var sb = new StringBuilder();
-                sb.Append("SET DATEFORMAT MDY; ");
-                sb.Append("UPDATE [dbo].[Owners] ");
-                sb.Append("SET ");
-                sb.Append("[OwnerName] = @chnOwnerName, ");
-                sb.Append("[PetName] = @chnPetName, ");
-                sb.Append("[PetAge] = @intPetAge, ");
-                sb.Append("[ContactPhone] = @chnContactPhone, ");
-                sb.Append("[ModifiedDate] = ISNULL(@dtmModifiedDate, (getdate())) ");
-                sb.Append("WHERE ");
-                sb.Append("[OwnerID] = @intId ");
-                sb.Append("SELECT @intErrorCode=@@ERROR; ");
-
-                var commandText = sb.ToString();
-                sb.Clear();
-
                 using (var dbConnection = _dbProviderFactory.CreateConnection())
                 {
                     if (dbConnection == null)
@@ -145,16 +114,24 @@ namespace PetSitting.DataAccess
                             throw new ArgumentNullException("dbCommand" + " The db Update command for entity [Owners] can't be null. ");
 
                         dbCommand.Connection = dbConnection;
-                        dbCommand.CommandText = commandText;
+                        dbCommand.CommandType = CommandType.StoredProcedure;
+                        dbCommand.CommandText = "UpdateOwnerById";
 
                         //Input Parameters
-                        _dataHandler.AddParameterToCommand(dbCommand, "@intId", CsType.Int, ParameterDirection.Input, entity.OwnerID);
+                        _dataHandler.AddParameterToCommand(dbCommand, "@intOwnerID", CsType.Int, ParameterDirection.Input, entity.OwnerID);
                         _dataHandler.AddParameterToCommand(dbCommand, "@chnOwnerName", CsType.String, ParameterDirection.Input, entity.OwnerName);
                         _dataHandler.AddParameterToCommand(dbCommand, "@chnPetName", CsType.String, ParameterDirection.Input, entity.PetName);
                         _dataHandler.AddParameterToCommand(dbCommand, "@chnContactPhone", CsType.String, ParameterDirection.Input, entity.ContactPhone);
                         _dataHandler.AddParameterToCommand(dbCommand, "@intPetAge", CsType.Int, ParameterDirection.Input, entity.PetAge);
-                        _dataHandler.AddParameterToCommand(dbCommand, "@dtmModifiedDate", CsType.DateTime, ParameterDirection.Input, null);
-
+                        _dataHandler.AddParameterToCommand(dbCommand, "@chnUsername", CsType.String, ParameterDirection.Input, entity.Username);
+                        _dataHandler.AddParameterToCommand(dbCommand, "@chnFirstName", CsType.String, ParameterDirection.Input, entity.FirstName);
+                        _dataHandler.AddParameterToCommand(dbCommand, "@chnLastName", CsType.String, ParameterDirection.Input, entity.LastName);
+                        _dataHandler.AddParameterToCommand(dbCommand, "@chnEmail", CsType.String, ParameterDirection.Input, entity.Email);
+                        _dataHandler.AddParameterToCommand(dbCommand, "@chnPassword", CsType.String, ParameterDirection.Input, entity.Password);
+                        _dataHandler.AddParameterToCommand(dbCommand, "@chnRole", CsType.String, ParameterDirection.Input, entity.Role);
+                        _dataHandler.AddParameterToCommand(dbCommand, "@intAge", CsType.Int, ParameterDirection.Input, entity.Age);
+                        _dataHandler.AddParameterToCommand(dbCommand, "@bitIsActive", CsType.Boolean, ParameterDirection.Input, entity.IsActive);
+                        
                         //Output Parameters
                         _dataHandler.AddParameterToCommand(dbCommand, "@intErrorCode", CsType.Int, ParameterDirection.Output, null);
 
@@ -194,15 +171,6 @@ namespace PetSitting.DataAccess
 
             try
             {
-                var sb = new StringBuilder();
-                sb.Append("DELETE FROM [dbo].[Owners] ");
-                sb.Append("WHERE ");
-                sb.Append("[OwnerID] = @intId ");
-                sb.Append("SELECT @intErrorCode=@@ERROR; ");
-
-                var commandText = sb.ToString();
-                sb.Clear();
-
                 using (var dbConnection = _dbProviderFactory.CreateConnection())
                 {
                     if (dbConnection == null)
@@ -216,10 +184,11 @@ namespace PetSitting.DataAccess
                             throw new ArgumentNullException("dbCommand" + " The db Delete command for entity [Owners] can't be null. ");
 
                         dbCommand.Connection = dbConnection;
-                        dbCommand.CommandText = commandText;
+                        dbCommand.CommandType = CommandType.StoredProcedure;
+                        dbCommand.CommandText = "DeleteOwnerById";
 
                         //Input Parameters
-                        _dataHandler.AddParameterToCommand(dbCommand, "@intId", CsType.Int, ParameterDirection.Input, id);
+                        _dataHandler.AddParameterToCommand(dbCommand, "@intOwnerId", CsType.Int, ParameterDirection.Input, id);
 
                         //Output Parameters
                         _dataHandler.AddParameterToCommand(dbCommand, "@intErrorCode", CsType.Int, ParameterDirection.Output, null);
@@ -308,6 +277,7 @@ namespace PetSitting.DataAccess
                                     entity.Email = reader.GetString(9);
                                     entity.Password = reader.GetString(10);
                                     entity.Age = reader.GetInt32(11);
+                                    entity.Role = reader.GetString(12);
                                     returnedEntity = entity;
                                     break;
                                 }

@@ -50,7 +50,7 @@ namespace PetSitting.Controllers
                     return View(user);
                 } else
                 {
-                    return RedirectToAction("../Home/Index");
+                    return RedirectToAction("../Home/Login");
                 }
             }
             catch (Exception ex)
@@ -92,7 +92,7 @@ namespace PetSitting.Controllers
                                 int.Parse(collection["PetAge"]),
                                 collection["ContactPhone"]);
 
-                return RedirectToAction("../Home/Index");
+                return RedirectToAction("../Home/Login");
             }
             catch (Exception ex)
             {
@@ -112,7 +112,7 @@ namespace PetSitting.Controllers
             }
             else
             {
-                return RedirectToAction("../Home/Index");
+                return RedirectToAction("../Home/Login");
             }
         }
 
@@ -166,7 +166,7 @@ namespace PetSitting.Controllers
                 }
                 else
                 {
-                    return RedirectToAction("../Home/Index");
+                    return RedirectToAction("../Home/Login");
                 }
                 
             }
@@ -218,11 +218,17 @@ namespace PetSitting.Controllers
             {
                 if ((string)Session["AUTHRole"] != null)
                 {
-                    var sitter = SelectUserById(id);
-                    return View(sitter);
+                    if ((string)Session["AUTHRole"] == "Admin")
+                    {
+                        var sitter = SelectUserById(id);
+                        return View(sitter);
+                    } else
+                    {
+                        return RedirectToAction("../Home/Login");
+                    }
                 } else
                 {
-                    return RedirectToAction("../Home/Index");
+                    return RedirectToAction("../Home/Login");
                 }
             }
             catch (Exception ex)
@@ -259,14 +265,20 @@ namespace PetSitting.Controllers
             {
                 if ((string)Session["AUTHRole"] != null)
                 {
-                    var users = from e in ListAllUsers()
-                                orderby e.UserID
-                                select e;
-                    return View(users);
+                    if ((string)Session["AUTHRole"] == "Admin")
+                    {
+                        var users = from e in ListAllUsers()
+                                    orderby e.UserID
+                                    select e;
+                        return View(users);
+                    } else
+                    {
+                        return RedirectToAction("../Home/Login");
+                    }
                 }
                 else
                 {
-                    return RedirectToAction("../Home/Index");
+                    return RedirectToAction("../Home/Login");
                 }
             }
             catch (Exception ex)

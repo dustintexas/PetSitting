@@ -50,6 +50,8 @@ namespace PetSitting.Model
             MinRequiredPasswordLength = 6)]
         [DataType(DataType.Password)]
         public string Password { get; set; }
+        [Compare("Password", ErrorMessage = "The confirm password does not match!")]
+        public string ConfirmPassword { get; set; }
         [Display(Name="Active")]
         public bool? IsActive { get; set; }
         [Required(ErrorMessage = "You must specifiy your age.")]

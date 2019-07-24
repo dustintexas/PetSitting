@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Security;
 
 namespace PetSitting.Model
 {
@@ -56,11 +57,28 @@ namespace PetSitting.Model
         [Display(Name="Modified Date")]
         public DateTime ModifiedDate { get; set; }
         public decimal TotalSales { get; set; }
+        [Required(ErrorMessage = "You must enter a Username")]
+        [StringLength(255, MinimumLength = 3)]
         public string Username { get; set; }
+        [Required(ErrorMessage = "You must enter a first name")]
+        [StringLength(255, MinimumLength = 3)]
         public string FirstName { get; set; }
+        [Required(ErrorMessage = "You must enter a last name")]
+        [StringLength(255, MinimumLength = 3)]
         public string LastName { get; set; }
+        [EmailAddress(ErrorMessage = "You must enter an email address")]
         public string Email { get; set; }
+        [Required]
+        [MembershipPassword(
+            MinRequiredNonAlphanumericCharacters = 1,
+            MinNonAlphanumericCharactersError = "Your password needs to contain at least one symbol (!, @, #, etc).",
+            ErrorMessage = "Your password must be 6 characters long and contain at least one symbol (!, @, #, etc).",
+            MinRequiredPasswordLength = 6)]
+        [DataType(DataType.Password)]
         public string Password { get; set; }
+        [Compare("Password", ErrorMessage = "Confirm password doesn't match, Type again !")]
+        public string ConfirmPassword { get; set; }
+        public bool IsActive { get; set; }
         public string Role { get; set; }
         public ICollection<SessionsEntity> Sessions { get; set; }
 

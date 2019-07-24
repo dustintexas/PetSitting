@@ -43,6 +43,10 @@ namespace PetSitting.Controllers
         // GET: Sessions/Details/5
         public ActionResult Details(int id)
         {
+            if ((string)Session["AUTHRole"] == null)
+            {
+                return RedirectToAction("../Home/Login");
+            }
             try
             {
                 var session = SelectSessionById(id);
@@ -60,6 +64,10 @@ namespace PetSitting.Controllers
         // GET: Sessions/CreateByOwner
         public ActionResult CreateByOwner()
         {
+            if ((string)Session["AUTHRole"] == null)
+            {
+                return RedirectToAction("../Home/Login");
+            }
             return View();
         }
 
@@ -95,6 +103,10 @@ namespace PetSitting.Controllers
         // GET: Sessions/Create
         public ActionResult Create()
         {
+            if ((string)Session["AUTHRole"] == null)
+            {
+                return RedirectToAction("../Home/Login");
+            }
             return View();
         }
 
@@ -132,6 +144,10 @@ namespace PetSitting.Controllers
         // GET: Sessions/Edit/5
         public ActionResult Edit(int id)
         {
+            if ((string)Session["AUTHRole"] == null)
+            {
+                return RedirectToAction("../Home/Login");
+            }
             try
             {
                 
@@ -197,6 +213,10 @@ namespace PetSitting.Controllers
         // GET: Sessions/Delete/5
         public ActionResult Delete(int id)
         {
+            if ((string)Session["AUTHRole"] == null)
+            {
+                return RedirectToAction("../Home/Login");
+            }
             try
             {
                 var session = SelectSessionById(id);
@@ -233,6 +253,10 @@ namespace PetSitting.Controllers
 
         public ActionResult ListAll()
         {
+            if ((string)Session["AUTHRole"] == null)
+            {
+                return RedirectToAction("../Home/Login");
+            }
             try
             {
                 var sessions = from e in ListAllSessions()

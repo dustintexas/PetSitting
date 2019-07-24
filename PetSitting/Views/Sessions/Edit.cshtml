@@ -75,9 +75,13 @@
         </div>
         }
 
-        <div>
-            @Html.ActionLink("Back to List", "ListAll")
-        </div>
+        @{ if ((string)Session["AUTHRole"] == "Admin")
+            {
+                <div>@Html.ActionLink("Back to List", "ListAll")</div>
+            }
+
+            }
+
         </div>
     </div>
         @section Scripts {

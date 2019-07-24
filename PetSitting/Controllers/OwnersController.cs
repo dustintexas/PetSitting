@@ -59,6 +59,10 @@ namespace PetSitting.Controllers
         // GET: Owners/Create
         public ActionResult Create()
         {
+            if ((string)Session["AUTHRole"] == null)
+            {
+                return RedirectToAction("../Home/Login");
+            }
             return View();
         }
 
@@ -77,7 +81,14 @@ namespace PetSitting.Controllers
                 InsertOwner(collection["OwnerName"],
                                 collection["PetName"],
                                 int.Parse(collection["PetAge"]),
-                                collection["ContactPhone"]);
+                                collection["ContactPhone"],
+                                collection["FirstName"],
+                                collection["LastName"],
+                                collection["Username"],
+                                collection["Password"],
+                                int.Parse(collection["Age"]),
+                                collection["Email"],
+                                collection["Role"]);
 
                 return RedirectToAction("ListAll");
             }
@@ -93,6 +104,10 @@ namespace PetSitting.Controllers
         // GET: Owners/Edit/5
         public ActionResult Edit(int id)
         {
+            if ((string)Session["AUTHRole"] == null)
+            {
+                return RedirectToAction("../Home/Login");
+            }
             try
             {
                 var owner = SelectOwnerById(id);
@@ -122,7 +137,14 @@ namespace PetSitting.Controllers
                                 collection["OwnerName"],
                                 collection["PetName"],
                                 int.Parse(collection["PetAge"]),
-                                collection["ContactPhone"]);
+                                collection["ContactPhone"],
+                                collection["FirstName"],
+                                collection["LastName"],
+                                collection["Username"],
+                                collection["Password"],
+                                int.Parse(collection["Age"]),
+                                collection["Email"],
+                                collection["Role"]);
 
                 if ((string)Session["AUTHRole"] == "Admin")
                 {
@@ -147,6 +169,10 @@ namespace PetSitting.Controllers
         // GET: Owners/Delete/5
         public ActionResult Delete(int id)
         {
+            if ((string)Session["AUTHRole"] == null)
+            {
+                return RedirectToAction("../Home/Login");
+            }
             try
             {
                 var owner = SelectOwnerById(id);
@@ -165,6 +191,10 @@ namespace PetSitting.Controllers
         [HttpPost]
         public ActionResult Delete(int id, FormCollection collection)
         {
+            if ((string)Session["AUTHRole"] == null)
+            {
+                return RedirectToAction("../Home/Login");
+            }
             try
             {
                 DeleteOwner(id);
@@ -182,6 +212,10 @@ namespace PetSitting.Controllers
 
         public ActionResult ListAll()
         {
+            if ((string)Session["AUTHRole"] == null)
+            {
+                return RedirectToAction("../Home/Login");
+            }
             try
             {
                 var owners = from e in ListAllOwners()
@@ -234,7 +268,7 @@ namespace PetSitting.Controllers
             return null;
         }
         // the following code connects with the insert function in the DataAccess logic through the BusinessLogic
-        private void InsertOwner(string ownername, string petname, int petage, string contactphone)
+        private void InsertOwner(string ownername, string petname, int petage, string contactphone, string firstname, string lastname, string username, string password, int age, string email, string role)
         {
             try
             {
@@ -245,6 +279,13 @@ namespace PetSitting.Controllers
                     entity.PetName = petname;
                     entity.PetAge = petage;
                     entity.ContactPhone = contactphone;
+                    entity.FirstName = firstname;
+                    entity.LastName = lastname;
+                    entity.Username = username;
+                    entity.Password = password;
+                    entity.Age = age;
+                    entity.Email = email;
+                    entity.Role = role;
                     var opSuccessful = owners.InsertOwner(entity);
                 }
             }
@@ -255,7 +296,7 @@ namespace PetSitting.Controllers
             }
         }
         // the following code connects with the update function in the DataAccess logic through the BusinessLogic
-        private void UpdateOwner(int id, string ownername, string petname, int petage, string contactphone)
+        private void UpdateOwner(int id, string ownername, string petname, int petage, string contactphone, string firstname, string lastname, string username, string password, int age, string email, string role)
         {
             try
             {
@@ -267,6 +308,13 @@ namespace PetSitting.Controllers
                     entity.PetName = petname;
                     entity.PetAge = petage;
                     entity.ContactPhone = contactphone;
+                    entity.FirstName = firstname;
+                    entity.LastName = lastname;
+                    entity.Username = username;
+                    entity.Password = password;
+                    entity.Age = age;
+                    entity.Email = email;
+                    entity.Role = role;
                     var opSuccessful = owners.UpdateOwner(entity);
                 }
             }
