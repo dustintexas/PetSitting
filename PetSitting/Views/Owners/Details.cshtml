@@ -8,6 +8,7 @@
     <div class="panel-heading"><h3>Owner Details</h3></div>
     <div class="panel-body">
         <div>
+            @Html.ActionLink("Edit", "Edit", new { id = Model.OwnerID })
 
             <dl class="dl-horizontal">
 
@@ -83,7 +84,6 @@
             </dl>
         </div>
         <p>
-            @Html.ActionLink("Edit", "Edit", new { id = Model.OwnerID })
             @{ if ((string)Session["AUTHRole"] == "Admin")
                 {
                     <b>|</b>

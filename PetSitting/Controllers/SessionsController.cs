@@ -86,7 +86,7 @@ namespace PetSitting.Controllers
                                 int.Parse(collection["OwnerID"]),
                                 collection["Status"],
                                 collection["Date"].Trim().Length == 0
-                                ? (DateTime?)null : DateTime.ParseExact(collection["Date"], "MM/dd/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None),
+                                ? (DateTime?)null : DateTime.ParseExact(collection["Date"], "M/d/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None),
                                 decimal.Parse(collection["Fee"]));
 
                 return RedirectToAction("../Owners/Details/" + Session["AUTHOwnerID"]);
@@ -127,7 +127,7 @@ namespace PetSitting.Controllers
                                 collection["Status"],
                                 collection["Date"].Trim().Length == 0
                                 ? (DateTime?)null
-                                : DateTime.ParseExact(collection["Date"], "MM/dd/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None),
+                                : DateTime.ParseExact(collection["Date"], "M/d/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None),
                                 decimal.Parse(collection["Fee"]));
 
                 return RedirectToAction("ListAll");
@@ -189,7 +189,7 @@ namespace PetSitting.Controllers
                                 collection["Status"],
                                 collection["Date"].Trim().Length == 0
                                 ? (DateTime?)null
-                                : DateTime.ParseExact(collection["Date"], "MM/dd/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None),
+                                : DateTime.ParseExact(collection["Date"], "M/d/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None),
                                 decimal.Parse(collection["Fee"]));
                 if((string)Session["AUTHRole"] == "Sitter")
                 {

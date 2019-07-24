@@ -32,29 +32,6 @@ namespace PetSitting.DataAccess
         {
             try
             {
-                var sb = new StringBuilder();
-                sb.Append("SET DATEFORMAT MDY; ");
-                sb.Append("INSERT [dbo].[Sessions] ");
-                sb.Append("( ");
-                sb.Append("[SitterID], ");
-                sb.Append("[OwnerID], ");
-                sb.Append("[Status], ");
-                sb.Append("[Fee], ");
-                sb.Append("[Date] ");
-                sb.Append(") ");
-                sb.Append("VALUES ");
-                sb.Append("( ");
-                sb.Append(" @intSitterID, ");
-                sb.Append(" @intOwnerID, ");
-                sb.Append(" @chnStatus, ");
-                sb.Append(" @decFee, ");
-                sb.Append(" @dtmDate ");
-                sb.Append(") ");
-                sb.Append("SELECT @intErrorCode=@@ERROR; ");
-
-                var commandText = sb.ToString();
-                sb.Clear();
-
                 using (var dbConnection = _dbProviderFactory.CreateConnection())
                 {
                     if (dbConnection == null)
@@ -68,7 +45,8 @@ namespace PetSitting.DataAccess
                             throw new ArgumentNullException("dbCommand" + " The db Insert command for entity [Sessions] can't be null. ");
 
                         dbCommand.Connection = dbConnection;
-                        dbCommand.CommandText = commandText;
+                        dbCommand.CommandType = CommandType.StoredProcedure;
+                        dbCommand.CommandText = "Session_Insert";
 
                         //Input Parameters
                         _dataHandler.AddParameterToCommand(dbCommand, "@intSitterID", CsType.Int, ParameterDirection.Input, entity.SitterID);
@@ -115,22 +93,6 @@ namespace PetSitting.DataAccess
 
             try
             {
-                var sb = new StringBuilder();
-                sb.Append("SET DATEFORMAT MDY; ");
-                sb.Append("UPDATE [dbo].[Sessions] ");
-                sb.Append("SET ");
-                sb.Append("[SitterID] = @intSitterID, ");
-                sb.Append("[OwnerID] = @intOwnerID, ");
-                sb.Append("[Status] = @chnStatus, ");
-                sb.Append("[Fee] = @decFee, ");
-                sb.Append("[Date] = @dtmDate ");
-                sb.Append("WHERE ");
-                sb.Append("[SessionID] = @intId ");
-                sb.Append("SELECT @intErrorCode=@@ERROR; ");
-
-                var commandText = sb.ToString();
-                sb.Clear();
-
                 using (var dbConnection = _dbProviderFactory.CreateConnection())
                 {
                     if (dbConnection == null)
@@ -144,7 +106,8 @@ namespace PetSitting.DataAccess
                             throw new ArgumentNullException("dbCommand" + " The db Update command for entity [Sessions] can't be null. ");
 
                         dbCommand.Connection = dbConnection;
-                        dbCommand.CommandText = commandText;
+                        dbCommand.CommandType = CommandType.StoredProcedure;
+                        dbCommand.CommandText = "Session_Update";
 
                         //Input Parameters
                         _dataHandler.AddParameterToCommand(dbCommand, "@intSitterID", CsType.Int, ParameterDirection.Input, entity.SitterID);
@@ -192,15 +155,6 @@ namespace PetSitting.DataAccess
 
             try
             {
-                var sb = new StringBuilder();
-                sb.Append("DELETE FROM [dbo].[Sessions] ");
-                sb.Append("WHERE ");
-                sb.Append("[SessionID] = @intId ");
-                sb.Append("SELECT @intErrorCode=@@ERROR; ");
-
-                var commandText = sb.ToString();
-                sb.Clear();
-
                 using (var dbConnection = _dbProviderFactory.CreateConnection())
                 {
                     if (dbConnection == null)
@@ -214,7 +168,8 @@ namespace PetSitting.DataAccess
                             throw new ArgumentNullException("dbCommand" + " The db Delete command for entity [Sessions] can't be null. ");
 
                         dbCommand.Connection = dbConnection;
-                        dbCommand.CommandText = commandText;
+                        dbCommand.CommandType = CommandType.StoredProcedure;
+                        dbCommand.CommandText = "DeleteSessionById";
 
                         //Input Parameters
                         _dataHandler.AddParameterToCommand(dbCommand, "@intId", CsType.Int, ParameterDirection.Input, id);
@@ -260,27 +215,6 @@ namespace PetSitting.DataAccess
 
             try
             {
-                var sb = new StringBuilder();
-                sb.Append("SET DATEFORMAT DMY; ");
-                sb.Append("SELECT ");
-                sb.Append("[SessionID], ");
-                sb.Append("[Sessions].[SitterID], ");
-                sb.Append("[Name], ");
-                sb.Append("[Sessions].[OwnerID], ");
-                sb.Append("[OwnerName], ");
-                sb.Append("[Status], ");
-                sb.Append("[Date], ");
-                sb.Append("[Sessions].[Fee] ");
-                sb.Append("FROM [dbo].[Sessions] ");
-                sb.Append("INNER JOIN [Sitters] ON [Sitters].[SitterID] = [Sessions].[SitterID] ");
-                sb.Append("INNER JOIN [Owners] ON [Owners].[OwnerID] = [Sessions].[OwnerID] ");
-                sb.Append("WHERE ");
-                sb.Append("[SessionID] = @intId ");
-                sb.Append("SELECT @intErrorCode=@@ERROR; ");
-
-                var commandText = sb.ToString();
-                sb.Clear();
-
                 using (var dbConnection = _dbProviderFactory.CreateConnection())
                 {
                     if (dbConnection == null)
@@ -294,7 +228,8 @@ namespace PetSitting.DataAccess
                             throw new ArgumentNullException("dbCommand" + " The db SelectById command for entity [Sessions] can't be null. ");
 
                         dbCommand.Connection = dbConnection;
-                        dbCommand.CommandText = commandText;
+                        dbCommand.CommandType = CommandType.StoredProcedure;
+                        dbCommand.CommandText = "SelectSessionById";
 
                         //Input Parameters
                         _dataHandler.AddParameterToCommand(dbCommand, "@intId", CsType.Int, ParameterDirection.Input, id);
@@ -359,18 +294,6 @@ namespace PetSitting.DataAccess
 
             try
             {
-                var sb = new StringBuilder();
-                sb.Append("SET DATEFORMAT DMY; ");
-                sb.Append(" SELECT [Owners].OwnerName, [Owners].PetName, Date, [Sessions].Fee, [Sessions].Status, SessionID");
-                sb.Append(" From dbo.Sessions");
-                sb.Append(" INNER JOIN [Owners] ON [Owners].[OwnerID] = [Sessions].[OwnerID]");
-                sb.Append(" Where [Sessions].SitterID =  @intId ");
-                sb.Append(" ORDER BY Date DESC ");
-                sb.Append("SELECT @intErrorCode=@@ERROR; ");
-
-                var commandText = sb.ToString();
-                sb.Clear();
-
                 using (var dbConnection = _dbProviderFactory.CreateConnection())
                 {
                     if (dbConnection == null)
@@ -381,10 +304,11 @@ namespace PetSitting.DataAccess
                     using (var dbCommand = _dbProviderFactory.CreateCommand())
                     {
                         if (dbCommand == null)
-                            throw new ArgumentNullException("dbCommand" + " The db SelectById command for entity [Sessions] can't be null. ");
+                            throw new ArgumentNullException("dbCommand" + " The db SelectALLBySitterId command for entity [Sessions] can't be null. ");
 
                         dbCommand.Connection = dbConnection;
-                        dbCommand.CommandText = commandText;
+                        dbCommand.CommandType = CommandType.StoredProcedure;
+                        dbCommand.CommandText = "SelectALLSessionBySitterId";
 
                         //Input Parameters
                         _dataHandler.AddParameterToCommand(dbCommand, "@intId", CsType.Int, ParameterDirection.Input, id);
@@ -448,18 +372,6 @@ namespace PetSitting.DataAccess
 
             try
             {
-                var sb = new StringBuilder();
-                sb.Append("SET DATEFORMAT DMY; ");
-                sb.Append(" SELECT [Sitters].Name, Date, [Sessions].Fee, [Sessions].Status, Sessions.SessionID");
-                sb.Append(" From dbo.Sessions");
-                sb.Append(" INNER JOIN [Sitters] ON [Sitters].[SitterID] = [Sessions].[SitterID]");
-                sb.Append(" Where [Sessions].OwnerID =  @intId ");
-                sb.Append(" ORDER BY Date DESC ");
-                sb.Append("SELECT @intErrorCode=@@ERROR; ");
-
-                var commandText = sb.ToString();
-                sb.Clear();
-
                 using (var dbConnection = _dbProviderFactory.CreateConnection())
                 {
                     if (dbConnection == null)
@@ -473,7 +385,8 @@ namespace PetSitting.DataAccess
                             throw new ArgumentNullException("dbCommand" + " The db SelectById command for entity [Sessions] can't be null. ");
 
                         dbCommand.Connection = dbConnection;
-                        dbCommand.CommandText = commandText;
+                        dbCommand.CommandType = CommandType.StoredProcedure;
+                        dbCommand.CommandText = "SelectALLSessionByOwnerId";
 
                         //Input Parameters
                         _dataHandler.AddParameterToCommand(dbCommand, "@intId", CsType.Int, ParameterDirection.Input, id);
@@ -537,27 +450,6 @@ namespace PetSitting.DataAccess
 
             try
             {
-                var sb = new StringBuilder();
-                sb.Append("SET DATEFORMAT DMY; ");
-                sb.Append("SELECT ");
-                sb.Append("[SessionID], ");
-                sb.Append("[Sessions].[SitterID], ");
-                sb.Append("[Sitters].[Name], ");
-                sb.Append("[Sessions].[OwnerID], ");
-                sb.Append("[Owners].[OwnerName], ");
-                sb.Append("[Date], ");
-                sb.Append("[Status], ");
-                sb.Append("[Sessions].[Fee] ");
-                sb.Append("FROM [dbo].[Sessions] ");
-                sb.Append("INNER JOIN [dbo].[Owners] ON [Owners].[OwnerID] = [Sessions].[OwnerID] ");
-                sb.Append("INNER JOIN [dbo].[Sitters] ON [Sitters].[SitterID] = [Sessions].[SitterID] ");
-                sb.Append("ORDER BY [Name] ");
-                sb.Append("SELECT @intErrorCode=@@ERROR; ");
-
-                
-                var commandText = sb.ToString();
-                sb.Clear();
-
                 using (var dbConnection = _dbProviderFactory.CreateConnection())
                 {
                     if (dbConnection == null)
@@ -571,7 +463,8 @@ namespace PetSitting.DataAccess
                             throw new ArgumentNullException("dbCommand" + " The db command for entity [Sessions] can't be null. ");
 
                         dbCommand.Connection = dbConnection;
-                        dbCommand.CommandText = commandText;
+                        dbCommand.CommandType = CommandType.StoredProcedure;
+                        dbCommand.CommandText = "SelectALLSessions";
 
                         //Input Parameters - None
 

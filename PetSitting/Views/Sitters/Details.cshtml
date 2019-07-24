@@ -82,11 +82,8 @@
                                </dd>
                                <dd>
                                    <br /><br />
-                                   @if ((string)Session["AUTHRole"] == "Sitter")
-                                   {
                                        @Html.DisplayFor(model => model.Sessions, "SessionsBySitter")
-                                   }
-
+                                   
                                </dd>
                            </dl>
                        </div>

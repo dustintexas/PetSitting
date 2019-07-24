@@ -31,9 +31,7 @@
                     <th>
                         @Html.DisplayNameFor(model => model.Fee)
                     </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.FeeCap)
-                    </th>
+                   
                     <th></th>
                 </tr>
 
@@ -58,9 +56,7 @@
                         <td>
                             @Html.DisplayFor(modelItem => item.Fee)
                         </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.FeeCap)
-                        </td>
+                       
                         <td>
                             @Html.ActionLink("Edit", "Edit", new { id = item.SessionID }) |
                             @Html.ActionLink("Details", "Details", new { id = item.SessionID }) |

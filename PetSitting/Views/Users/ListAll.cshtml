@@ -33,9 +33,7 @@
                 <th>
                     @Html.DisplayNameFor(model => model.Role)
                 </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Discount)
-                </th>
+                
 
                 <th></th>
             </tr>
@@ -67,9 +65,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Role)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Discount)
-            </td>
+            
             <td>
                 @{
                     if (item.Role != "Admin")
