@@ -48,7 +48,27 @@ namespace PetSitting.Controllers
                 return RedirectToAction("../Home/Login");
             }
         }
+        public ActionResult Choose(int id, decimal fee)
+        {
+            try
+            {
+                if((string)Session["AUTHRole"] == null)
+                {
+                    return RedirectToAction("../Home/Login");
+                }
+                Session["ChosenSitterID"] = id;
+                Session["ChosenSitterFee"] = fee;
+                return RedirectToAction("../Sessions/CreateByOwner/" + Session["ChosenOwnerID"]);
 
+            }
+            catch (Exception ex)
+            {
+                //Log exception error
+                _loggingHandler.LogEntry(ExceptionHandler.GetExceptionMessageFormatted(ex), true);
+                ViewBag.Message = Server.HtmlEncode(ex.Message);
+                return View("Error");
+            }
+        }
         public ActionResult Chosen(int id, decimal fee)
         {
             if ((string)Session["AUTHRole"] == null)

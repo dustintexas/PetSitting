@@ -89,7 +89,14 @@ namespace PetSitting.Controllers
                                 ? (DateTime?)null : DateTime.ParseExact(collection["Date"], "M/d/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None),
                                 decimal.Parse(collection["Fee"]));
 
-                return RedirectToAction("../Owners/Details/" + Session["AUTHOwnerID"]);
+                if ((string)Session["AUTHRole"] == "Owner")
+                {
+                    return RedirectToAction("../Owners/Details/" + Session["AUTHOwnerID"]);
+                } else
+                {
+                    return RedirectToAction("../Sessions/ListAll");
+                }
+                
             }
             catch (Exception ex)
             {
@@ -240,7 +247,17 @@ namespace PetSitting.Controllers
             {
                 DeleteSession(id);
 
-                return RedirectToAction("ListAll");
+                if ((string)Session["AUTHRole"] == "Admin")
+                {
+                    return RedirectToAction("ListAll");
+                } else if ((string)Session["AUTHRole"] == "Owner")
+                {
+                    return RedirectToAction("../Owners/Details/" + (int)Session["AUTHOwnerID"]);
+                } else if ((string)Session["AUTHRole"] == "Sitter")
+                {
+                    return RedirectToAction("../Sitters/Details/" + (int)Session["AUTHSitterID"]);
+                }
+                return View();
             }
             catch (Exception ex)
             {

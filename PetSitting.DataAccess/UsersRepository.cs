@@ -371,25 +371,6 @@ namespace PetSitting.DataAccess
 
             try
             {
-                var sb = new StringBuilder();
-                sb.Append("SET DATEFORMAT MDY; ");
-                sb.Append("UPDATE [dbo].[Users] ");
-                sb.Append("SET ");
-                sb.Append("[Username] = @chnUsername, ");
-                sb.Append("[FirstName] = @chnFirstName, ");
-                sb.Append("[LastName] = @chnLastName, ");
-                sb.Append("[Email] = @chnEmail, ");
-                sb.Append("[Password] = @chnPassword, ");
-                sb.Append("[Age] = @intAge, ");
-                sb.Append("[IsActive] = @binIsActive, ");
-                sb.Append("[Role] = @chnRole ");
-                sb.Append("WHERE ");
-                sb.Append("[UserID] = @intId ");
-                sb.Append("SELECT @intErrorCode=@@ERROR; ");
-
-                var commandText = sb.ToString();
-                sb.Clear();
-
                 using (var dbConnection = _dbProviderFactory.CreateConnection())
                 {
                     if (dbConnection == null)
@@ -403,7 +384,8 @@ namespace PetSitting.DataAccess
                             throw new ArgumentNullException("dbCommand" + " The db Update command for entity [Users] can't be null. ");
 
                         dbCommand.Connection = dbConnection;
-                        dbCommand.CommandText = commandText;
+                        dbCommand.CommandType = CommandType.StoredProcedure;
+                        dbCommand.CommandText = "UpdateUserById";
 
                         //Input Parameters
                         _dataHandler.AddParameterToCommand(dbCommand, "@intId", CsType.Int, ParameterDirection.Input, entity.UserID);
@@ -522,24 +504,6 @@ namespace PetSitting.DataAccess
 
             try
             {
-                var sb = new StringBuilder();
-                sb.Append("SET DATEFORMAT MDY; ");
-                sb.Append("SELECT ");
-                sb.Append("[UserID], ");
-                sb.Append("[Username], ");
-                sb.Append("[FirstName], ");
-                sb.Append("[LastName], ");
-                sb.Append("[Email], ");
-                sb.Append("[Password], ");
-                sb.Append("[Age], ");
-                sb.Append("[IsActive], ");
-                sb.Append("[Role] ");
-                sb.Append("FROM [dbo].[Users] ");
-                sb.Append("WHERE ");
-                sb.Append("[Username] = @chnUsername ");
-                sb.Append("SELECT @intErrorCode=@@ERROR; ");
-                var commandText = sb.ToString();
-                sb.Clear();
                 using (var dbConnection = _dbProviderFactory.CreateConnection())
                 {
                     if (dbConnection == null)
@@ -553,7 +517,8 @@ namespace PetSitting.DataAccess
                             throw new ArgumentNullException("dbCommand" + " The db FindByUsername command for entity [Users] can't be null. ");
 
                         dbCommand.Connection = dbConnection;
-                        dbCommand.CommandText = commandText;
+                        dbCommand.CommandType = CommandType.StoredProcedure;
+                        dbCommand.CommandText = "FindUserByUsername";
 
                         //Input Parameters
                         _dataHandler.AddParameterToCommand(dbCommand, "@chnUsername", CsType.String, ParameterDirection.Input, username);
@@ -619,26 +584,6 @@ namespace PetSitting.DataAccess
 
             try
             {
-                var sb = new StringBuilder();
-                sb.Append("SET DATEFORMAT MDY; ");
-                sb.Append("SELECT ");
-                sb.Append("[UserID], ");
-                sb.Append("[Username], ");
-                sb.Append("[FirstName], ");
-                sb.Append("[LastName], ");
-                sb.Append("[Email], ");
-                sb.Append("[Password], ");
-                sb.Append("[Age], ");
-                sb.Append("[IsActive], ");
-                sb.Append("[Role] ");
-                sb.Append("FROM [dbo].[Users] ");
-                sb.Append("WHERE ");
-                sb.Append("[UserID] = @intId ");
-                sb.Append("SELECT @intErrorCode=@@ERROR; ");
-
-                var commandText = sb.ToString();
-                sb.Clear();
-
                 using (var dbConnection = _dbProviderFactory.CreateConnection())
                 {
                     if (dbConnection == null)
@@ -652,7 +597,8 @@ namespace PetSitting.DataAccess
                             throw new ArgumentNullException("dbCommand" + " The db SelectById command for entity [Users] can't be null. ");
 
                         dbCommand.Connection = dbConnection;
-                        dbCommand.CommandText = commandText;
+                        dbCommand.CommandType = CommandType.StoredProcedure;
+                        dbCommand.CommandText = "SelectUserById";
 
                         //Input Parameters
                         _dataHandler.AddParameterToCommand(dbCommand, "@intId", CsType.Int, ParameterDirection.Input, id);

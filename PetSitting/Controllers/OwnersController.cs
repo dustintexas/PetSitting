@@ -39,6 +39,22 @@ namespace PetSitting.Controllers
             return View();
         }
 
+        // GET: Owners/Choose
+        public ActionResult Choose(int id)
+        {
+            try
+            {
+                Session["ChosenOwnerID"] = id;
+                return RedirectToAction("../Sitters/ListAll");
+            }
+            catch (Exception ex)
+            {
+                //Log exception error
+                _loggingHandler.LogEntry(ExceptionHandler.GetExceptionMessageFormatted(ex), true);
+                ViewBag.Message = Server.HtmlEncode(ex.Message);
+                return View("Error");
+            }
+        }
         // GET: Owners/Details/5
         public ActionResult Details(int id)
         {
@@ -212,7 +228,7 @@ namespace PetSitting.Controllers
 
         public ActionResult ListAll()
         {
-            if ((string)Session["AUTHRole"] == null)
+            if ((string)Session["AUTHRole"] == null || (string)Session["AUTHRole"] != "Admin")
             {
                 return RedirectToAction("../Home/Login");
             }

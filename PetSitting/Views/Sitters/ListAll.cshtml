@@ -66,6 +66,12 @@
             @Html.DisplayFor(modelItem => item.ModifiedDate)
         </td>
         <td>
+            @{ if((string)Session["AUTHRole"] == "Admin")
+                {
+                    @Html.ActionLink("Choose", "Choose", new { id=item.SitterID, fee=item.Fee }) <text>|</text>
+                }
+
+            }
             @Html.ActionLink("Edit", "Edit", new { id=item.SitterID }) |
             @Html.ActionLink("Details", "Details", new { id=item.SitterID}) |
             @Html.ActionLink("Delete", "Delete", new { id=item.SitterID })

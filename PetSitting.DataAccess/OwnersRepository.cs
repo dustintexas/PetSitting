@@ -316,23 +316,6 @@ namespace PetSitting.DataAccess
 
             try
             {
-                var sb = new StringBuilder();
-                sb.Append("SET DATEFORMAT MDY; ");
-                sb.Append("SELECT ");
-                sb.Append("[OwnerID], ");
-                sb.Append("[OwnerName], ");
-                sb.Append("[PetName], ");
-                sb.Append("[ContactPhone], ");
-                sb.Append("[PetAge], ");
-                sb.Append("[ModifiedDate] ");
-                sb.Append("FROM [dbo].[Owners] ");
-                sb.Append("WHERE ");
-                sb.Append("[UserID] = @intUserId ");
-                sb.Append("SELECT @intErrorCode=@@ERROR; ");
-
-                var commandText = sb.ToString();
-                sb.Clear();
-
                 using (var dbConnection = _dbProviderFactory.CreateConnection())
                 {
                     if (dbConnection == null)
@@ -346,7 +329,8 @@ namespace PetSitting.DataAccess
                             throw new ArgumentNullException("dbCommand" + " The db SelectById command for entity [Owners] can't be null. ");
 
                         dbCommand.Connection = dbConnection;
-                        dbCommand.CommandText = commandText;
+                        dbCommand.CommandType = CommandType.StoredProcedure;
+                        dbCommand.CommandText = "SelectOwnerByUserId";
 
                         //Input Parameters
                         _dataHandler.AddParameterToCommand(dbCommand, "@intUserId", CsType.Int, ParameterDirection.Input, userid);
@@ -409,22 +393,6 @@ namespace PetSitting.DataAccess
 
             try
             {
-                var sb = new StringBuilder();
-                sb.Append("SET DATEFORMAT MDY; ");
-                sb.Append("SELECT ");
-                sb.Append("[OwnerID], ");
-                sb.Append("[OwnerName], ");
-                sb.Append("[PetName], ");
-                sb.Append("[ContactPhone], ");
-                sb.Append("[PetAge], ");
-                sb.Append("[ModifiedDate] ");
-                sb.Append("FROM [dbo].[Owners] ");
-                sb.Append("ORDER BY [OwnerName] ");
-                sb.Append("SELECT @intErrorCode=@@ERROR; ");
-
-                var commandText = sb.ToString();
-                sb.Clear();
-
                 using (var dbConnection = _dbProviderFactory.CreateConnection())
                 {
                     if (dbConnection == null)
@@ -438,7 +406,8 @@ namespace PetSitting.DataAccess
                             throw new ArgumentNullException("dbCommand" + " The db command for entity [Owners] can't be null. ");
 
                         dbCommand.Connection = dbConnection;
-                        dbCommand.CommandText = commandText;
+                        dbCommand.CommandType = CommandType.StoredProcedure;
+                        dbCommand.CommandText = "SelectAllOwners";
 
                         //Input Parameters - None
 
