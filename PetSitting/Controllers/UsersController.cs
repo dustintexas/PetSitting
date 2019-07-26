@@ -40,18 +40,13 @@ namespace PetSitting.Controllers
         }
 
         // GET: Users/Details/5
+        [PetSitting.MvcApplication.MustBeInRole(Roles = "Admin")]
         public ActionResult Details(int id)
         {
             try
             {
-                if ((string)Session["AUTHRole"] != null)
-                {
-                    var user = SelectUserById(id);
-                    return View(user);
-                } else
-                {
-                    return RedirectToAction("../Home/Login");
-                }
+                var user = SelectUserById(id);
+                return View(user);
             }
             catch (Exception ex)
             {
@@ -104,21 +99,16 @@ namespace PetSitting.Controllers
         }
         
         // GET: Users/Create
+        [PetSitting.MvcApplication.MustBeInRole(Roles = "Admin")]
         public ActionResult Create()
         {
-            if ((string)Session["AUTHRole"] != null)
-            {
-                return View();
-            }
-            else
-            {
-                return RedirectToAction("../Home/Login");
-            }
+            return View();
         }
 
         // POST: Users/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [PetSitting.MvcApplication.MustBeInRole(Roles = "Admin")]
         public ActionResult Create(FormCollection collection)
         {
             if (!ModelState.IsValid)
@@ -155,20 +145,13 @@ namespace PetSitting.Controllers
         }
 
         // GET: Users/Edit/5
+        [PetSitting.MvcApplication.MustBeInRole(Roles = "Admin")]
         public ActionResult Edit(int id)
         {
             try
             {
-                if ((string)Session["AUTHRole"] != null)
-                {
-                    var sitter = SelectUserById(id);
-                    return View(sitter);
-                }
-                else
-                {
-                    return RedirectToAction("../Home/Login");
-                }
-                
+                var sitter = SelectUserById(id);
+                return View(sitter);
             }
             catch (Exception ex)
             {
@@ -181,6 +164,7 @@ namespace PetSitting.Controllers
 
         // POST: Users/Edit/5
         [HttpPost]
+        [PetSitting.MvcApplication.MustBeInRole(Roles = "Admin")]
         public ActionResult Edit(int id, FormCollection collection)
         {
             if (!ModelState.IsValid)
@@ -212,24 +196,13 @@ namespace PetSitting.Controllers
         }
 
         // GET: Users/Delete/5
+        [PetSitting.MvcApplication.MustBeInRole(Roles = "Admin")]
         public ActionResult Delete(int id)
         {
             try
             {
-                if ((string)Session["AUTHRole"] != null)
-                {
-                    if ((string)Session["AUTHRole"] == "Admin")
-                    {
-                        var sitter = SelectUserById(id);
-                        return View(sitter);
-                    } else
-                    {
-                        return RedirectToAction("../Home/Login");
-                    }
-                } else
-                {
-                    return RedirectToAction("../Home/Login");
-                }
+                var sitter = SelectUserById(id);
+                return View(sitter);
             }
             catch (Exception ex)
             {
@@ -242,6 +215,7 @@ namespace PetSitting.Controllers
 
         // POST: Sitters/Delete/5
         [HttpPost]
+        [PetSitting.MvcApplication.MustBeInRole(Roles = "Admin")]
         public ActionResult Delete(int id, FormCollection collection)
         {
             try
@@ -259,27 +233,15 @@ namespace PetSitting.Controllers
             }
         }
 
+        [PetSitting.MvcApplication.MustBeInRole(Roles = "Admin")]
         public ActionResult ListAll()
         {
             try
             {
-                if ((string)Session["AUTHRole"] != null)
-                {
-                    if ((string)Session["AUTHRole"] == "Admin")
-                    {
-                        var users = from e in ListAllUsers()
-                                    orderby e.UserID
-                                    select e;
-                        return View(users);
-                    } else
-                    {
-                        return RedirectToAction("../Home/Login");
-                    }
-                }
-                else
-                {
-                    return RedirectToAction("../Home/Login");
-                }
+                var users = from e in ListAllUsers()
+                            orderby e.UserID
+                            select e;
+                return View(users);
             }
             catch (Exception ex)
             {

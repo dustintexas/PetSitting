@@ -40,6 +40,7 @@ namespace PetSitting.Controllers
         }
 
         // GET: Owners/Choose
+        [PetSitting.MvcApplication.MustBeInRole(Roles="Admin")]
         public ActionResult Choose(int id)
         {
             try
@@ -56,6 +57,7 @@ namespace PetSitting.Controllers
             }
         }
         // GET: Owners/Details/5
+        [PetSitting.MvcApplication.MustBeInRole(Roles="Admin,Owner")]
         public ActionResult Details(int id)
         {
             try
@@ -73,18 +75,16 @@ namespace PetSitting.Controllers
         }
         
         // GET: Owners/Create
+        [PetSitting.MvcApplication.MustBeInRole(Roles="Admin")]
         public ActionResult Create()
         {
-            if ((string)Session["AUTHRole"] == null)
-            {
-                return RedirectToAction("../Home/Login");
-            }
             return View();
         }
 
         // POST: Owners/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [PetSitting.MvcApplication.MustBeInRole(Roles="Admin")]
         public ActionResult Create(FormCollection collection)
         {
             if (!ModelState.IsValid)
@@ -116,14 +116,11 @@ namespace PetSitting.Controllers
                 return View("Error");
             }
         }
-        
+
         // GET: Owners/Edit/5
+        [PetSitting.MvcApplication.MustBeLoggedIn]
         public ActionResult Edit(int id)
         {
-            if ((string)Session["AUTHRole"] == null)
-            {
-                return RedirectToAction("../Home/Login");
-            }
             try
             {
                 var owner = SelectOwnerById(id);
@@ -140,6 +137,7 @@ namespace PetSitting.Controllers
 
         // POST: Owners/Edit/5
         [HttpPost]
+        [PetSitting.MvcApplication.MustBeLoggedIn]
         public ActionResult Edit(int id, FormCollection collection)
         {
             if (!ModelState.IsValid)
@@ -183,12 +181,9 @@ namespace PetSitting.Controllers
         }
 
         // GET: Owners/Delete/5
+        [PetSitting.MvcApplication.MustBeInRole(Roles="Admin")]
         public ActionResult Delete(int id)
         {
-            if ((string)Session["AUTHRole"] == null)
-            {
-                return RedirectToAction("../Home/Login");
-            }
             try
             {
                 var owner = SelectOwnerById(id);
@@ -205,12 +200,9 @@ namespace PetSitting.Controllers
 
         // POST: Owners/Delete/5
         [HttpPost]
+        [PetSitting.MvcApplication.MustBeInRole(Roles="Admin")]
         public ActionResult Delete(int id, FormCollection collection)
         {
-            if ((string)Session["AUTHRole"] == null)
-            {
-                return RedirectToAction("../Home/Login");
-            }
             try
             {
                 DeleteOwner(id);
@@ -225,13 +217,9 @@ namespace PetSitting.Controllers
                 return View("Error");
             }
         }
-
+        [PetSitting.MvcApplication.MustBeInRole(Roles="Admin")]
         public ActionResult ListAll()
         {
-            if ((string)Session["AUTHRole"] == null || (string)Session["AUTHRole"] != "Admin")
-            {
-                return RedirectToAction("../Home/Login");
-            }
             try
             {
                 var owners = from e in ListAllOwners()
