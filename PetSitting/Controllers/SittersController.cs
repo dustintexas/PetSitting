@@ -34,28 +34,19 @@ namespace PetSitting.Controllers
         }
 
         // GET: Sitters/Select
+        [PetSitting.MvcApplication.MustBeLoggedIn]
         public ActionResult SelectSitter()
         {
-            if ((string)Session["AUTHRole"] != null)
-            {
                 var sitters = from e in ListAllSitters()
                               orderby e.SitterID
                               select e;
                 return View(sitters);
-            }
-            else
-            {
-                return RedirectToAction("../Home/Login");
-            }
         }
+        [PetSitting.MvcApplication.MustBeLoggedIn]
         public ActionResult Choose(int id, decimal fee)
         {
             try
             {
-                if((string)Session["AUTHRole"] == null)
-                {
-                    return RedirectToAction("../Home/Login");
-                }
                 Session["ChosenSitterID"] = id;
                 Session["ChosenSitterFee"] = fee;
                 return RedirectToAction("../Sessions/CreateByOwner/" + Session["ChosenOwnerID"]);
@@ -69,12 +60,10 @@ namespace PetSitting.Controllers
                 return View("Error");
             }
         }
+        [PetSitting.MvcApplication.MustBeLoggedIn]
         public ActionResult Chosen(int id, decimal fee)
         {
-            if ((string)Session["AUTHRole"] == null)
-            {
-                return RedirectToAction("../Home/Login");
-            }
+            
             Session["ChosenSitterID"] = id;
             Session["ChosenSitterFee"] = fee;
             return RedirectToAction("../Sessions/CreateByOwner/" + Session["AUTHOwnerID"]);
@@ -90,20 +79,13 @@ namespace PetSitting.Controllers
         }
 
         // GET: Sitters/Details/5
+        [PetSitting.MvcApplication.MustBeLoggedIn]
         public ActionResult Details(int id)
         {
             try
             {
-                if ((string)Session["AUTHRole"] != null)
-                {
-                        var sitter = SelectSitterById(id);
-                        return View(sitter);
-                    
-                }
-                else
-                {
-                    return RedirectToAction("../Home/Login");
-                }
+                var sitter = SelectSitterById(id);
+                return View(sitter);
             }
             catch (Exception ex)
             {
@@ -115,27 +97,16 @@ namespace PetSitting.Controllers
         }
 
         // GET: Sitters/Create
+        [PetSitting.MvcApplication.MustBeInRole(Roles="Admin")]
         public ActionResult Create()
         {
-            if ((string)Session["AUTHRole"] != null)
-            {
-                if ((string)Session["AUTHRole"] == "Admin")
-                {
-                    return View();
-                } else
-                {
-                    return RedirectToAction("../Home/Login");
-                }
-            }
-            else
-            {
-                return RedirectToAction("../Home/Login");
-            }
+            return View();
         }
 
         // POST: Sitters/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [PetSitting.MvcApplication.MustBeInRole(Roles="Admin")]
         public ActionResult Create(FormCollection collection)
         {
             if (!ModelState.IsValid)
@@ -166,25 +137,13 @@ namespace PetSitting.Controllers
         }
 
         // GET: Sitters/Edit/5
+        [PetSitting.MvcApplication.MustBeInRole(Roles="Admin,Sitter")]
         public ActionResult Edit(int id)
         {
             try
             {
-                if ((string)Session["AUTHRole"] != null)
-                {
-                    if ((string)Session["AUTHRole"] == "Admin" || (string)Session["AUTHRole"] == "Sitter")
-                    {
-                        var sitter = SelectSitterById(id);
-                        return View(sitter);
-                    } else
-                    {
-                        return RedirectToAction("../Home/Login");
-                    }
-                }
-                else
-                {
-                    return RedirectToAction("../Home/Login");
-                }
+                var sitter = SelectSitterById(id);
+                return View(sitter);
             }
             catch (Exception ex)
             {
@@ -197,6 +156,7 @@ namespace PetSitting.Controllers
 
         // POST: Sitters/Edit/5
         [HttpPost]
+        [PetSitting.MvcApplication.MustBeInRole(Roles="Admin,Sitter")]
         public ActionResult Edit(int id, FormCollection collection)
         {
             if (!ModelState.IsValid)
@@ -259,7 +219,6 @@ namespace PetSitting.Controllers
                 return View("Error");
             }
         }
-
 
         // POST: Sitters/Delete/5
         [HttpPost]

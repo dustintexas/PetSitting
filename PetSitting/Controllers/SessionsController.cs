@@ -35,6 +35,7 @@ namespace PetSitting.Controllers
         }
 
         // GET: Sessions
+        [PetSitting.MvcApplication.MustBeLoggedIn]
         public ActionResult Index()
         {
             return View();
@@ -106,10 +107,6 @@ namespace PetSitting.Controllers
         [PetSitting.MvcApplication.MustBeInRole(Roles="Admin,Owner,Sitter")]
         public ActionResult Create()
         {
-            if ((string)Session["AUTHRole"] == null)
-            {
-                return RedirectToAction("../Home/Login");
-            }
             return View();
         }
 
