@@ -66,7 +66,7 @@
             @Html.DisplayFor(modelItem => item.ModifiedDate)
         </td>
         <td>
-            @{ if((string)Session["AUTHRole"] == "Admin")
+            @{ if((string)Session["AUTHRole"] == "Admin" && (int)Session["ChosenOwnerID"] != 0)
                 {
                     @Html.ActionLink("Choose", "Choose", new { id=item.SitterID, fee=item.Fee }) <text>|</text>
                 }
