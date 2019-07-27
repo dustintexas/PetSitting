@@ -22,6 +22,7 @@ namespace PetSitting.Model
         public string Status { get; set; }
         
         [Display(Name = "Session Date")]
+        [DataType(DataType.DateTime)]
         [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime? Date { get; set; }
         [Display(Name="Fee Charged")]
