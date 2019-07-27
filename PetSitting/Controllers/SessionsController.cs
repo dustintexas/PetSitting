@@ -85,6 +85,7 @@ namespace PetSitting.Controllers
                                 ? (DateTime?)null : DateTime.ParseExact(collection["Date"], "M/d/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None),
                                 decimal.Parse(collection["Fee"]));
 
+                Session["ChosenOwnerID"] = 0;
                 if ((string)Session["AUTHRole"] == "Owner")
                 {
                     return RedirectToAction("../Owners/Details/" + Session["AUTHOwnerID"]);
@@ -92,6 +93,7 @@ namespace PetSitting.Controllers
                 {
                     return RedirectToAction("../Sessions/ListAll");
                 }
+                
                 
             }
             catch (Exception ex)

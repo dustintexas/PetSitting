@@ -16,7 +16,7 @@
         <B>@ViewBag.Role</B><br />
         @{ if ((string)Session["AUTHRole"] == null)
             {
-                @Html.ActionLink("Register..", "Register", "Users", null, new { @class = "btn-link btn-sm" })
+                @Html.ActionLink("Register »", "Register", "Users", null, new { @class = "btn-link btn-sm" })
             }
          }
 
@@ -27,12 +27,20 @@
     <div class="col-md-4"><div class="panel">
         <div class="panel-heading bg-success">Getting started</div>
         <div class="panel-body"><p>
-    If you haven't registered yet, please hurry and @Html.ActionLink("click here..", "Register", "Users", null, new { @class = "btn-link btn-sm" })
+    If you haven't registered yet, please hurry and
+    @Html.ActionLink("click here..", "Register", "Users", null, new { @class = "btn-link btn-sm" })
     We offer great rates and great service specifically catered to your pet.
     If you have already registered and you want to go ahead and request a session, click the button below
     to get started!
     <br /><br />
-    <a class="btn btn-success btn-sm" href="#">Book Now &raquo;</a>
+    @{ if ((string)Session["AUTHRole"] == "Owner")
+        {
+            @Html.ActionLink("Book Now »", "Details", "Owners", new { @id = (int?)Session["AUTHOwnerID"] }, htmlAttributes: new { @class = "btn btn-success btn-sm" })
+        } else if ((string)Session["AUTHRole"] == "Admin" || (string)Session["AUTHRole"] == null)
+        {
+            @Html.ActionLink("Register »","Register","Users", null, htmlAttributes: new { @class = "btn btn-success btn-sm" })
+        }
+    }
 </p>
         </div>
         </div>
@@ -54,7 +62,7 @@
                 Sincerely,<br />
                 Margaret Stewart.
             </p>
-            <p>@Html.ActionLink("Learn more...", "About", "Home", null, new { @class = "btn btn-success btn-sm" })</p>
+            <p>@Html.ActionLink("Learn more »", "About", "Home", null, new { @class = "btn btn-success btn-sm" })</p>
         </div>
     </div></div>
     

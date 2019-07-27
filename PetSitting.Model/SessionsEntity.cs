@@ -12,9 +12,12 @@ namespace PetSitting.Model
     {
         public int SessionID { get; set; }
         public int SitterID { get; set; }
+        [Display(Name="Sitter Name")]
         public string SitterName { get; set; }
         public int OwnerID { get; set; }
+        [Display(Name="Owner Name")]
         public string OwnerName { get; set; }
+        [Display(Name="Pet Name")]
         public string PetName { get; set; }
         public string Status { get; set; }
         

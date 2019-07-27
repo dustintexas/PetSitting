@@ -68,6 +68,7 @@ namespace PetSitting.Controllers
                     Session["AUTHUsername"] = user.Username;
                     Session["AUTHRole"] = user.Role;
                     Session["AUTHUserID"] = user.UserID;
+                    Session["ChosenOwnerID"] = 0;
                     if(user.Role == "Owner")
                     {
                         using (BusinessLogic.OwnersBusiness ctx2 = new BusinessLogic.OwnersBusiness())
