@@ -12,22 +12,22 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.OwnerName)
+            @Html.ActionLink("Owner Name", "ListAll", new { Sorting_Order = ViewBag.SortingOwnerName })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.PetName)
+            @Html.ActionLink("Pet Name", "ListAll", new { Sorting_Order = ViewBag.SortingPetName })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.PetAge)
+            @Html.ActionLink("Pet Age", "ListAll", new { Sorting_Order = ViewBag.SortingPetAge })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.PetYears)
+            @Html.ActionLink("Pet Years", "ListAll", new { Sorting_Order = ViewBag.SortingPetYears })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ContactPhone)
+            @Html.ActionLink("Contact Phone", "ListAll", new { Sorting_Order = ViewBag.SortingContactPhone })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ModifiedDate)
+            @Html.ActionLink("Modified Date", "ListAll", new { Sorting_Order = ViewBag.SortingModifiedDate })
         </th>
         <th></th>
     </tr>

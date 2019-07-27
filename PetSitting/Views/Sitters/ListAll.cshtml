@@ -13,28 +13,28 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Name)
+            @Html.ActionLink("Sitter Name", "ListAll", new { Sorting_Order = ViewBag.SortingSitterName })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Fee)
+            @Html.ActionLink("Fee", "ListAll", new { Sorting_Order = ViewBag.SortingFee })
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Bio)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Age)
+            @Html.ActionLink("Age", "ListAll", new { Sorting_Order = ViewBag.SortingAge })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.HiringDate)
+            @Html.ActionLink("Hiring Date", "ListAll", new { Sorting_Order = ViewBag.SortingHiringDate })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.GrossSalary)
+            @Html.ActionLink("Gross Salary", "ListAll", new { Sorting_Order = ViewBag.SortingGrossSalary })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.NetSalary)
+            @Html.ActionLink("Net Salary", "ListAll", new { Sorting_Order = ViewBag.SortingNetSalary })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ModifiedDate)
+            @Html.ActionLink("Modified Date", "ListAll", new { Sorting_Order = ViewBag.SortingModifiedDate })
         </th>
         <th></th>
     </tr>

@@ -218,14 +218,62 @@ namespace PetSitting.Controllers
             }
         }
         [PetSitting.MvcApplication.MustBeInRole(Roles="Admin")]
-        public ActionResult ListAll()
+        public ActionResult ListAll(string Sorting_Order)
         {
             try
             {
-                var owners = from e in ListAllOwners()
-                              orderby e.OwnerID
-                              select e;
-                return View(owners);
+                ViewBag.CurrentSort = Sorting_Order;
+                ViewBag.SortingOwnerName = String.IsNullOrEmpty(Sorting_Order) ? "OwnerNameDESC" : "";
+                ViewBag.SortingOwnerName = Sorting_Order == "OwnerNameDESC" ? "OwnerNameASC" : "OwnerNameDESC";
+                ViewBag.SortingPetName = Sorting_Order == "PetNameDESC" ? "PetNameASC" : "PetNameDESC";
+                ViewBag.SortingPetAge = Sorting_Order == "PetAgeDESC" ? "PetAgeASC" : "PetAgeDESC";
+                ViewBag.SortingPetYears = Sorting_Order == "PetYearsDESC" ? "PetYearsASC" : "PetYearsDESC";
+                ViewBag.SortingContactPhone = Sorting_Order == "ContactPhoneDESC" ? "ContactPhoneASC" : "ContactPhoneDESC";
+                ViewBag.SortingModifiedDate = Sorting_Order == "ModifiedDateDESC" ? "ModifiedDateASC" : "ModifiedDateDESC";
+                var owners = from e in ListAllOwners() select e;
+                switch (Sorting_Order)
+                {
+                    case "OwnerNameASC":
+                        owners = owners.OrderBy(e => e.OwnerName);
+                        break;
+                    case "OwnerNameDESC":
+                        owners = owners.OrderByDescending(e => e.OwnerName);
+                        break;
+                    case "PetNameASC":
+                        owners = owners.OrderBy(e => e.PetName);
+                        break;
+                    case "PetNameDESC":
+                        owners = owners.OrderByDescending(e => e.PetName);
+                        break;
+                    case "PetAgeASC":
+                        owners = owners.OrderBy(e => e.PetAge);
+                        break;
+                    case "PetAgeDESC":
+                        owners = owners.OrderByDescending(e => e.PetAge);
+                        break;
+                    case "PetYearsASC":
+                        owners = owners.OrderBy(e => e.PetYears);
+                        break;
+                    case "PetYearsDESC":
+                        owners = owners.OrderByDescending(e => e.PetYears);
+                        break;
+                    case "ContactPhoneASC":
+                        owners = owners.OrderBy(e => e.ContactPhone);
+                        break;
+                    case "ContactPhoneDESC":
+                        owners = owners.OrderByDescending(e => e.ContactPhone);
+                        break;
+                    case "ModifiedDateASC":
+                        owners = owners.OrderBy(e => e.ModifiedDate);
+                        break;
+                    case "ModifiedDateDESC":
+                        owners = owners.OrderByDescending(e => e.ModifiedDate);
+                        break;
+                    default:
+                        owners = owners.OrderBy(e => e.OwnerID);
+                        break;
+                }
+                return View(owners.ToList());
             }
             catch (Exception ex)
             {

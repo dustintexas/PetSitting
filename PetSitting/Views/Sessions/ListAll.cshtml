@@ -9,25 +9,27 @@
             
 
             <p>
+                
                 @Html.ActionLink("Create New", "ListAll", "Owners")
+
             </p>
             <table class="table">
                 <tr>
                     
                     <th>
-                        @Html.DisplayNameFor(model => model.SitterName)
+                        @Html.ActionLink("Sitter Name", "ListAll", new { Sorting_Order = ViewBag.SortingSitterName })
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.OwnerName)
+                        @Html.ActionLink("Owner Name", "ListAll", new { Sorting_Order = ViewBag.SortingOwnerName })
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.Status)
+                        @Html.ActionLink("Status", "ListAll", new { Sorting_Order = ViewBag.SortingStatus })
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.Date)
+                        @Html.ActionLink("Session Date", "ListAll", new { Sorting_Order = ViewBag.SortingSessionDate })
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.Fee)
+                        @Html.ActionLink("Fee Charged", "ListAll", new { Sorting_Order = ViewBag.SortingFeeCharged })
                     </th>
                    
                     <th></th>

@@ -10,13 +10,13 @@
         <table class="table">
             <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.Username)
+                    @Html.ActionLink("Username", "ListAll", new { Sorting_Order = ViewBag.SortingUsername })
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.FirstName)
+                    @Html.ActionLink("First Name","ListAll", new { Sorting_Order = ViewBag.SortingFirstName })
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.LastName)
+                    @Html.ActionLink("Last Name","ListAll", new { Sorting_Order = ViewBag.SortingLastName })
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.Email)
@@ -25,13 +25,13 @@
                     @Html.DisplayNameFor(model => model.Password)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Age)
+                    @Html.ActionLink("Age","ListAll", new { Sorting_Order = ViewBag.SortingAge })
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.IsActive)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Role)
+                    @Html.ActionLink("Role","ListAll", new { Sorting_Order = ViewBag.SortingRole })
                 </th>
                 
 

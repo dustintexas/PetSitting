@@ -260,14 +260,56 @@ namespace PetSitting.Controllers
             }
         }
         [PetSitting.MvcApplication.MustBeInRole(Roles = "Admin")]
-        public ActionResult ListAll()
+        public ActionResult ListAll(string Sorting_Order)
         {
             try
             {
+                ViewBag.CurrentSort = Sorting_Order;
+                ViewBag.SortingSitterName = String.IsNullOrEmpty(Sorting_Order) ? "SitterNameDESC" : "";
+                ViewBag.SortingSitterName = Sorting_Order == "SitterNameDESC" ? "SitterNameASC" : "SitterNameDESC";
+                ViewBag.SortingOwnerName = Sorting_Order == "OwnerNameDESC" ? "OwnerNameASC" : "OwnerNameDESC";
+                ViewBag.SortingStatus = Sorting_Order == "StatusDESC" ? "StatusASC" : "StatusDESC";
+                ViewBag.SortingSessionDate = Sorting_Order == "SessionDateDESC" ? "SessionDateASC" : "SessionDateDESC";
+                ViewBag.SortingFeeCharged = Sorting_Order == "FeeChargedDESC" ? "FeeChargedASC" : "FeeChargedDESC";
                 var sessions = from e in ListAllSessions()
-                                orderby e.SessionID
                                 select e;
-                return View(sessions);
+                switch (Sorting_Order)
+                {
+                    case "SitterNameASC":
+                        sessions = sessions.OrderBy(e => e.SitterName);
+                        break;
+                    case "SitterNameDESC":
+                        sessions = sessions.OrderByDescending(e => e.SitterName);
+                        break;
+                    case "OwnerNameASC":
+                        sessions = sessions.OrderBy(e => e.OwnerName);
+                        break;
+                    case "OwnerNameDESC":
+                        sessions = sessions.OrderByDescending(e => e.OwnerName);
+                        break;
+                    case "StatusASC":
+                        sessions = sessions.OrderBy(e => e.Status);
+                        break;
+                    case "StatusDESC":
+                        sessions = sessions.OrderByDescending(e => e.Status);
+                        break;
+                    case "SessionDateASC":
+                        sessions = sessions.OrderBy(e => e.Date);
+                        break;
+                    case "SessionDateDESC":
+                        sessions = sessions.OrderByDescending(e => e.Date);
+                        break;
+                    case "FeeChargedASC":
+                        sessions = sessions.OrderBy(e => e.Fee);
+                        break;
+                    case "FeeChargedDESC":
+                        sessions = sessions.OrderByDescending(e => e.Fee);
+                        break;
+                    default:
+                        sessions = sessions.OrderBy(e => e.SessionID);
+                        break;
+                }
+                return View(sessions.ToList());
             }
             catch (Exception ex)
             {

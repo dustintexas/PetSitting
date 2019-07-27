@@ -234,14 +234,55 @@ namespace PetSitting.Controllers
         }
 
         [PetSitting.MvcApplication.MustBeInRole(Roles = "Admin")]
-        public ActionResult ListAll()
+        public ActionResult ListAll(string Sorting_Order)
         {
             try
             {
-                var users = from e in ListAllUsers()
-                            orderby e.UserID
-                            select e;
-                return View(users);
+                ViewBag.CurrentSort = Sorting_Order;
+                ViewBag.SortingUsername = String.IsNullOrEmpty(Sorting_Order) ? "UsernameDESC" : "";
+                ViewBag.SortingUsername = Sorting_Order == "UsernameDESC" ? "UsernameASC" : "UsernameDESC";
+                ViewBag.SortingFirstName = Sorting_Order == "FirstNameDESC" ? "FirstNameASC" : "FirstNameDESC";
+                ViewBag.SortingLastName = Sorting_Order == "LastNameDESC" ? "LastNameASC" : "LastNameDESC";
+                ViewBag.SortingAge = Sorting_Order == "AgeDESC" ? "AgeASC" : "AgeDESC";
+                ViewBag.SortingRole = Sorting_Order == "RoleDESC" ? "RoleASC" : "RoleDESC";
+                var users = from e in ListAllUsers() select e;
+                switch (Sorting_Order)
+                {
+                    case "UsernameASC":
+                        users = users.OrderBy(e => e.Username);
+                        break;
+                    case "UsernameDESC":
+                        users = users.OrderByDescending(e => e.Username);
+                        break;
+                    case "FirstNameASC":
+                        users = users.OrderBy(e => e.FirstName);
+                        break;
+                    case "FirstNameDESC":
+                        users = users.OrderByDescending(e => e.FirstName);
+                        break;
+                    case "LastNameASC":
+                        users = users.OrderBy(e => e.LastName);
+                        break;
+                    case "LastNameDESC":
+                        users = users.OrderByDescending(e => e.LastName);
+                        break;
+                    case "AgeASC":
+                        users = users.OrderBy(e => e.Age);
+                        break;
+                    case "AgeDESC":
+                        users = users.OrderByDescending(e => e.Age);
+                        break;
+                    case "RoleASC":
+                        users = users.OrderBy(e => e.Role);
+                        break;
+                    case "RoleDESC":
+                        users = users.OrderByDescending(e => e.Role);
+                        break;
+                    default:
+                        users = users.OrderBy(e => e.UserID);
+                        break;
+                }
+                return View(users.ToList());
             }
             catch (Exception ex)
             {

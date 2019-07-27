@@ -240,14 +240,69 @@ namespace PetSitting.Controllers
             }
         }
         [PetSitting.MvcApplication.MustBeInRole(Roles="Admin")]
-        public ActionResult ListAll()
+        public ActionResult ListAll(string Sorting_Order)
         {
             try
             {
-                var sitters = from e in ListAllSitters()
-                              orderby e.SitterID
-                              select e;
-                return View(sitters);
+                ViewBag.CurrentSort = Sorting_Order;
+                ViewBag.SortingSitterName = String.IsNullOrEmpty(Sorting_Order) ? "SitterNameDESC" : "";
+                ViewBag.SortingSitterName = Sorting_Order == "SitterNameDESC" ? "SitterNameASC" : "SitterNameDESC";
+                ViewBag.SortingFee = Sorting_Order == "FeeDESC" ? "FeeASC" : "FeeDESC";
+                ViewBag.SortingAge = Sorting_Order == "AgeDESC" ? "AgeASC" : "AgeDESC";
+                ViewBag.SortingHiringDate = Sorting_Order == "HiringDateDESC" ? "HiringDateASC" : "HiringDateDESC";
+                ViewBag.SortingGrossSalary = Sorting_Order == "GrossSalaryDESC" ? "GrossSalaryASC" : "GrossSalaryDESC";
+                ViewBag.SortingNetSalary = Sorting_Order == "NetSalaryDESC" ? "NetSalaryASC" : "NetSalaryDESC";
+                ViewBag.SortingModifiedDate = Sorting_Order == "ModifiedDateDESC" ? "ModifiedDateASC" : "ModifiedDateDESC";
+                var sitters = from e in ListAllSitters() select e;
+                switch (Sorting_Order)
+                {
+                    case "SitterNameASC":
+                        sitters = sitters.OrderBy(e => e.Name);
+                        break;
+                    case "SitterNameDESC":
+                        sitters = sitters.OrderByDescending(e => e.Name);
+                        break;
+                    case "FeeASC":
+                        sitters = sitters.OrderBy(e => e.Fee);
+                        break;
+                    case "FeeDESC":
+                        sitters = sitters.OrderByDescending(e => e.Fee);
+                        break;
+                    case "AgeASC":
+                        sitters = sitters.OrderBy(e => e.Age);
+                        break;
+                    case "AgeDESC":
+                        sitters = sitters.OrderByDescending(e => e.Age);
+                        break;
+                    case "HiringDateASC":
+                        sitters = sitters.OrderBy(e => e.HiringDate);
+                        break;
+                    case "HiringDateDESC":
+                        sitters = sitters.OrderByDescending(e => e.HiringDate);
+                        break;
+                    case "GrossSalaryASC":
+                        sitters = sitters.OrderBy(e => e.GrossSalary);
+                        break;
+                    case "GrossSalaryDESC":
+                        sitters = sitters.OrderByDescending(e => e.GrossSalary);
+                        break;
+                    case "NetSalaryASC":
+                        sitters = sitters.OrderBy(e => e.NetSalary);
+                        break;
+                    case "NetSalaryDESC":
+                        sitters = sitters.OrderByDescending(e => e.NetSalary);
+                        break;
+                    case "ModifiedDateASC":
+                        sitters = sitters.OrderBy(e => e.ModifiedDate);
+                        break;
+                    case "ModifiedDateDESC":
+                        sitters = sitters.OrderByDescending(e => e.ModifiedDate);
+                        break;
+                    default:
+                        sitters = sitters.OrderBy(e => e.SitterID);
+                        break;
+                }
+                return View(sitters.ToList());
             }
             catch (Exception ex)
             {
