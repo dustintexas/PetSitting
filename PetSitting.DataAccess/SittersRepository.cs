@@ -270,15 +270,16 @@ namespace PetSitting.DataAccess
                                     entity.Bio = reader.GetString(3);
                                     entity.Age = reader.GetInt32(4);
                                     entity.HiringDate = reader.GetValue(5) == DBNull.Value ? (DateTime?)null : reader.GetDateTime(5);
-                                    entity.TotalSales = reader.GetDecimal(6);
-                                    entity.GrossSalary = reader.GetDecimal(7);
-                                    entity.ModifiedDate = reader.GetDateTime(8);
-                                    entity.Username = reader.GetString(9);
-                                    entity.FirstName = reader.GetString(10);
-                                    entity.LastName = reader.GetString(11);
-                                    entity.Email = reader.GetString(12);
-                                    entity.Password = reader.GetString(13);
-                                    entity.Role = reader.GetString(14);
+                                    entity.SessionsCount = reader.GetInt32(6);
+                                    entity.TotalSales = reader.GetDecimal(7);
+                                    entity.GrossSalary = reader.GetDecimal(8);
+                                    entity.ModifiedDate = reader.GetDateTime(9);
+                                    entity.Username = reader.GetString(10);
+                                    entity.FirstName = reader.GetString(11);
+                                    entity.LastName = reader.GetString(12);
+                                    entity.Email = reader.GetString(13);
+                                    entity.Password = reader.GetString(14);
+                                    entity.Role = reader.GetString(15);
                                     returnedEntity = entity;
                                     break;
                                 }
@@ -444,6 +445,8 @@ namespace PetSitting.DataAccess
                                     entity.HiringDate = reader.GetValue(5) == DBNull.Value ? (DateTime?)null : reader.GetDateTime(5);
                                     entity.GrossSalary = reader.GetDecimal(6);
                                     entity.ModifiedDate = reader.GetDateTime(7);
+                                    entity.SessionsCount = reader.GetInt32(8);
+                                    entity.TotalSales = reader.GetDecimal(9);
                                     returnedEntities.Add(entity);
                                 }
                             }

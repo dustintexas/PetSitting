@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using PetSitting.BusinessLogic;
 using PetSitting.Common;
 using PetSitting.Model;
+using PagedList;
 
 namespace PetSitting.Controllers
 {
@@ -218,7 +219,7 @@ namespace PetSitting.Controllers
             }
         }
         [PetSitting.MvcApplication.MustBeInRole(Roles="Admin")]
-        public ActionResult ListAll(string Sorting_Order)
+        public ActionResult ListAll(string Sorting_Order, int? page)
         {
             try
             {
@@ -230,9 +231,23 @@ namespace PetSitting.Controllers
                 ViewBag.SortingPetYears = Sorting_Order == "PetYearsDESC" ? "PetYearsASC" : "PetYearsDESC";
                 ViewBag.SortingContactPhone = Sorting_Order == "ContactPhoneDESC" ? "ContactPhoneASC" : "ContactPhoneDESC";
                 ViewBag.SortingModifiedDate = Sorting_Order == "ModifiedDateDESC" ? "ModifiedDateASC" : "ModifiedDateDESC";
+                ViewBag.SortingSessionsCount = Sorting_Order == "SessionsCountDESC" ? "SessionsCountASC" : "SessionsCountDESC";
+                ViewBag.SortingTotalSales = Sorting_Order == "TotalSalesDESC" ? "TotalSalesASC" : "TotalSalesDESC";
                 var owners = from e in ListAllOwners() select e;
                 switch (Sorting_Order)
                 {
+                    case "SessionsCountASC":
+                        owners = owners.OrderBy(e => e.SessionsCount);
+                        break;
+                    case "SessionsCountDESC":
+                        owners = owners.OrderByDescending(e => e.SessionsCount);
+                        break;
+                    case "TotalSalesASC":
+                        owners = owners.OrderBy(e => e.TotalSales);
+                        break;
+                    case "TotalSalesDESC":
+                        owners = owners.OrderByDescending(e => e.TotalSales);
+                        break;
                     case "OwnerNameASC":
                         owners = owners.OrderBy(e => e.OwnerName);
                         break;
@@ -273,7 +288,9 @@ namespace PetSitting.Controllers
                         owners = owners.OrderBy(e => e.OwnerID);
                         break;
                 }
-                return View(owners.ToList());
+                int pageSize = 10;
+                int pageNumber = (page ?? 1);
+                return View(owners.ToPagedList(pageNumber, pageSize));
             }
             catch (Exception ex)
             {

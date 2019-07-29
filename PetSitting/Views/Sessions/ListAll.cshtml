@@ -1,68 +1,72 @@
-﻿@model IEnumerable<PetSitting.Model.SessionsEntity>
+﻿@model PagedList.IPagedList<PetSitting.Model.SessionsEntity>
+@using PagedList.Mvc;
 
 @{
     ViewBag.Title = "ListAll";
 }
-    <div class="panel">
-        <div class="panel-heading"><h3>Sessions</h3></div>
-        <div class="panel-body">
-            
+<div class="panel">
+    <div class="panel-heading"><h3>Sessions</h3></div>
+    <div class="panel-body">
 
-            <p>
-                
-                @Html.ActionLink("Create New", "ListAll", "Owners")
 
-            </p>
-            <table class="table">
+        <p>
+
+            @Html.ActionLink("Create New", "ListAll", "Owners")
+
+        </p>
+        <table class="table">
+            <tr>
+
+                <th>
+                    @Html.ActionLink("Sitter Name", "ListAll", new { Sorting_Order = ViewBag.SortingSitterName })
+                </th>
+                <th>
+                    @Html.ActionLink("Owner Name", "ListAll", new { Sorting_Order = ViewBag.SortingOwnerName })
+                </th>
+                <th>
+                    @Html.ActionLink("Status", "ListAll", new { Sorting_Order = ViewBag.SortingStatus })
+                </th>
+                <th>
+                    @Html.ActionLink("Session Date", "ListAll", new { Sorting_Order = ViewBag.SortingSessionDate })
+                </th>
+                <th>
+                    @Html.ActionLink("Fee Charged", "ListAll", new { Sorting_Order = ViewBag.SortingFeeCharged })
+                </th>
+
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
                 <tr>
-                    
-                    <th>
-                        @Html.ActionLink("Sitter Name", "ListAll", new { Sorting_Order = ViewBag.SortingSitterName })
-                    </th>
-                    <th>
-                        @Html.ActionLink("Owner Name", "ListAll", new { Sorting_Order = ViewBag.SortingOwnerName })
-                    </th>
-                    <th>
-                        @Html.ActionLink("Status", "ListAll", new { Sorting_Order = ViewBag.SortingStatus })
-                    </th>
-                    <th>
-                        @Html.ActionLink("Session Date", "ListAll", new { Sorting_Order = ViewBag.SortingSessionDate })
-                    </th>
-                    <th>
-                        @Html.ActionLink("Fee Charged", "ListAll", new { Sorting_Order = ViewBag.SortingFeeCharged })
-                    </th>
-                   
-                    <th></th>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SitterName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.OwnerName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Status)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Date)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Fee)
+                    </td>
+
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.SessionID }) |
+                        @Html.ActionLink("Details", "Details", new { id = item.SessionID }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.SessionID })
+                    </td>
                 </tr>
+            }
 
-                @foreach (var item in Model)
-                {
-                    <tr>
-                        
-                        <td>
-                            @Html.DisplayFor(modelItem => item.SitterName)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.OwnerName)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Status)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Date)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Fee)
-                        </td>
-                       
-                        <td>
-                            @Html.ActionLink("Edit", "Edit", new { id = item.SessionID }) |
-                            @Html.ActionLink("Details", "Details", new { id = item.SessionID }) |
-                            @Html.ActionLink("Delete", "Delete", new { id = item.SessionID })
-                        </td>
-                    </tr>
-                }
+        </table>
+        Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+        @Html.PagedListPager(Model, page => Url.Action("ListAll", new { page, Sorting_Order = ViewBag.CurrentSort }))
 
-            </table>
-            </div>
+    </div>
 </div>

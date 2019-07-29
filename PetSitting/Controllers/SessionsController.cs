@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using PetSitting.BusinessLogic;
 using PetSitting.Common;
 using PetSitting.Model;
+using PagedList;
 
 namespace PetSitting.Controllers
 {
@@ -260,7 +261,7 @@ namespace PetSitting.Controllers
             }
         }
         [PetSitting.MvcApplication.MustBeInRole(Roles = "Admin")]
-        public ActionResult ListAll(string Sorting_Order)
+        public ActionResult ListAll(string Sorting_Order, int? page)
         {
             try
             {
@@ -271,8 +272,7 @@ namespace PetSitting.Controllers
                 ViewBag.SortingStatus = Sorting_Order == "StatusDESC" ? "StatusASC" : "StatusDESC";
                 ViewBag.SortingSessionDate = Sorting_Order == "SessionDateDESC" ? "SessionDateASC" : "SessionDateDESC";
                 ViewBag.SortingFeeCharged = Sorting_Order == "FeeChargedDESC" ? "FeeChargedASC" : "FeeChargedDESC";
-                var sessions = from e in ListAllSessions()
-                                select e;
+                var sessions = from e in ListAllSessions() select e;
                 switch (Sorting_Order)
                 {
                     case "SitterNameASC":
@@ -309,7 +309,9 @@ namespace PetSitting.Controllers
                         sessions = sessions.OrderBy(e => e.SessionID);
                         break;
                 }
-                return View(sessions.ToList());
+                int pageSize = 10;
+                int pageNumber = (page ?? 1);
+                return View(sessions.ToPagedList(pageNumber, pageSize));
             }
             catch (Exception ex)
             {

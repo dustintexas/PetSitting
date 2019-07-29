@@ -80,6 +80,8 @@ namespace PetSitting.Model
         public string ConfirmPassword { get; set; }
         public bool IsActive { get; set; }
         public string Role { get; set; }
+        [Display(Name="Sessions Count")]
+        public int SessionsCount { get; set; }
         public ICollection<SessionsEntity> Sessions { get; set; }
 
         #endregion

@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using PetSitting.BusinessLogic;
 using PetSitting.Common;
 using PetSitting.Model;
+using PagedList;
 
 namespace PetSitting.Controllers
 {
@@ -234,7 +235,7 @@ namespace PetSitting.Controllers
         }
 
         [PetSitting.MvcApplication.MustBeInRole(Roles = "Admin")]
-        public ActionResult ListAll(string Sorting_Order)
+        public ActionResult ListAll(string Sorting_Order, int? page)
         {
             try
             {
@@ -282,7 +283,9 @@ namespace PetSitting.Controllers
                         users = users.OrderBy(e => e.UserID);
                         break;
                 }
-                return View(users.ToList());
+                int pageSize = 10;
+                int pageNumber = (page ?? 1);
+                return View(users.ToPagedList(pageNumber, pageSize));
             }
             catch (Exception ex)
             {

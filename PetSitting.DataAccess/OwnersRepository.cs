@@ -432,6 +432,8 @@ namespace PetSitting.DataAccess
                                     entity.ContactPhone = reader.GetString(3);
                                     entity.PetAge = reader.GetInt32(4);
                                     entity.ModifiedDate = reader.GetDateTime(5);
+                                    entity.SessionsCount = reader.GetInt32(6);
+                                    entity.TotalSales = reader.GetDecimal(7);
                                     returnedEntities.Add(entity);
                                 }
                             }

@@ -1,4 +1,5 @@
-﻿@model IEnumerable<PetSitting.Model.UsersEntity>
+﻿@model PagedList.IPagedList<PetSitting.Model.UsersEntity>
+@using PagedList.Mvc;
 
 @{
     ViewBag.Title = "ListAll";
@@ -6,76 +7,73 @@
 <div class="panel">
     <div class="panel-heading"><h3>Users</h3></div>
     <div class="panel-body">
-        
+
         <table class="table">
             <tr>
                 <th>
                     @Html.ActionLink("Username", "ListAll", new { Sorting_Order = ViewBag.SortingUsername })
                 </th>
                 <th>
-                    @Html.ActionLink("First Name","ListAll", new { Sorting_Order = ViewBag.SortingFirstName })
+                    @Html.ActionLink("First Name", "ListAll", new { Sorting_Order = ViewBag.SortingFirstName })
                 </th>
                 <th>
-                    @Html.ActionLink("Last Name","ListAll", new { Sorting_Order = ViewBag.SortingLastName })
+                    @Html.ActionLink("Last Name", "ListAll", new { Sorting_Order = ViewBag.SortingLastName })
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Email)
+                    Email
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Password)
+                    Password
                 </th>
                 <th>
-                    @Html.ActionLink("Age","ListAll", new { Sorting_Order = ViewBag.SortingAge })
+                    @Html.ActionLink("Age", "ListAll", new { Sorting_Order = ViewBag.SortingAge })
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.IsActive)
+                    @Html.ActionLink("Role", "ListAll", new { Sorting_Order = ViewBag.SortingRole })
                 </th>
-                <th>
-                    @Html.ActionLink("Role","ListAll", new { Sorting_Order = ViewBag.SortingRole })
-                </th>
-                
+
 
                 <th></th>
             </tr>
 
             @foreach (var item in Model)
             {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Username)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FirstName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LastName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Password)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Age)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsActive)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Role)
-            </td>
-            
-            <td>
-                @{
-                    if (item.Role != "Admin")
-                    {
-                            @Html.ActionLink("Delete", "Delete", new { id = item.UserID })
-                    }
-                 }
-             </td>
-        </tr>
-        }
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Username)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FirstName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LastName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Password)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Age)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Role)
+                    </td>
+
+                    <td>
+                        @{
+                            if (item.Role != "Admin")
+                            {
+                                @Html.ActionLink("Delete", "Delete", new { id = item.UserID })
+                            }
+                        }
+                    </td>
+                </tr>
+            }
         </table>
+        Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+        @Html.PagedListPager(Model, page => Url.Action("ListAll", new { page, Sorting_Order = ViewBag.CurrentSort }))
+
     </div>
 </div>

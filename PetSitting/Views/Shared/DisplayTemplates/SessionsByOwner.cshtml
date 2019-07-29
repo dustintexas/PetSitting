@@ -20,10 +20,10 @@
         </th>
         <th></th>
     </tr>
-
+    @{ var i = 1; }
     @foreach (var item in Model)
     {
-        <tr>
+        <tr style='background-color: @(i % 2 == 0 ? "#D9E6C4" : "#ffffff" );'>
             <td>
                 @Html.DisplayFor(modelItem => item.SitterName)
             </td>
@@ -42,5 +42,6 @@
                 }
             }</td>
         </tr>
+        <!--@(i++)-->
     }
 </table>

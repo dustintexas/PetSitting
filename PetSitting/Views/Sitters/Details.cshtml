@@ -64,7 +64,13 @@
                                <dd>
                                    @Html.DisplayFor(model => model.TotalSales)
                                </dd>
+                               <dt>
+                                   @Html.DisplayNameFor(model => model.SessionsCount)
+                               </dt>
 
+                               <dd>
+                                   @Html.DisplayFor(model => model.SessionsCount)
+                               </dd>
                                <dt>
                                    @Html.DisplayNameFor(model => model.GrossSalary)
                                </dt>
@@ -82,8 +88,8 @@
                                </dd>
                                <dd>
                                    <br /><br />
-                                       @Html.DisplayFor(model => model.Sessions, "SessionsBySitter")
-                                   
+                                   @Html.DisplayFor(model => model.Sessions, "SessionsBySitter")
+
                                </dd>
                            </dl>
                        </div>
