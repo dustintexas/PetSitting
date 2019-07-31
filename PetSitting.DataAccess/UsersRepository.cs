@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using PetSitting.Common;
 using PetSitting.DataAccess.Common;
 using PetSitting.Model;
+using System.Web.Helpers;
 
 namespace PetSitting.DataAccess
 {
@@ -53,12 +54,13 @@ namespace PetSitting.DataAccess
                         {
                             dbCommand.CommandText = "Owner_Insert";
                         }
+                        string hashedpassword = Crypto.HashPassword(entity.Password);
                         //Input Parameters
                         _dataHandler.AddParameterToCommand(dbCommand, "@chnUsername", CsType.String, ParameterDirection.Input, entity.Username);
                         _dataHandler.AddParameterToCommand(dbCommand, "@chnFirstName", CsType.String, ParameterDirection.Input, entity.FirstName);
                         _dataHandler.AddParameterToCommand(dbCommand, "@chnLastName", CsType.String, ParameterDirection.Input, entity.LastName);
                         _dataHandler.AddParameterToCommand(dbCommand, "@chnEmail", CsType.String, ParameterDirection.Input, entity.Email);
-                        _dataHandler.AddParameterToCommand(dbCommand, "@chnPassword", CsType.String, ParameterDirection.Input, entity.Password);
+                        _dataHandler.AddParameterToCommand(dbCommand, "@chnPassword", CsType.String, ParameterDirection.Input, hashedpassword);
                         _dataHandler.AddParameterToCommand(dbCommand, "@intAge", CsType.Int, ParameterDirection.Input, entity.Age);
                         _dataHandler.AddParameterToCommand(dbCommand, "@binIsActive", CsType.Boolean, ParameterDirection.Input, entity.IsActive);
                         _dataHandler.AddParameterToCommand(dbCommand, "@chnRole", CsType.String, ParameterDirection.Input, entity.Role);
@@ -387,13 +389,14 @@ namespace PetSitting.DataAccess
                         dbCommand.CommandType = CommandType.StoredProcedure;
                         dbCommand.CommandText = "UpdateUserById";
 
+                        string hashedpassword = Crypto.HashPassword(entity.Password);
                         //Input Parameters
                         _dataHandler.AddParameterToCommand(dbCommand, "@intId", CsType.Int, ParameterDirection.Input, entity.UserID);
                         _dataHandler.AddParameterToCommand(dbCommand, "@chnUsername", CsType.String, ParameterDirection.Input, entity.Username);
                         _dataHandler.AddParameterToCommand(dbCommand, "@chnFirstName", CsType.String, ParameterDirection.Input, entity.FirstName);
                         _dataHandler.AddParameterToCommand(dbCommand, "@chnLastName", CsType.String, ParameterDirection.Input, entity.LastName);
                         _dataHandler.AddParameterToCommand(dbCommand, "@chnEmail", CsType.String, ParameterDirection.Input, entity.Email);
-                        _dataHandler.AddParameterToCommand(dbCommand, "@chnPassword", CsType.String, ParameterDirection.Input, entity.Password);
+                        _dataHandler.AddParameterToCommand(dbCommand, "@chnPassword", CsType.String, ParameterDirection.Input, hashedpassword);
                         _dataHandler.AddParameterToCommand(dbCommand, "@intAge", CsType.Int, ParameterDirection.Input, entity.Age);
                         _dataHandler.AddParameterToCommand(dbCommand, "@binIsActive", CsType.Boolean, ParameterDirection.Input, entity.IsActive);
                         _dataHandler.AddParameterToCommand(dbCommand, "@chnRole", CsType.String, ParameterDirection.Input, entity.Role);

@@ -61,8 +61,15 @@ namespace PetSitting.Controllers
                 string actual = user.Password;
                 //string potential = user.Salt + info.Password;
                     string potential = info.Password;
-                //bool validateduser = System.Web.Helpers.Crypto.VerifyHashedPassword(actual,potential);
-                    bool validateduser = potential == actual;
+                bool validateduser = false;
+                if (info.Username == "admin")
+                {
+                    validateduser = potential == actual;
+                }
+                else
+                {
+                    validateduser = System.Web.Helpers.Crypto.VerifyHashedPassword(actual,potential);
+                }
                 if (validateduser)
                 {
                     Session["AUTHUsername"] = user.Username;

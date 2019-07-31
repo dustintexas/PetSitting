@@ -4,7 +4,7 @@ using PetSitting;
 namespace PetSitting.Common
 {
     /// <summary>
-    /// Purpose: Cross-cutting helper component for for creating and handling Logging activities.
+    /// Purpose: Cross-cutting helper component for creating and handling Logging activities.
     /// </summary>
     public class LoggingHandler : IDisposable
     {

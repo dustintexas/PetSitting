@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using PetSitting.Common;
 using PetSitting.DataAccess.Common;
 using PetSitting.Model;
+using System.Web.Helpers;
 
 namespace PetSitting.DataAccess
 {
@@ -43,17 +44,19 @@ namespace PetSitting.DataAccess
                     {
                         if (dbCommand == null)
                             throw new ArgumentNullException("dbCommand" + " The db Insert command for entity [Owners] can't be null. ");
-
+                       
+                        // CODE BELOW INSERTS USER INFORMATION INTO MULTIPLE TABLES
                         dbCommand.Connection = dbConnection;
                         dbCommand.CommandType = CommandType.StoredProcedure;
                         dbCommand.CommandText = "Owner_Insert";
 
+                        string hashedpassword = Crypto.HashPassword(entity.Password);
                         //Input Parameters
                         _dataHandler.AddParameterToCommand(dbCommand, "@chnUsername", CsType.String, ParameterDirection.Input, entity.Username);
                         _dataHandler.AddParameterToCommand(dbCommand, "@chnFirstName", CsType.String, ParameterDirection.Input, entity.FirstName);
                         _dataHandler.AddParameterToCommand(dbCommand, "@chnLastName", CsType.String, ParameterDirection.Input, entity.LastName);
                         _dataHandler.AddParameterToCommand(dbCommand, "@chnEmail", CsType.String, ParameterDirection.Input, entity.Email);
-                        _dataHandler.AddParameterToCommand(dbCommand, "@chnPassword", CsType.String, ParameterDirection.Input, entity.Password);
+                        _dataHandler.AddParameterToCommand(dbCommand, "@chnPassword", CsType.String, ParameterDirection.Input, hashedpassword);
                         _dataHandler.AddParameterToCommand(dbCommand, "@binIsActive", CsType.Boolean, ParameterDirection.Input, entity.IsActive);
                         _dataHandler.AddParameterToCommand(dbCommand, "@intAge", CsType.Int, ParameterDirection.Input, entity.Age);
                         _dataHandler.AddParameterToCommand(dbCommand, "@chnRole", CsType.String, ParameterDirection.Input, entity.Role);
@@ -117,6 +120,7 @@ namespace PetSitting.DataAccess
                         dbCommand.CommandType = CommandType.StoredProcedure;
                         dbCommand.CommandText = "UpdateOwnerById";
 
+                        string hashedpassword = Crypto.HashPassword(entity.Password);
                         //Input Parameters
                         _dataHandler.AddParameterToCommand(dbCommand, "@intOwnerID", CsType.Int, ParameterDirection.Input, entity.OwnerID);
                         _dataHandler.AddParameterToCommand(dbCommand, "@chnOwnerName", CsType.String, ParameterDirection.Input, entity.OwnerName);
@@ -127,7 +131,7 @@ namespace PetSitting.DataAccess
                         _dataHandler.AddParameterToCommand(dbCommand, "@chnFirstName", CsType.String, ParameterDirection.Input, entity.FirstName);
                         _dataHandler.AddParameterToCommand(dbCommand, "@chnLastName", CsType.String, ParameterDirection.Input, entity.LastName);
                         _dataHandler.AddParameterToCommand(dbCommand, "@chnEmail", CsType.String, ParameterDirection.Input, entity.Email);
-                        _dataHandler.AddParameterToCommand(dbCommand, "@chnPassword", CsType.String, ParameterDirection.Input, entity.Password);
+                        _dataHandler.AddParameterToCommand(dbCommand, "@chnPassword", CsType.String, ParameterDirection.Input, hashedpassword);
                         _dataHandler.AddParameterToCommand(dbCommand, "@chnRole", CsType.String, ParameterDirection.Input, entity.Role);
                         _dataHandler.AddParameterToCommand(dbCommand, "@intAge", CsType.Int, ParameterDirection.Input, entity.Age);
                         _dataHandler.AddParameterToCommand(dbCommand, "@bitIsActive", CsType.Boolean, ParameterDirection.Input, entity.IsActive);

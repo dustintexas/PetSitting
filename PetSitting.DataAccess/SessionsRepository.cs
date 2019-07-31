@@ -10,7 +10,7 @@ using PetSitting.DataAccess.Common;
 using PetSitting.Model;
 
 namespace PetSitting.DataAccess
-{
+{ 
     public class SessionsRepository : IRepository<SessionsEntity>, IDisposable
     {
         #region Private Declarations 
@@ -44,6 +44,7 @@ namespace PetSitting.DataAccess
                         if (dbCommand == null)
                             throw new ArgumentNullException("dbCommand" + " The db Insert command for entity [Sessions] can't be null. ");
 
+                        // CODE BELOW USES A STORED PROCEDURE TO INSERT INTO SESSIONS TABLES
                         dbCommand.Connection = dbConnection;
                         dbCommand.CommandType = CommandType.StoredProcedure;
                         dbCommand.CommandText = "Session_Insert";
