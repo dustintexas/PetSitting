@@ -50,6 +50,7 @@ namespace PetSitting.DataAccess
                         dbCommand.CommandType = CommandType.StoredProcedure;
                         dbCommand.CommandText = "Sitter_Insert";
 
+                        // PASSWORD HASHING
                         string hashedpassword = Crypto.HashPassword(entity.Password);
                         //Input Parameters
                         _dataHandler.AddParameterToCommand(dbCommand, "@chnUsername", CsType.String, ParameterDirection.Input, entity.Username);
@@ -104,22 +105,27 @@ namespace PetSitting.DataAccess
 
             try
             {
+                // INSTANTIATE DATABASE CONNECTION VARIABLE
                 using (var dbConnection = _dbProviderFactory.CreateConnection())
                 {
                     if (dbConnection == null)
                         throw new ArgumentNullException("dbConnection", "The db connection can't be null.");
-
+                    
+                    // GET DATABASE CONNECTION STRING FROM COMMON TIER
                     dbConnection.ConnectionString = _connectionString;
-
+                    
+                    // INSTANTIATE DATABASE COMMAND VARIABLE
                     using (var dbCommand = _dbProviderFactory.CreateCommand())
                     {
                         if (dbCommand == null)
                             throw new ArgumentNullException("dbCommand" + " The db Update command for entity [Sitters] can't be null. ");
 
+                        // BUILD SQL COMMAND CONNECTING TO DBCONNECTION AND SPECIFYING COMMANDTYPE AS STORED PROCEDURE
                         dbCommand.Connection = dbConnection;
                         dbCommand.CommandType = CommandType.StoredProcedure;
                         dbCommand.CommandText = "UpdateSitterById";
 
+                        // PASSWORD HASHING
                         string hashedpassword = Crypto.HashPassword(entity.Password);
 
                         //Input Parameters

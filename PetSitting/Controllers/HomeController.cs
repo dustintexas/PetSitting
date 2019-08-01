@@ -68,6 +68,7 @@ namespace PetSitting.Controllers
                 }
                 else
                 {
+                    // check password hash
                     validateduser = System.Web.Helpers.Crypto.VerifyHashedPassword(actual,potential);
                 }
                 if (validateduser)
