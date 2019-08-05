@@ -62,7 +62,7 @@ namespace PetSitting.Controllers
                 //string potential = user.Salt + info.Password;
                     string potential = info.Password;
                 bool validateduser = false;
-                if (info.Username == "admin")
+                if (info.Username.ToLower() == "admin")
                 {
                     validateduser = potential == actual;
                 }

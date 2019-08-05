@@ -22,14 +22,14 @@ namespace PetSitting.Common
             try
             {
                 //get current connection name 
-                var currentConnectionName = GetAppSettingsValueByKey("CurrentAppConnection");
+                var currentConnectionName = GetAppSettingsValueByKey("PetSittingConnection");
 
                 if (string.IsNullOrEmpty(currentConnectionName))
                     throw new ConfigurationErrorsException(string.Format("No connection name exist in the current app/web.config."));
 
                 ConnectionStringSettings connectionName = ConfigurationManager.ConnectionStrings[currentConnectionName];
                 if (connectionName == null)
-                    throw new ConfigurationErrorsException(string.Format("Failed to find connection named '{0}' in app/web.config.", currentConnectionName));
+                    throw new ConfigurationErrorsException(string.Format($"Failed to find connection named '{currentConnectionName}' in app/web.config."));
 
                 _connectionString = connectionName.ConnectionString;
                 _connectionProvider = connectionName.ProviderName;
@@ -67,7 +67,7 @@ namespace PetSitting.Common
                     throw new ArgumentNullException("sKey", "The AppSettings key name can't be Null or Empty.");
 
                 if (ConfigurationManager.AppSettings[sKey] == null)
-                    throw new ConfigurationErrorsException(string.Format("Failed to find the AppSettings Key named '{0}' in app/web.config.", sKey));
+                    throw new ConfigurationErrorsException(string.Format($"Failed to find the AppSettings Key named '{sKey}' in app/web.config."));
 
                 return ConfigurationManager.AppSettings[sKey].ToString();
             }
