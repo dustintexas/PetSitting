@@ -27,25 +27,26 @@
 
         @foreach (var item in Model)
         {
-            <tr style='background-color: @(i % 2 == 0 ? "#D9E6C4" : "#ffffff" );'>
-                <td>
-                    @Html.DisplayFor(modelItem => item.OwnerName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PetName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Date)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Fee)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Status)
-                </td>
-                <td>@Html.ActionLink("Edit", "../Sessions/Edit", new { id = item.SessionID })</td>
-            </tr>
-            <!--@(i++);-->
-            
-        }
-    </table>
+           
+                <tr style="background-color: @( i % 2 == 0 ? "#D9E6C4" : "#ffffff" );">
+                 
+                    <td>
+                        @Html.DisplayFor(modelItem => item.OwnerName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PetName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Date)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Fee)
+                    </td>
+                    <td style="background-color: @( item.Status == "Requested" ? "yellow" : "" );">
+                        @Html.DisplayFor(modelItem => item.Status)
+                    </td>
+                    <td>@Html.ActionLink("Edit", "../Sessions/Edit", new { id = item.SessionID })</td>
+                </tr>
+                <!--@(i++);-->
+                }
+            </table>

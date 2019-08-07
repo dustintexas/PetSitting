@@ -18,13 +18,7 @@
             @Html.DisplayFor(model => model.SessionID)
         </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.SitterID)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.SitterID)
-        </dd>
+        
 
         <dt>
             @Html.DisplayNameFor(model => model.SitterName)
@@ -34,13 +28,7 @@
             @Html.DisplayFor(model => model.SitterName)
         </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.OwnerID)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.OwnerID)
-        </dd>
+        
 
         <dt>
             @Html.DisplayNameFor(model => model.OwnerName)
@@ -82,13 +70,7 @@
             @Html.DisplayFor(model => model.Fee)
         </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.FeeCap)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.FeeCap)
-        </dd>
+        
 
     </dl>
 
@@ -96,8 +78,7 @@
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-warning" /> |
-            @Html.ActionLink("Back to List", "Index")
+            <input type="submit" value="Delete" class="btn btn-warning" /> 
         </div>
     }
 </div>

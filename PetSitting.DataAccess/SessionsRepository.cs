@@ -254,6 +254,7 @@ namespace PetSitting.DataAccess
                                     entity.SitterID = (int)reader["SitterID"];
                                     entity.SitterName = (string)reader["SitterName"];
                                     entity.OwnerID = (int)reader["OwnerID"];
+                                    entity.PetName = (string)reader["PetName"];
                                     entity.OwnerName = (string)reader["OwnerName"];
                                     entity.Status = (string)reader["Status"];
                                     entity.Date = reader["Date"] == DBNull.Value ? (DateTime?)null : (DateTime)reader["Date"];
