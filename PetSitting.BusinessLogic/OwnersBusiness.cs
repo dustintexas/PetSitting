@@ -63,13 +63,13 @@ namespace PetSitting.BusinessLogic
             }
         }
         // Business Logic pass through code to Delete an Owner by ID
-        public bool DeleteOwnerById(int empId)
+        public bool DeleteOwnerById(int id)
         {
             try
             {
                 using (var repository = new OwnersRepository())
                 {
-                    return repository.DeleteById(empId);
+                    return repository.DeleteById(id);
                 }
             }
             catch (Exception ex)
@@ -81,14 +81,14 @@ namespace PetSitting.BusinessLogic
             }
         }
         // Business Logic pass through code to Select an Owner by ID
-        public OwnersEntity SelectOwnerById(int empId)
+        public OwnersEntity SelectOwnerById(int id)
         {
             try
             {
                 OwnersEntity returnedEntity;
                 using (var repository = new OwnersRepository())
                 {
-                    returnedEntity = repository.SelectById(empId);
+                    returnedEntity = repository.SelectById(id);
                     if (returnedEntity != null)
                         // Business Calculation function called from here
                         returnedEntity.PetYears = GetPetYears(returnedEntity.PetAge);

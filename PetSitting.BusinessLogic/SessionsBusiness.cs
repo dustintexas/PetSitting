@@ -63,13 +63,13 @@ namespace PetSitting.BusinessLogic
             }
         }
         // Business Logic pass through code to Delete a Session by ID
-        public bool DeleteSessionById(int empId)
+        public bool DeleteSessionById(int id)
         {
             try
             {
                 using (var repository = new SessionsRepository())
                 {
-                    return repository.DeleteById(empId);
+                    return repository.DeleteById(id);
                 }
             }
             catch (Exception ex)
@@ -81,14 +81,14 @@ namespace PetSitting.BusinessLogic
             }
         }
         // Business Logic pass through code to Select a Session by ID
-        public SessionsEntity SelectSessionById(int empId)
+        public SessionsEntity SelectSessionById(int id)
         {
             try
             {
                 SessionsEntity returnedEntity;
                 using (var repository = new SessionsRepository())
                 {
-                    returnedEntity = repository.SelectById(empId);
+                    returnedEntity = repository.SelectById(id);
                     if (returnedEntity != null)
                         returnedEntity.FeeCap = GetFeeCap(returnedEntity.Fee);
 

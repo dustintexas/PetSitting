@@ -63,13 +63,13 @@ namespace PetSitting.BusinessLogic
             }
         }
         // Business Logic pass through code to Delete User 
-        public bool DeleteUserById(int empId)
+        public bool DeleteUserById(int id)
         {
             try
             {
                 using (var repository = new UsersRepository())
                 {
-                    return repository.DeleteById(empId);
+                    return repository.DeleteById(id);
                 }
             }
             catch (Exception ex)
@@ -81,14 +81,14 @@ namespace PetSitting.BusinessLogic
             }
         }
         // Business Logic pass through code to Select a User
-        public UsersEntity SelectUserById(int empId)
+        public UsersEntity SelectUserById(int id)
         {
             try
             {
                 UsersEntity returnedEntity;
                 using (var repository = new UsersRepository())
                 {
-                    returnedEntity = repository.SelectById(empId);
+                    returnedEntity = repository.SelectById(id);
                     if (returnedEntity != null)
                         // Business Calculation function called from here
                         returnedEntity.Discount = GetDiscount(returnedEntity.Age);
