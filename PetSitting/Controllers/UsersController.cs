@@ -1,16 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using PetSitting.BusinessLogic;
-using PetSitting.Common;
-using PetSitting.Model;
-using PagedList;
-
+﻿
 namespace PetSitting.Controllers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Globalization;
+    using System.Linq;
+    using System.Web.Mvc;
+    using PetSitting.BusinessLogic;
+    using PetSitting.Common;
+    using PetSitting.Model;
+    using PagedList;
     public class UsersController : Controller
     {
         private LoggingHandler _loggingHandler;

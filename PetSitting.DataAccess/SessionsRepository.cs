@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Common;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using PetSitting.Common;
-using PetSitting.DataAccess.Common;
-using PetSitting.Model;
-
+﻿
 namespace PetSitting.DataAccess
-{ 
+{
+    using System;
+    using System.Collections.Generic;
+    using System.Data;
+    using System.Data.Common;
+    using PetSitting.Common;
+    using PetSitting.DataAccess.Common;
+    using PetSitting.Model;
     public class SessionsRepository : IRepository<SessionsEntity>, IDisposable
     {
         #region Private Declarations 

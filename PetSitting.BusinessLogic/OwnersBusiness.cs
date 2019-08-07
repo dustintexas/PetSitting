@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using PetSitting.Common;
-using PetSitting.DataAccess;
-using PetSitting.DataAccess.Common;
-using PetSitting.Model;
-
+﻿
 namespace PetSitting.BusinessLogic
 {
+    using System;
+    using System.Collections.Generic;
+    using PetSitting.Common;
+    using PetSitting.DataAccess;
+    using PetSitting.Model;
     public class OwnersBusiness : IDisposable
     {
         #region Class Declarations

@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
+﻿
 namespace PetSitting.DataAccess.Common
 {
+    using System.Collections.Generic;
     /// <summary> 
     /// Purpose: Interface contains common methods implemented by all repository classes. 
     /// </summary> 

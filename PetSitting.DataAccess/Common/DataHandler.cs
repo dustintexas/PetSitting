@@ -1,9 +1,9 @@
-﻿using System;
-using System.Data;
-using System.Data.Common;
-
+﻿
 namespace PetSitting.DataAccess.Common
 {
+    using System;
+    using System.Data;
+    using System.Data.Common;
     /// <summary>
     /// Purpose: Helper Data Handler Class for data parameters and types conversion.
     /// </summary>

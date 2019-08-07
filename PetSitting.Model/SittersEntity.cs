@@ -1,13 +1,10 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web.Security;
-
+﻿
 namespace PetSitting.Model
 {
+    using System;
+    using System.ComponentModel.DataAnnotations;
+    using System.Collections.Generic;
+    using System.Web.Security;
     /// <summary> 
     /// Purpose: Data Contract Entity Model Class [SittersEntity] for the table [dbo].[Sitters]. 
     /// </summary> 

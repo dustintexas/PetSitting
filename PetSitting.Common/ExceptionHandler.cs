@@ -1,8 +1,8 @@
-﻿using System;
-using System.Text;
-
+﻿
 namespace PetSitting.Common
 {
+    using System;
+    using System.Text;
     /// <summary>
     /// Purpose: Cross-cutting helper component for creating and handling Exceptions in the application.
     /// </summary>

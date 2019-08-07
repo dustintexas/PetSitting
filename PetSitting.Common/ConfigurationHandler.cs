@@ -1,8 +1,8 @@
-﻿using System;
-using System.Configuration;
-
+﻿
 namespace PetSitting.Common
 {
+    using System;
+    using System.Configuration;
     /// <summary>
     /// Purpose: Cross-cutting helper component for application configuration.
     /// </summary>

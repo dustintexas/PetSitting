@@ -1,8 +1,7 @@
-﻿using System;
-using PetSitting;
-
+﻿
 namespace PetSitting.Common
 {
+    using System;
     /// <summary>
     /// Purpose: Cross-cutting helper component for creating and handling Logging activities.
     /// </summary>

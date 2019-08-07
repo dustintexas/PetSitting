@@ -1,9 +1,9 @@
-﻿using System;
-using System.IO;
-using System.Text;
-
+﻿
 namespace PetSitting.Common
 {
+    using System;
+    using System.IO;
+    using System.Text;
     /// <summary>
     /// Purpose: Cross-cutting helper component for for creating and handling files and folders.
     /// </summary>
