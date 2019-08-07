@@ -250,14 +250,14 @@ namespace PetSitting.DataAccess
                                 while (reader.Read())
                                 {
                                     var entity = new SessionsEntity();
-                                    entity.SessionID = reader.GetInt32(0);
-                                    entity.SitterID = reader.GetInt32(1);
-                                    entity.SitterName = reader.GetString(2);
-                                    entity.OwnerID = reader.GetInt32(3);
-                                    entity.OwnerName = reader.GetString(4);
-                                    entity.Status = reader.GetString(5);
-                                    entity.Date = reader.GetValue(6) == DBNull.Value ? (DateTime?)null : reader.GetDateTime(6);
-                                    entity.Fee = reader.GetDecimal(7);
+                                    entity.SessionID = (int)reader["SessionID"];
+                                    entity.SitterID = (int)reader["SitterID"];
+                                    entity.SitterName = (string)reader["SitterName"];
+                                    entity.OwnerID = (int)reader["OwnerID"];
+                                    entity.OwnerName = (string)reader["OwnerName"];
+                                    entity.Status = (string)reader["Status"];
+                                    entity.Date = reader["Date"] == DBNull.Value ? (DateTime?)null : (DateTime)reader["Date"];
+                                    entity.Fee = (decimal)reader["Fee"];
                                     returnedEntity = entity;
                                     break;
                                 }
@@ -330,12 +330,12 @@ namespace PetSitting.DataAccess
                                 {
                                     var entity = new SessionsEntity();
 
-                                    entity.OwnerName = reader.GetString(0);
-                                    entity.PetName = reader.GetString(1);
-                                    entity.Date = reader.GetValue(2) == DBNull.Value ? (DateTime?)null : reader.GetDateTime(2);
-                                    entity.Fee = reader.GetDecimal(3);
-                                    entity.Status = reader.GetString(4);
-                                    entity.SessionID = reader.GetInt32(5);
+                                    entity.OwnerName = (string)reader["OwnerName"];
+                                    entity.PetName = (string)reader["PetName"];
+                                    entity.Date = reader["Date"] == DBNull.Value ? (DateTime?)null : (DateTime)reader["Date"];
+                                    entity.Fee = (decimal)reader["Fee"];
+                                    entity.Status = (string)reader["Status"];
+                                    entity.SessionID = (int)reader["SessionID"];
                                     returnedEntity.Add(entity);
 
                                 }
@@ -409,11 +409,11 @@ namespace PetSitting.DataAccess
                                     // LOOP THROUGH RESULTING RECORDS AND ASSIGN VALUES TO MODEL CLASS
                                     var entity = new SessionsEntity();
 
-                                    entity.SitterName = reader.GetString(0);
-                                    entity.Date = reader.GetValue(1) == DBNull.Value ? (DateTime?)null : reader.GetDateTime(1);
-                                    entity.Fee = reader.GetDecimal(2);
-                                    entity.Status = reader.GetString(3);
-                                    entity.SessionID = reader.GetInt32(4);
+                                    entity.SitterName = (string)reader["SitterName"];
+                                    entity.Date = reader["Date"] == DBNull.Value ? (DateTime?)null : (DateTime)reader["Date"];
+                                    entity.Fee = (decimal)reader["Fee"];
+                                    entity.Status = (string)reader["Status"];
+                                    entity.SessionID = (int)reader["SessionID"];
                                     returnedEntity.Add(entity);
 
                                 }
@@ -485,14 +485,14 @@ namespace PetSitting.DataAccess
                                 while (reader.Read())
                                 {
                                     var entity = new SessionsEntity();
-                                    entity.SessionID = reader.GetInt32(0);
-                                    entity.SitterID = reader.GetInt32(1);
-                                    entity.SitterName = reader.GetString(2);
-                                    entity.OwnerID = reader.GetInt32(3);
-                                    entity.OwnerName = reader.GetString(4);
-                                    entity.Date = reader.GetValue(5) == DBNull.Value ? (DateTime?)null : reader.GetDateTime(5);
-                                    entity.Status = reader.GetString(6);
-                                    entity.Fee = reader.GetDecimal(7);
+                                    entity.SessionID = (int)reader["SessionID"];
+                                    entity.SitterID = (int)reader["SitterID"];
+                                    entity.SitterName = (string)reader["SitterName"];
+                                    entity.OwnerID = (int)reader["OwnerID"];
+                                    entity.OwnerName = (string)reader["OwnerName"];
+                                    entity.Date = reader["Date"] == DBNull.Value ? (DateTime?)null : (DateTime)reader["Date"];
+                                    entity.Status = (string)reader["Status"];
+                                    entity.Fee = (decimal)reader["Fee"];
                                     returnedEntities.Add(entity);
                                 }
                             }
