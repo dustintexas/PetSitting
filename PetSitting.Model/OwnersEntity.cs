@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Security;
+using System.Web.Mvc;
 
 namespace PetSitting.Model
 {
@@ -24,12 +25,12 @@ namespace PetSitting.Model
 
         #region Class Property Declarations 
 
-        [Required(ErrorMessage = "You must enter a owner ID.")]
+        [Required(ErrorMessage = "You must enter an owner ID.")]
         [Display(Name="Owner ID")]
         public int OwnerID { get; set; }
 
-        [Required(ErrorMessage = "You must enter a owner Name.")]
-        [StringLength(50, MinimumLength = 3)]
+        [Required(ErrorMessage = "You must enter an owner Name.")]
+        [StringLength(255, MinimumLength = 3)]
         [Display(Name="Owner Name")]
         public string OwnerName { get; set; }
 
@@ -54,6 +55,8 @@ namespace PetSitting.Model
         public DateTime ModifiedDate { get; set; }
         [Required(ErrorMessage = "You must enter a username.")]
         [StringLength(255, MinimumLength = 3)]
+        //[Remote("doesUserNameExist", "Users", HttpMethod = "POST", ErrorMessage = "Username already exists. Please enter a different username.")]
+        //[Editable(true)]
         public string Username { get; set; }
         [Required(ErrorMessage = "You must enter a first name")]
         public string FirstName { get; set; }
@@ -74,7 +77,7 @@ namespace PetSitting.Model
         [DataType(DataType.Password)]
         public string Password { get; set; }
         [DataType(DataType.Password)]
-        [Compare("Password", ErrorMessage = "Confirm password doesn't match, Type again !")]
+        [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "Confirm password doesn't match, Type again !")]
         public string ConfirmPassword { get; set; }
         public decimal TotalSales { get; set; }
         public int SessionsCount { get; set; }

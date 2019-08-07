@@ -47,7 +47,24 @@ namespace PetSitting.Controllers
             using (BusinessLogic.UsersBusiness ctx = new BusinessLogic.UsersBusiness())
             {
                 UsersEntity user = ctx.FindUserByUsername(Username);
-                return Json(user == null);
+                if (user != null)
+                    return Json(true, JsonRequestBehavior.AllowGet);
+                string suggestedUID = String.Format(CultureInfo.InvariantCulture,
+                $"{Username} is not available.");
+
+                for (int i = 1; i < 100; i++)
+                {
+                    string altCandidate = Username + i.ToString();
+                    user = ctx.FindUserByUsername(altCandidate);
+                    if (user != null)
+                    {
+                        suggestedUID = String.Format(CultureInfo.InvariantCulture,
+                       $"{Username} is not available. Try {altCandidate}.");
+                        break;
+                    }
+                }
+                return Json(suggestedUID, JsonRequestBehavior.AllowGet);
+
             }
         }
 

@@ -25,12 +25,13 @@ namespace PetSitting.Model
         #endregion
 
         #region Class Property Declarations
-       
+
         [Required(ErrorMessage = "You must enter a User ID.")]
         public int UserID { get; set; }
         [Required(ErrorMessage = "You must enter a Username.")]
         [StringLength(255, MinimumLength = 3)]
-        [Remote("doesUserNameExist", "Users", HttpMethod = "POST", ErrorMessage = "Username already exists. Please enter a different username.")]
+        //[Remote("doesUserNameExist", "Users", HttpMethod = "POST", ErrorMessage = "Username already exists. Please enter a different username.")]
+        //[Editable(true)]
         public virtual string Username { get; set; }
         [Required(ErrorMessage ="You must enter a First name.")]
         [StringLength(255, MinimumLength = 3)]
