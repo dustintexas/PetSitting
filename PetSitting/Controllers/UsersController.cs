@@ -40,6 +40,17 @@ namespace PetSitting.Controllers
             return View();
         }
 
+        [AllowAnonymous]
+        [HttpPost]
+        public JsonResult doesUserNameExist(string Username)
+        {
+            using (BusinessLogic.UsersBusiness ctx = new BusinessLogic.UsersBusiness())
+            {
+                UsersEntity user = ctx.FindUserByUsername(Username);
+                return Json(user == null);
+            }
+        }
+
         // GET: Users/Details/5
         [PetSitting.MvcApplication.MustBeInRole(Roles = "Admin")]
         public ActionResult Details(int id)

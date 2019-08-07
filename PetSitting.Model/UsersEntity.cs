@@ -6,6 +6,7 @@ using System.Text;
 using System.Web;
 using System.Threading.Tasks;
 using System.Web.Security;
+using System.Web.Mvc;
 
 namespace PetSitting.Model
 {
@@ -29,7 +30,8 @@ namespace PetSitting.Model
         public int UserID { get; set; }
         [Required(ErrorMessage = "You must enter a Username.")]
         [StringLength(255, MinimumLength = 3)]
-        public string Username { get; set; }
+        [Remote("doesUserNameExist", "Users", HttpMethod = "POST", ErrorMessage = "Username already exists. Please enter a different username.")]
+        public virtual string Username { get; set; }
         [Required(ErrorMessage ="You must enter a First name.")]
         [StringLength(255, MinimumLength = 3)]
         [Display(Name="First Name")]
@@ -51,7 +53,7 @@ namespace PetSitting.Model
         [DataType(DataType.Password)]
         public string Password { get; set; }
         [DataType(DataType.Password)]
-        [Compare("Password", ErrorMessage = "The confirm password does not match!")]
+        [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "The confirm password does not match!")]
         public string ConfirmPassword { get; set; }
         [Display(Name="Active")]
         public bool? IsActive { get; set; }
