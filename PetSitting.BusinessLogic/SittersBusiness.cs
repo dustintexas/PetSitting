@@ -139,6 +139,7 @@ namespace PetSitting.BusinessLogic
                 {
                     foreach (var entity in repository.SelectAll())
                     {
+                        // CALL GetNetSalary Method to return NetSalary
                         entity.NetSalary = GetNetSalary(entity.GrossSalary, entity.Age);
                         returnedEntities.Add(entity);
                     }

@@ -73,6 +73,7 @@ namespace PetSitting.Model
             MinRequiredPasswordLength = 6)]
         [DataType(DataType.Password)]
         public string Password { get; set; }
+        [DataType(DataType.Password)]
         [Compare("Password", ErrorMessage = "Confirm password doesn't match, Type again !")]
         public string ConfirmPassword { get; set; }
         public decimal TotalSales { get; set; }

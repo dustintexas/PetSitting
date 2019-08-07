@@ -269,19 +269,19 @@ namespace PetSitting.DataAccess
                                 while (reader.Read())
                                 {
                                     var entity = new OwnersEntity();
-                                    entity.OwnerID = reader.GetInt32(0);
-                                    entity.OwnerName = reader.GetString(1);
-                                    entity.PetName = reader.GetString(2);
-                                    entity.ContactPhone = reader.GetString(3);
-                                    entity.PetAge = reader.GetInt32(4);
-                                    entity.ModifiedDate = reader.GetDateTime(5);
-                                    entity.Username = reader.GetString(6);
-                                    entity.FirstName = reader.GetString(7);
-                                    entity.LastName = reader.GetString(8);
-                                    entity.Email = reader.GetString(9);
-                                    entity.Password = reader.GetString(10);
-                                    entity.Age = reader.GetInt32(11);
-                                    entity.Role = reader.GetString(12);
+                                    entity.OwnerID = (int)reader["OwnerID"];
+                                    entity.OwnerName = (string)reader["OwnerName"];
+                                    entity.PetName = (string)reader["PetName"];
+                                    entity.ContactPhone = (string)reader["ContactPhone"];
+                                    entity.PetAge = (int)reader["PetAge"];
+                                    entity.ModifiedDate = (DateTime)reader["ModifiedDate"];
+                                    entity.Username = (string)reader["Username"];
+                                    entity.FirstName = (string)reader["FirstName"];
+                                    entity.LastName = (string)reader["LastName"];
+                                    entity.Email = (string)reader["Email"];
+                                    entity.Password = (string)reader["Password"];
+                                    entity.Age = (int)reader["OwnerAge"];
+                                    entity.Role = (string)reader["Role"];
                                     returnedEntity = entity;
                                     break;
                                 }
@@ -310,7 +310,7 @@ namespace PetSitting.DataAccess
                 throw new Exception("OwnersRepository::SelectById::Error occured.", ex);
             }
         }
-
+        // the following code will request data from the database based on a given UserID
         public OwnersEntity SelectByUserId(int userid)
         {
             _errorCode = 0;
@@ -354,12 +354,12 @@ namespace PetSitting.DataAccess
                                 while (reader.Read())
                                 {
                                     var entity = new OwnersEntity();
-                                    entity.OwnerID = reader.GetInt32(0);
-                                    entity.OwnerName = reader.GetString(1);
-                                    entity.PetName = reader.GetString(2);
-                                    entity.ContactPhone = reader.GetString(3);
-                                    entity.PetAge = reader.GetInt32(4);
-                                    entity.ModifiedDate = reader.GetDateTime(5);
+                                    entity.OwnerID = (int)reader["OwnerID"];
+                                    entity.OwnerName = (string)reader["OwnerName"];
+                                    entity.PetName = (string)reader["PetName"];
+                                    entity.ContactPhone = (string)reader["ContactPhone"];
+                                    entity.PetAge = (int)reader["PetAge"];
+                                    entity.ModifiedDate = (DateTime)reader["ModifiedDate"];
                                     returnedEntity = entity;
                                     break;
                                 }
@@ -430,14 +430,14 @@ namespace PetSitting.DataAccess
                                 while (reader.Read())
                                 {
                                     var entity = new OwnersEntity();
-                                    entity.OwnerID = reader.GetInt32(0);
-                                    entity.OwnerName = reader.GetString(1);
-                                    entity.PetName = reader.GetString(2);
-                                    entity.ContactPhone = reader.GetString(3);
-                                    entity.PetAge = reader.GetInt32(4);
-                                    entity.ModifiedDate = reader.GetDateTime(5);
-                                    entity.SessionsCount = reader.GetInt32(6);
-                                    entity.TotalSales = reader.GetDecimal(7);
+                                    entity.OwnerID = (int)reader["OwnerID"];
+                                    entity.OwnerName = (string)reader["OwnerName"];
+                                    entity.PetName = (string)reader["PetName"];
+                                    entity.ContactPhone = (string)reader["ContactPhone"];
+                                    entity.PetAge = (int)reader["PetAge"];
+                                    entity.ModifiedDate = (DateTime)reader["ModifiedDate"];
+                                    entity.SessionsCount = (int)reader["SessionsCount"];
+                                    entity.TotalSales = (decimal)reader["TotalSales"];
                                     returnedEntities.Add(entity);
                                 }
                             }

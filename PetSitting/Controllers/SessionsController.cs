@@ -306,7 +306,7 @@ namespace PetSitting.Controllers
                         sessions = sessions.OrderByDescending(e => e.Fee);
                         break;
                     default:
-                        sessions = sessions.OrderBy(e => e.SessionID);
+                        sessions = sessions.OrderByDescending(e => e.Date);
                         break;
                 }
                 int pageSize = 10;

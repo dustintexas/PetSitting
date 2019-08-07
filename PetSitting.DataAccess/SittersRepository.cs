@@ -275,22 +275,22 @@ namespace PetSitting.DataAccess
                                 while (reader.Read())
                                 {
                                     var entity = new SittersEntity();
-                                    entity.SitterID = reader.GetInt32(0);
-                                    entity.Name = reader.GetString(1);
-                                    entity.Fee = reader.GetDecimal(2);
-                                    entity.Bio = reader.GetString(3);
-                                    entity.Age = reader.GetInt32(4);
-                                    entity.HiringDate = reader.GetValue(5) == DBNull.Value ? (DateTime?)null : reader.GetDateTime(5);
-                                    entity.SessionsCount = reader.GetInt32(6);
-                                    entity.TotalSales = reader.GetDecimal(7);
-                                    entity.GrossSalary = reader.GetDecimal(8);
-                                    entity.ModifiedDate = reader.GetDateTime(9);
-                                    entity.Username = reader.GetString(10);
-                                    entity.FirstName = reader.GetString(11);
-                                    entity.LastName = reader.GetString(12);
-                                    entity.Email = reader.GetString(13);
-                                    entity.Password = reader.GetString(14);
-                                    entity.Role = reader.GetString(15);
+                                    entity.SitterID = (int)reader["SitterID"];
+                                    entity.Name = (string)reader["Name"];
+                                    entity.Fee = (decimal)reader["Fee"];
+                                    entity.Bio = (string)reader["Bio"];
+                                    entity.Age = (int)reader["SitterAge"];
+                                    entity.HiringDate = reader["HiringDate"] == DBNull.Value ? (DateTime?)null : (DateTime)reader["HiringDate"];
+                                    entity.SessionsCount = (int)reader["SessionsCount"];
+                                    entity.TotalSales = (decimal)reader["TotalSales"];
+                                    entity.GrossSalary = (decimal)reader["GrossSalary"];
+                                    entity.ModifiedDate = (DateTime)reader["ModifiedDate"];
+                                    entity.Username = (string)reader["UserName"];
+                                    entity.FirstName = (string)reader["FirstName"];
+                                    entity.LastName = (string)reader["LastName"];
+                                    entity.Email = (string)reader["Email"];
+                                    entity.Password = (string)reader["Password"];
+                                    entity.Role = (string)reader["Role"];
                                     returnedEntity = entity;
                                     break;
                                 }
@@ -319,6 +319,7 @@ namespace PetSitting.DataAccess
                 throw new Exception("SittersRepository::SelectById::Error occured.", ex);
             }
         }
+        // SelectByUserId function will get record by UserID from SQL Server
         public SittersEntity SelectByUserId(int userid)
         {
             _errorCode = 0;
@@ -362,22 +363,22 @@ namespace PetSitting.DataAccess
                                 while (reader.Read())
                                 {
                                     var entity = new SittersEntity();
-                                    entity.SitterID = reader.GetInt32(0);
-                                    entity.Name = reader.GetString(1);
-                                    entity.Fee = reader.GetDecimal(2);
-                                    entity.Bio = reader.GetString(3);
-                                    entity.Age = reader.GetInt32(4);
-                                    entity.HiringDate = reader.GetValue(5) == DBNull.Value ? (DateTime?)null : reader.GetDateTime(5);
-                                    entity.GrossSalary = reader.GetDecimal(6);
-                                    entity.Username = reader.GetString(7);
-                                    entity.FirstName = reader.GetString(8);
-                                    entity.LastName = reader.GetString(9);
-                                    entity.Email = reader.GetString(10);
-                                    entity.Password = reader.GetString(11);
-                                    entity.IsActive = reader.GetBoolean(12);
-                                    entity.Role = reader.GetString(13);
-                                    entity.TotalSales = reader.GetDecimal(14);
-                                    entity.ModifiedDate = reader.GetDateTime(15);
+                                    entity.SitterID = (int)reader["SitterID"];
+                                    entity.Name = (string)reader["Name"];
+                                    entity.Fee = (decimal)reader["Fee"];
+                                    entity.Bio = (string)reader["Bio"];
+                                    entity.Age = (int)reader["SitterAge"];
+                                    entity.HiringDate = reader["HiringDate"] == DBNull.Value ? (DateTime?)null : (DateTime)reader["HiringDate"];
+                                    entity.GrossSalary = (decimal)reader["GrossSalary"];
+                                    entity.Username = (string)reader["Username"];
+                                    entity.FirstName = (string)reader["FirstName"];
+                                    entity.LastName = (string)reader["LastName"];
+                                    entity.Email = (string)reader["Email"];
+                                    entity.Password = (string)reader["Password"];
+                                    entity.IsActive = (bool)reader["IsActive"];
+                                    entity.Role = (string)reader["Role"];
+                                    entity.TotalSales = (decimal)reader["TotalSales"];
+                                    entity.ModifiedDate = (DateTime)reader["ModifiedDate"];
                                     returnedEntity = entity;
                                     break;
                                 }
@@ -447,17 +448,18 @@ namespace PetSitting.DataAccess
                             {
                                 while (reader.Read())
                                 {
+                                    //LOOP THROUGH DATA RESULTS AND ASSIGN TO MODEL CLASS
                                     var entity = new SittersEntity();
-                                    entity.SitterID = reader.GetInt32(0);
-                                    entity.Name = reader.GetString(1);
-                                    entity.Fee = reader.GetDecimal(2);
-                                    entity.Bio = reader.GetString(3);
-                                    entity.Age = reader.GetInt32(4);
-                                    entity.HiringDate = reader.GetValue(5) == DBNull.Value ? (DateTime?)null : reader.GetDateTime(5);
-                                    entity.GrossSalary = reader.GetDecimal(6);
-                                    entity.ModifiedDate = reader.GetDateTime(7);
-                                    entity.SessionsCount = reader.GetInt32(8);
-                                    entity.TotalSales = reader.GetDecimal(9);
+                                    entity.SitterID = (int)reader["SitterID"];
+                                    entity.Name = (string)reader["Name"];
+                                    entity.Fee = (decimal)reader["Fee"];
+                                    entity.Bio = (string)reader["Bio"];
+                                    entity.Age = (int)reader["SitterAge"];
+                                    entity.HiringDate = reader["HiringDate"] == DBNull.Value ? (DateTime?)null : (DateTime)reader["HiringDate"];
+                                    entity.GrossSalary = (decimal)reader["GrossSalary"];
+                                    entity.ModifiedDate = (DateTime)reader["ModifiedDate"];
+                                    entity.SessionsCount = (int)reader["SessionsCount"];
+                                    entity.TotalSales = (decimal)reader["TotalSales"];
                                     returnedEntities.Add(entity);
                                 }
                             }

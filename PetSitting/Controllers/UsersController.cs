@@ -131,7 +131,7 @@ namespace PetSitting.Controllers
                                 collection["Bio"],
                                 collection["HiringDate"].Trim().Length == 0
                                 ? (DateTime?)null
-                                : DateTime.ParseExact(collection["HiringDate"], "MM/dd/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None),
+                                : DateTime.ParseExact(collection["HiringDate"], "M/d/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None),
                                 decimal.Parse(collection["GrossSalary"]));
 
                 return RedirectToAction("ListAll");
@@ -214,7 +214,7 @@ namespace PetSitting.Controllers
             }
         }
 
-        // POST: Sitters/Delete/5
+        // POST: Users/Delete/5
         [HttpPost]
         [PetSitting.MvcApplication.MustBeInRole(Roles = "Admin")]
         public ActionResult Delete(int id, FormCollection collection)

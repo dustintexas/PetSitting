@@ -406,6 +406,7 @@ namespace PetSitting.DataAccess
                             {
                                 while (reader.Read())
                                 {
+                                    // LOOP THROUGH RESULTING RECORDS AND ASSIGN VALUES TO MODEL CLASS
                                     var entity = new SessionsEntity();
 
                                     entity.SitterName = reader.GetString(0);
