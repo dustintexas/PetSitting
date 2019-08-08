@@ -4,6 +4,13 @@
 
 @model IEnumerable<PetSitting.Model.SessionsEntity>
 
+@{ if (Model.Count() == 0)
+    {
+        <b>No Sessions</b>
+    }
+    else
+    {
+
 <table class="table">
     <tr>
         <th>
@@ -38,10 +45,12 @@
             </td>
             <td>@{ if (item.Status == "Requested")
                 {
-                    @Html.ActionLink("Delete","../Sessions/Delete", new { id = item.SessionID })
+                    @Html.ActionLink("Delete", "../Sessions/Delete", new { id = item.SessionID })
                 }
             }</td>
         </tr>
         <!--@(i++)-->
-    }
+                }
 </table>
+                    }
+                }
